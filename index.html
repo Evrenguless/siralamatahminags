@@ -339,94 +339,142 @@
     const candidateDatabase = [
       { soz: 13.75, mat: 11.50, tar: 6.25, cog: 5.50, egt: 21.50, mev: 8.00, oabt: 50.00, score: 85.87291, rank: 4 },
       { soz: 15.00, mat: 12.50, tar: 8.75, cog: 6.75, egt: 20.25, mev: 8.00, oabt: 47.50, score: 85.82711, rank: 5 },
-      { soz: 15.00, mat: 6.75,  tar: 8.75, cog: 8.00, egt: 22.75, mev: 8.00, oabt: 47.50, score: 85.52287, rank: 6 },
-      { soz: 10.50, mat: 9.00,  tar: 8.75, cog: 4.50, egt: 23.25, mev: 8.00, oabt: 47.75, score: 84.71736, rank: 19 },
-      { soz: 12.50, mat: 11.75, tar: 7.50, cog: 6.00, egt: 24.00, mev: 6.75, oabt: 46.25, score: 84.65560, rank: 22 },
-      { soz: 11.25, mat: 13.75, tar: 6.50, cog: 8.00, egt: 19.00, mev: 6.75, oabt: 47.50, score: 84.17061, rank: 37 },
+      { soz: 15.00, mat: 6.75, tar: 8.75, cog: 8.00, egt: 22.75, mev: 8.00, oabt: 47.50, score: 85.52287, rank: 6 },
+      { soz: 10.50, mat: 9.00, tar: 8.75, cog: 7.00, egt: 24.00, mev: 8.00, oabt: 47.75, score: 84.71736, rank: 19 },
+      { soz: 12.50, mat: 11.75, tar: 7.50, cog: 8.00, egt: 24.00, mev: 6.75, oabt: 46.25, score: 84.65560, rank: 22 },
+      { soz: 12.50, mat: 12.00, tar: 8.75, cog: 5.50, egt: 20.25, mev: 6.75, oabt: 47.50, score: 84.17061, rank: 37 },
       { soz: 15.00, mat: 15.00, tar: 6.25, cog: 5.75, egt: 22.75, mev: 6.75, oabt: 45.00, score: 84.06548, rank: 45 },
-      { soz: 12.50, mat: 7.00,  tar: 8.75, cog: 7.00, egt: 20.25, mev: 8.00, oabt: 47.50, score: 83.61440, rank: 70 },
+      { soz: 12.50, mat: 7.00, tar: 8.75, cog: 7.00, egt: 20.25, mev: 8.00, oabt: 47.50, score: 83.61440, rank: 70 },
       { soz: 12.75, mat: 15.00, tar: 3.75, cog: 3.75, egt: 20.75, mev: 4.75, oabt: 48.75, score: 83.15994, rank: 110 },
       { soz: 12.50, mat: 14.00, tar: 10.00, cog: 4.25, egt: 21.50, mev: 8.00, oabt: 44.00, score: 83.14940, rank: 113 },
       { soz: 11.25, mat: 13.75, tar: 7.50, cog: 8.00, egt: 19.00, mev: 6.75, oabt: 46.25, score: 83.12991, rank: 116 },
-      { soz: 10.00, mat: 6.25,  tar: 7.50, cog: 4.25, egt: 22.75, mev: 8.00, oabt: 48.75, score: 82.89561, rank: 141 },
+      { soz: 10.00, mat: 6.25, tar: 7.50, cog: 4.25, egt: 22.75, mev: 8.00, oabt: 48.75, score: 82.89561, rank: 141 },
       { soz: 11.25, mat: 12.50, tar: 8.75, cog: 4.25, egt: 20.25, mev: 6.75, oabt: 46.25, score: 82.66664, rank: 168 },
       { soz: 12.50, mat: 15.00, tar: 7.50, cog: 3.25, egt: 20.25, mev: 8.00, oabt: 45.00, score: 82.44028, rank: 202 },
       { soz: 12.50, mat: 12.75, tar: 7.50, cog: 3.25, egt: 20.25, mev: 6.75, oabt: 46.25, score: 82.43532, rank: 203 },
       { soz: 12.50, mat: 12.75, tar: 7.50, cog: 6.75, egt: 21.50, mev: 8.00, oabt: 43.75, score: 82.39793, rank: 211 },
       { soz: 12.50, mat: 11.75, tar: 8.75, cog: 6.75, egt: 21.50, mev: 6.75, oabt: 43.75, score: 82.35241, rank: 227 },
-      { soz: 11.50, mat: 8.00,  tar: 6.50, cog: 5.50, egt: 23.00, mev: 8.00, oabt: 46.25, score: 82.25694, rank: 245 },
+      { soz: 11.50, mat: 8.00, tar: 6.50, cog: 5.50, egt: 23.00, mev: 8.00, oabt: 46.25, score: 82.25694, rank: 245 },
       { soz: 12.50, mat: 11.75, tar: 6.25, cog: 8.00, egt: 21.50, mev: 8.00, oabt: 44.00, score: 82.17792, rank: 262 },
       { soz: 14.00, mat: 13.00, tar: 7.75, cog: 5.75, egt: 21.50, mev: 8.00, oabt: 42.75, score: 82.16893, rank: 264 },
-      { soz: 13.75, mat: 11.75, tar: 7.50, cog: 4.25, egt: 21.75, mev: 4.50, oabt: 42.75, score: 82.03741, rank: 298 },
-      { soz: 12.50, mat: 10.00, tar: 7.75, cog: 5.50, egt: 21.50, mev: 6.75, oabt: 45.00, score: 82.02370, rank: 303 },
-      { soz: 12.50, mat: 12.00, tar: 7.50, cog: 7.00, egt: 20.25, mev: 8.00, oabt: 43.75, score: 81.96329, rank: 322 },
+      { soz: 12.50, mat: 10.00, tar: 7.75, cog: 5.50, egt: 21.50, mev: 6.75, oabt: 45.00, score: 82.03741, rank: 303 },
+      { soz: 11.25, mat: 13.00, tar: 8.75, cog: 6.00, egt: 20.50, mev: 8.00, oabt: 43.75, score: 81.96329, rank: 322 },
       { soz: 13.75, mat: 11.75, tar: 7.75, cog: 7.00, egt: 22.75, mev: 5.50, oabt: 42.75, score: 81.94735, rank: 326 },
-      { soz: 8.75,  mat: 13.75, tar: 9.00, cog: 6.75, egt: 21.75, mev: 8.00, oabt: 43.75, score: 81.92506, rank: 331 },
-      { soz: 13.00, mat: 8.50,  tar: 6.25, cog: 5.50, egt: 19.00, mev: 5.25, oabt: 48.75, score: 81.86739, rank: 347 },
-      { soz: 11.25, mat: 12.75, tar: 7.50, cog: 4.25, egt: 20.25, mev: 5.50, oabt: 44.25, score: 81.81783, rank: 361 },
+      { soz: 8.75, mat: 13.75, tar: 9.00, cog: 6.75, egt: 21.75, mev: 8.00, oabt: 43.75, score: 81.92506, rank: 331 },
+      { soz: 11.25, mat: 13.00, tar: 8.75, cog: 4.25, egt: 20.50, mev: 8.00, oabt: 44.25, score: 81.81783, rank: 361 },
       { soz: 15.00, mat: 15.00, tar: 6.25, cog: 7.00, egt: 21.50, mev: 8.00, oabt: 41.25, score: 81.80303, rank: 365 },
       { soz: 15.00, mat: 10.75, tar: 8.75, cog: 4.75, egt: 19.00, mev: 6.75, oabt: 43.75, score: 81.69236, rank: 391 },
       { soz: 12.75, mat: 11.00, tar: 7.75, cog: 5.00, egt: 19.25, mev: 6.00, oabt: 45.50, score: 81.68946, rank: 393 },
-      { soz: 10.00, mat: 11.50, tar: 7.75, cog: 6.75, egt: 21.50, mev: 7.00, oabt: 46.25, score: 81.58350, rank: 423 },
+      { soz: 10.00, mat: 11.75, tar: 6.50, cog: 4.50, egt: 20.50, mev: 8.00, oabt: 46.25, score: 81.58350, rank: 423 },
       { soz: 12.50, mat: 11.75, tar: 7.50, cog: 5.50, egt: 21.50, mev: 6.75, oabt: 43.75, score: 81.53302, rank: 439 },
       { soz: 12.50, mat: 11.50, tar: 6.25, cog: 6.75, egt: 20.25, mev: 5.50, oabt: 45.00, score: 81.49575, rank: 449 },
       { soz: 11.50, mat: 15.00, tar: 7.50, cog: 6.75, egt: 22.75, mev: 8.00, oabt: 41.50, score: 81.48836, rank: 454 },
-      { soz: 11.25, mat: 11.75, tar: 6.50, cog: 5.50, egt: 22.50, mev: 8.00, oabt: 44.00, score: 81.36124, rank: 498 },
+      { soz: 11.25, mat: 10.50, tar: 6.50, cog: 5.75, egt: 23.00, mev: 8.00, oabt: 44.00, score: 81.36124, rank: 498 },
       { soz: 12.50, mat: 11.50, tar: 7.50, cog: 7.00, egt: 20.25, mev: 8.00, oabt: 43.00, score: 81.26715, rank: 526 },
-      { soz: 12.50, mat: 6.50,  tar: 5.50, cog: 5.50, egt: 20.50, mev: 8.00, oabt: 46.50, score: 81.25180, rank: 527 },
+      { soz: 12.50, mat: 6.75, tar: 5.75, cog: 5.75, egt: 20.50, mev: 8.00, oabt: 46.50, score: 81.25180, rank: 527 },
       { soz: 13.75, mat: 12.50, tar: 10.00, cog: 5.50, egt: 21.50, mev: 5.50, oabt: 41.25, score: 81.19953, rank: 549 },
       { soz: 12.50, mat: 11.75, tar: 7.50, cog: 5.50, egt: 19.00, mev: 8.00, oabt: 44.00, score: 81.19258, rank: 552 },
-      { soz: 11.50, mat: 7.75,  tar: 7.75, cog: 4.50, egt: 20.75, mev: 5.50, oabt: 46.25, score: 81.14513, rank: 568 },
-      { soz: 13.75, mat: 0.25,  tar: 7.50, cog: 6.75, egt: 24.00, mev: 6.75, oabt: 45.00, score: 81.08874, rank: 581 },
-      { soz: 13.75, mat: 8.00,  tar: 7.75, cog: 3.25, egt: 20.25, mev: 3.25, oabt: 46.25, score: 81.03751, rank: 607 },
-      { soz: 12.75, mat: 10.50, tar: 8.75, cog: 5.75, egt: 18.25, mev: 3.75, oabt: 45.00, score: 81.01159, rank: 618 },
+      { soz: 11.50, mat: 7.75, tar: 7.75, cog: 4.50, egt: 20.75, mev: 5.50, oabt: 46.25, score: 81.14513, rank: 568 },
+      { soz: 13.75, mat: 0.25, tar: 7.50, cog: 6.75, egt: 24.00, mev: 6.75, oabt: 45.00, score: 81.08874, rank: 581 },
+      { soz: 13.75, mat: 8.00, tar: 7.75, cog: 3.25, egt: 20.25, mev: 3.25, oabt: 46.25, score: 81.03751, rank: 607 },
+      { soz: 12.75, mat: 10.50, tar: 5.75, cog: 5.75, egt: 18.25, mev: 3.75, oabt: 45.00, score: 81.01159, rank: 618 },
       { soz: 12.50, mat: 14.00, tar: 7.75, cog: 3.25, egt: 17.75, mev: 5.50, oabt: 45.00, score: 80.95397, rank: 632 },
-      { soz: 11.25, mat: 8.75,  tar: 8.50, cog: 4.50, egt: 20.50, mev: 8.00, oabt: 44.25, score: 80.75287, rank: 704 },
+      { soz: 13.75, mat: 7.75, tar: 7.50, cog: 6.75, egt: 20.25, mev: 6.75, oabt: 43.75, score: 80.94779, rank: 637 },
+      { soz: 11.25, mat: 8.75, tar: 8.75, cog: 4.50, egt: 20.25, mev: 8.00, oabt: 44.25, score: 80.75287, rank: 704 },
       { soz: 12.50, mat: 15.00, tar: 6.50, cog: 6.75, egt: 20.25, mev: 8.00, oabt: 41.50, score: 80.68968, rank: 730 },
       { soz: 12.50, mat: 10.50, tar: 6.50, cog: 4.75, egt: 21.50, mev: 6.75, oabt: 43.75, score: 80.63540, rank: 748 },
       { soz: 12.50, mat: 14.00, tar: 7.75, cog: 4.50, egt: 19.00, mev: 6.75, oabt: 43.00, score: 80.63476, rank: 750 },
       { soz: 14.00, mat: 15.00, tar: 6.25, cog: 4.75, egt: 19.25, mev: 8.00, oabt: 42.00, score: 80.61689, rank: 757 },
-      { soz: 13.75, mat: 11.75, tar: 7.50, cog: 4.25, egt: 21.75, mev: 4.50, oabt: 42.75, score: 80.56822, rank: 781 },
-      { soz: 12.50, mat: 14.00, tar: 8.00, cog: 4.50, egt: 19.00, mev: 6.75, oabt: 43.00, score: 80.51916, rank: 801 },
-      { soz: 12.50, mat: 10.50, tar: 8.00, cog: 4.50, egt: 20.25, mev: 5.50, oabt: 45.25, score: 80.47827, rank: 819 },
+      { soz: 13.75, mat: 11.75, tar: 7.50, cog: 5.00, egt: 21.75, mev: 4.50, oabt: 42.75, score: 80.56822, rank: 781 },
       { soz: 12.50, mat: 10.00, tar: 6.75, cog: 5.75, egt: 18.25, mev: 5.00, oabt: 45.25, score: 80.47197, rank: 820 },
-      { soz: 11.25, mat: 9.75,  tar: 5.50, cog: 4.25, egt: 20.25, mev: 5.50, oabt: 46.25, score: 80.46404, rank: 823 },
+      { soz: 11.25, mat: 9.75, tar: 5.50, cog: 4.25, egt: 20.25, mev: 5.50, oabt: 46.25, score: 80.46404, rank: 823 },
       { soz: 12.50, mat: 14.00, tar: 8.75, cog: 8.00, egt: 20.50, mev: 6.75, oabt: 40.00, score: 80.45083, rank: 828 },
-      { soz: 13.75, mat: 6.00,  tar: 6.25, cog: 6.75, egt: 17.75, mev: 0.25, oabt: 47.50, score: 80.44841, rank: 829 },
-      { soz: 11.25, mat: 11.75, tar: 6.50, cog: 3.75, egt: 20.25, mev: 1.25, oabt: 46.50, score: 80.43498, rank: 837 },
-      { soz: 12.50, mat: 9.75,  tar: 6.50, cog: 4.25, egt: 20.25, mev: 8.00, oabt: 44.00, score: 80.36353, rank: 874 },
+      { soz: 12.75, mat: 8.00, tar: 3.00, cog: 3.75, egt: 20.50, mev: 5.75, oabt: 47.50, score: 80.44841, rank: 829 },
+      { soz: 12.50, mat: 9.50, tar: 6.50, cog: 4.25, egt: 20.25, mev: 8.00, oabt: 44.00, score: 80.36353, rank: 874 },
       { soz: 12.50, mat: 10.50, tar: 7.50, cog: 7.00, egt: 21.75, mev: 8.00, oabt: 41.25, score: 80.32711, rank: 895 },
       { soz: 12.50, mat: 10.50, tar: 8.75, cog: 5.50, egt: 21.50, mev: 8.00, oabt: 41.25, score: 80.31839, rank: 902 },
-      { soz: 13.75, mat: 6.00,  tar: 6.25, cog: 6.75, egt: 17.75, mev: 0.25, oabt: 47.50, score: 80.30648, rank: 907 },
-      { soz: 8.75,  mat: 9.50,  tar: 6.50, cog: 4.50, egt: 20.50, mev: 6.75, oabt: 46.25, score: 80.29134, rank: 919 },
-      { soz: 12.75, mat: 7.00,  tar: 6.50, cog: 5.75, egt: 19.25, mev: 2.00, oabt: 46.50, score: 80.20340, rank: 966 },
-      { soz: 12.50, mat: 9.50,  tar: 7.50, cog: 4.25, egt: 22.75, mev: 6.75, oabt: 42.50, score: 80.19537, rank: 971 },
+      { soz: 13.75, mat: 6.00, tar: 6.25, cog: 6.75, egt: 17.75, mev: 0.25, oabt: 47.50, score: 80.30648, rank: 907 },
+      { soz: 8.75, mat: 9.50, tar: 6.50, cog: 4.50, egt: 20.50, mev: 6.75, oabt: 46.25, score: 80.29134, rank: 919 },
+      { soz: 12.75, mat: 7.00, tar: 6.50, cog: 5.75, egt: 19.25, mev: 2.00, oabt: 46.50, score: 80.20340, rank: 966 },
+      { soz: 12.50, mat: 9.50, tar: 7.50, cog: 4.25, egt: 22.75, mev: 6.75, oabt: 42.50, score: 80.19537, rank: 971 },
       { soz: 13.75, mat: 15.00, tar: 5.00, cog: 3.00, egt: 22.75, mev: 8.00, oabt: 41.25, score: 80.16696, rank: 985 },
-      { soz: 12.50, mat: 8.50,  tar: 6.50, cog: 6.75, egt: 21.50, mev: 8.00, oabt: 42.50, score: 80.13083, rank: 1009 },
+      { soz: 12.50, mat: 8.50, tar: 6.50, cog: 6.75, egt: 21.50, mev: 8.00, oabt: 42.50, score: 80.13083, rank: 1009 },
       { soz: 12.50, mat: 15.00, tar: 7.75, cog: 6.75, egt: 22.75, mev: 8.00, oabt: 38.75, score: 80.12576, rank: 1013 },
-      { soz: 8.75,  mat: 14.00, tar: 7.75, cog: 3.25, egt: 20.50, mev: 6.75, oabt: 44.00, score: 80.05313, rank: 1053 },
-      { soz: 11.25, mat: 8.50,  tar: 7.50, cog: 5.50, egt: 21.50, mev: 6.75, oabt: 42.50, score: 79.43911, rank: 1415 },
-      { soz: 11.00, mat: 8.00,  tar: 7.50, cog: 5.75, egt: 22.75, mev: 4.50, oabt: 41.25, score: 79.36407, rank: 1454 },
+      { soz: 11.25, mat: 11.75, tar: 6.50, cog: 6.75, egt: 20.50, mev: 6.75, oabt: 42.75, score: 80.05687, rank: 1050 },
+      { soz: 8.75, mat: 14.00, tar: 7.75, cog: 3.25, egt: 20.50, mev: 6.75, oabt: 44.00, score: 80.05313, rank: 1053 },
+      { soz: 6.00, mat: 7.25, tar: 6.25, cog: 6.75, egt: 20.25, mev: 6.75, oabt: 47.50, score: 79.99459, rank: 1093 },
+      { soz: 10.00, mat: 12.75, tar: 8.75, cog: 4.25, egt: 20.25, mev: 6.75, oabt: 42.75, score: 79.94865, rank: 1109 },
+      { soz: 11.50, mat: 12.75, tar: 9.00, cog: 5.50, egt: 21.50, mev: 8.00, oabt: 40.25, score: 79.94282, rank: 1113 },
+      { soz: 12.50, mat: 14.00, tar: 8.75, cog: 6.75, egt: 19.25, mev: 7.00, oabt: 40.25, score: 79.93993, rank: 1114 },
+      { soz: 11.25, mat: 11.75, tar: 3.00, cog: 4.25, egt: 22.75, mev: 4.25, oabt: 45.25, score: 79.84623, rank: 1177 },
+      { soz: 12.50, mat: 8.50, tar: 8.75, cog: 6.75, egt: 20.25, mev: 8.00, oabt: 41.25, score: 79.77176, rank: 1221 },
+      { soz: 12.50, mat: 8.50, tar: 9.00, cog: 6.75, egt: 20.25, mev: 8.00, oabt: 41.25, score: 79.77176, rank: 1221 },
+      { soz: 13.75, mat: 15.00, tar: 4.50, cog: 6.75, egt: 19.25, mev: 5.75, oabt: 41.75, score: 79.73839, rank: 1240 },
+      { soz: 11.25, mat: 8.50, tar: 7.50, cog: 5.50, egt: 21.50, mev: 6.75, oabt: 42.50, score: 79.43911, rank: 1415 },
+      { soz: 13.75, mat: 8.75, tar: 5.00, cog: 6.75, egt: 21.50, mev: 8.00, oabt: 41.50, score: 79.41301, rank: 1425 },
+      { soz: 13.75, mat: 8.00, tar: 7.50, cog: 5.75, egt: 22.75, mev: 4.50, oabt: 41.25, score: 79.36407, rank: 1454 },
+      { soz: 13.75, mat: 7.50, tar: 6.25, cog: 4.25, egt: 19.00, mev: 6.75, oabt: 43.75, score: 79.33441, rank: 1465 },
+      { soz: 12.50, mat: 11.75, tar: 7.75, cog: 4.50, egt: 19.25, mev: 4.25, oabt: 42.50, score: 79.27108, rank: 1498 },
+      { soz: 14.00, mat: 8.00, tar: 4.00, cog: 3.25, egt: 21.50, mev: 6.75, oabt: 43.75, score: 79.19818, rank: 1544 },
+      { soz: 11.25, mat: 14.00, tar: 9.00, cog: 5.75, egt: 20.25, mev: 8.00, oabt: 39.00, score: 79.00927, rank: 1658 },
+      { soz: 13.75, mat: 15.00, tar: 8.75, cog: 8.00, egt: 21.50, mev: 6.75, oabt: 36.25, score: 78.98167, rank: 1678 },
+      { soz: 10.25, mat: 10.50, tar: 7.75, cog: 6.75, egt: 21.50, mev: 8.00, oabt: 40.50, score: 78.95470, rank: 1694 },
+      { soz: 13.75, mat: 9.50, tar: 7.75, cog: 3.50, egt: 20.25, mev: 7.00, oabt: 41.25, score: 78.91990, rank: 1717 },
+      { soz: 13.75, mat: 9.50, tar: 7.50, cog: 7.00, egt: 20.25, mev: 7.00, oabt: 41.25, score: 78.91990, rank: 1717 },
+      { soz: 13.75, mat: 10.50, tar: 6.25, cog: 5.50, egt: 20.25, mev: 5.50, oabt: 41.25, score: 78.87644, rank: 1741 },
       { soz: 10.00, mat: 14.00, tar: 7.75, cog: 4.75, egt: 21.50, mev: 6.75, oabt: 40.25, score: 78.74479, rank: 1821 },
+      { soz: 12.50, mat: 13.00, tar: 5.25, cog: 5.50, egt: 20.25, mev: 5.50, oabt: 41.25, score: 78.65631, rank: 1869 },
+      { soz: 11.25, mat: 13.75, tar: 6.50, cog: 8.00, egt: 19.00, mev: 6.75, oabt: 40.00, score: 78.60029, rank: 1911 },
+      { soz: 9.00, mat: 12.75, tar: 6.75, cog: 4.25, egt: 19.00, mev: 8.00, oabt: 42.50, score: 78.53562, rank: 1958 },
+      { soz: 12.50, mat: 14.00, tar: 6.25, cog: 6.75, egt: 20.25, mev: 4.25, oabt: 40.00, score: 78.52302, rank: 1966 },
+      { soz: 9.00, mat: 13.00, tar: 8.75, cog: 5.50, egt: 22.75, mev: 0.75, oabt: 41.25, score: 78.44819, rank: 2012 },
+      { soz: 11.25, mat: 12.75, tar: 7.50, cog: 3.25, egt: 17.25, mev: 4.50, oabt: 43.00, score: 78.38607, rank: 2063 },
       { soz: 12.50, mat: 10.50, tar: 6.50, cog: 3.50, egt: 18.00, mev: 6.00, oabt: 42.75, score: 78.37055, rank: 2080 },
-      { soz: 7.75,  mat: 13.00, tar: 6.25, cog: 5.75, egt: 18.00, mev: 8.00, oabt: 39.75, score: 76.22001, rank: 3774 },
-      { soz: 10.00, mat: 11.75, tar: 7.50, cog: 3.00, egt: 16.50, mev: 5.50, oabt: 38.75, score: 74.77804, rank: 5086 },
+      { soz: 12.50, mat: 9.00, tar: 4.00, cog: 3.50, egt: 19.25, mev: -1.00, oabt: 46.25, score: 78.20977, rank: 2194 },
+      { soz: 11.25, mat: 6.50, tar: 7.50, cog: 4.25, egt: 21.75, mev: 6.75, oabt: 41.50, score: 78.01654, rank: 2346 },
+      { soz: 13.75, mat: 8.00, tar: 7.50, cog: 5.75, egt: 17.75, mev: 4.25, oabt: 41.50, score: 77.91050, rank: 2425 },
+      { soz: 14.00, mat: 7.00, tar: 6.75, cog: 1.75, egt: 22.00, mev: 8.00, oabt: 40.25, score: 77.70375, rank: 2585 },
+      { soz: 10.00, mat: 10.75, tar: 7.75, cog: 6.75, egt: 22.75, mev: 6.75, oabt: 38.00, score: 77.38170, rank: 2827 },
+      { soz: 10.25, mat: 12.00, tar: 6.50, cog: 4.25, egt: 18.00, mev: 5.50, oabt: 41.50, score: 77.18358, rank: 2977 },
+      { soz: 13.75, mat: 4.50, tar: 6.25, cog: 5.75, egt: 21.50, mev: 5.50, oabt: 40.25, score: 77.18290, rank: 2979 },
+      { soz: 11.25, mat: 12.75, tar: 6.25, cog: 4.50, egt: 21.50, mev: 8.00, oabt: 38.00, score: 77.03295, rank: 3092 },
+      { soz: 11.25, mat: 12.75, tar: 5.25, cog: 4.50, egt: 21.50, mev: 8.00, oabt: 38.00, score: 77.03295, rank: 3092 },
+      { soz: 12.50, mat: 8.00, tar: 5.00, cog: 5.50, egt: 19.00, mev: 5.50, oabt: 41.25, score: 76.92845, rank: 3161 },
+      { soz: 7.75, mat: 13.00, tar: 6.25, cog: 5.75, egt: 18.00, mev: 8.00, oabt: 39.75, score: 76.22001, rank: 3774 },
+      { soz: 11.25, mat: 10.00, tar: 7.75, cog: 5.50, egt: 20.50, mev: 6.75, oabt: 36.75, score: 75.77923, rank: 4146 },
+      { soz: 12.50, mat: 10.50, tar: 8.75, cog: 6.75, egt: 16.50, mev: 4.25, oabt: 36.25, score: 74.95004, rank: 4919 },
+      { soz: 10.00, mat: 11.75, tar: 7.50, cog: 3.00, egt: 16.50, mev: 5.50, oabt: 39.50, score: 79.55706, rank: 5086 },
+      { soz: 15.00, mat: 15.00, tar: 6.25, cog: 1.75, egt: 15.50, mev: 1.75, oabt: 37.50, score: 74.62702, rank: 5223 },
+      { soz: 12.50, mat: 12.50, tar: 6.25, cog: 4.25, egt: 22.75, mev: 5.50, oabt: 32.50, score: 73.55079, rank: 6118 },
       { soz: 12.75, mat: 12.75, tar: 6.25, cog: 0.00, egt: 16.25, mev: -0.25, oabt: 31.75, score: 68.74545, rank: 10299 },
       { soz: 10.50, mat: 13.00, tar: 6.00, cog: 1.00, egt: 18.00, mev: 0.00, oabt: 31.50, score: 68.59716, rank: 10436 },
-      { soz: 7.50,  mat: 12.00, tar: 5.00, cog: 0.00, egt: 18.25, mev: 4.75, oabt: 25.50, score: 63.74006, rank: 14072 },
-      { soz: 7.25,  mat: 2.00,  tar: 5.50, cog: 1.25, egt: 10.50, mev: 3.00, oabt: 26.50, score: 59.55130, rank: 16613 },
-      { soz: 10.00, mat: 9.00,  tar: 3.00, cog: 1.00, egt: 16.50, mev: 8.00, oabt: 13.75, score: 55.79185, rank: 18043 }
+      { soz: 7.50, mat: 10.00, tar: 5.25, cog: 5.50, egt: 20.75, mev: 1.00, oabt: 35.00, score: 67.92448, rank: 10958 },
+      { soz: 7.50, mat: 12.00, tar: 5.00, cog: 0.00, egt: 18.25, mev: 4.75, oabt: 25.50, score: 63.74006, rank: 14072 },
+      { soz: 7.25, mat: 2.00, tar: 5.50, cog: 1.25, egt: 10.50, mev: 3.00, oabt: 26.50, score: 59.55130, rank: 16613 },
+      { soz: 10.00, mat: 9.00, tar: 3.00, cog: 1.00, egt: 16.50, mev: 8.00, oabt: 13.75, score: 55.79185, rank: 18043 }
     ];
 
     // Ders Bazlı Türkiye Ortalamaları (mu) ve Standart Sapmaları (sigma) - 2025 PDR Evreni
+    // KAYNAK: MEB-AGS Konu Dağılımı resmi belgeleri.
+    // 2025 belgesi (16.01.2025): Sözel %18,75(15) | Sayısal %18,75(15) | Tarih %12,5(10) |
+    //   Coğrafya %10(8) | Eğitim Bilimleri %30(24) | Mevzuat %10(8)  -> Toplam 80 soru
+    // 2026 belgesi (08.01.2026): Sözel %18,75(15) | Sayısal %18,75(15) | Tarih %7,5(6) |
+    //   Coğrafya %7,5(6) | Eğitim Bilimleri %37,5(30) | Mevzuat %10(8) -> Toplam 80 soru
+    //
+    // ÖRNEKLEM YANLILIĞI DÜZELTMESİ: Elimizdeki 115 gerçek 2025 adayının %78'i
+    // (90/115) ilk 2000 sırada yer alıyor — oysa gerçekte ilk 2000, 19.387 kişilik
+    // havuzun sadece %10,3'ü. Bu, ham mu/sigma'yı elit-ağırlıklı ve dar dağılımlı
+    // (sigma olduğundan küçük) hale getiriyordu. Ters olasılık ağırlıklandırmasıyla
+    // (elit adaylar x0.132, diğerleri x4.125 ağırlıklandırılarak) popülasyona daha
+    // temsili mu/sigma tahmini yapıldı, ardından 2026 soru sayısına ölçeklendi.
     const subtestStats = {
-      sozel:    { max: 15, weight: 0.1875, mu: 12.20, sigma: 1.85 },
-      sayisal:  { max: 15, weight: 0.1875, mu: 10.60, sigma: 3.20 },
-      tarih:    { max: 6,  weight: 0.0750, mu: 4.10,  sigma: 1.15 },
-      cografya: { max: 6,  weight: 0.0750, mu: 4.30,  sigma: 1.20 },
-      egitim:   { max: 30, weight: 0.3750, mu: 20.40, sigma: 2.90 },
-      mevzuat:  { max: 8,  weight: 0.1000, mu: 5.80,  sigma: 1.90 },
-      oabt:     { max: 50, weight: 1.0000, mu: 41.50, sigma: 5.20 }
+      sozel:    { max: 15, weight: 0.1875, mu: 11.24, sigma: 2.09 },
+      sayisal:  { max: 15, weight: 0.1875, mu: 10.44, sigma: 2.98 },
+      tarih:    { max: 6,  weight: 0.0750, mu: 3.88,  sigma: 0.82 },
+      cografya: { max: 6,  weight: 0.0750, mu: 2.98,  sigma: 1.53 },
+      egitim:   { max: 30, weight: 0.3750, mu: 23.89, sigma: 3.49 },
+      mevzuat:  { max: 8,  weight: 0.1000, mu: 4.89,  sigma: 2.74 },
+      oabt:     { max: 50, weight: 1.0000, mu: 37.51, sigma: 6.82 }
     };
 
     let chartInstance = null;
@@ -478,7 +526,9 @@
                              (zCog * 0.075) + (zEgt * 0.375) + (zMev * 0.10);
       const compositeZ = (agsStandardSum * 0.50) + (zOabt * 0.50);
 
-      let calculatedScore = 79.80 + (compositeZ * 3.45);
+      // Kalibrasyon: 115 gerçek 2025 adayının compositeZ'i ile gerçek P2-10 puanı
+      // arasında AĞIRLIKLI (örneklem yanlılığı düzeltmeli) regresyonla bulundu.
+      let calculatedScore = 74.68 + (compositeZ * 8.66);
       return Math.min(100, Math.max(40, calculatedScore));
     }
 
@@ -486,7 +536,8 @@
       if (score >= candidateDatabase[0].score) {
         return Math.max(1, Math.round(4 * Math.exp(-(score - candidateDatabase[0].score) / 1.8)));
       } else if (score <= candidateDatabase[candidateDatabase.length - 1].score) {
-        return Math.min(19387, Math.round(18043 + (candidateDatabase[candidateDatabase.length - 1].score - score) * 150));
+        const lastKnown = candidateDatabase[candidateDatabase.length - 1];
+        return Math.min(19387, Math.round(lastKnown.rank + (lastKnown.score - score) * 150));
       } else {
         for (let i = 0; i < candidateDatabase.length - 1; i++) {
           if (score <= candidateDatabase[i].score && score >= candidateDatabase[i + 1].score) {
@@ -532,13 +583,21 @@
       const exactRank = scoreToRank(baseScore);
 
       // 3. En Yakın 3 Adayı Bul
+      // NOT: candidateDatabase, 2025'in GERÇEK (ölçeklenmemiş) netlerini tutar
+      // (Tarih max 10, Coğrafya max 8, Eğitim max 24 - o yılın soru sayısı).
+      // Kullanıcı girdisi ise 2026 yapısındadır (Tarih max 6, Coğrafya max 6, Eğitim max 30).
+      // Bu üç ders için ham net yerine BAŞARI YÜZDESİ üzerinden kıyaslama yapılır,
+      // böylece hiçbir gerçek adayın yapmadığı bir net "uydurulmuş" olmaz.
       const candidatesWithDistance = candidateDatabase.map(cand => {
+        const tarDiff = (userNets.tarih / 6 - cand.tar / 10) * 6;
+        const cogDiff = (userNets.cografya / 6 - cand.cog / 8) * 6;
+        const egtDiff = (userNets.egitim / 30 - cand.egt / 24) * 30;
         const dist = Math.sqrt(
           Math.pow((userNets.sozel - cand.soz) * 1.0, 2) +
           Math.pow((userNets.sayisal - cand.mat) * 1.0, 2) +
-          Math.pow((userNets.tarih - cand.tar) * 1.5, 2) +
-          Math.pow((userNets.cografya - cand.cog) * 1.5, 2) +
-          Math.pow((userNets.egitim - cand.egt) * 0.8, 2) +
+          Math.pow(tarDiff * 1.5, 2) +
+          Math.pow(cogDiff * 1.5, 2) +
+          Math.pow(egtDiff * 0.8, 2) +
           Math.pow((userNets.mevzuat - cand.mev) * 1.2, 2) +
           Math.pow((userNets.oabt - cand.oabt) * 2.5, 2)
         );
@@ -624,8 +683,9 @@
               <span class="text-emerald-400 font-semibold">${cand.score.toFixed(3)} Puan</span>
             </div>
             <div class="text-[11px] text-slate-400 mt-1">
-              Sözel: <b class="text-slate-200">${cand.soz}</b> | Sayısal: <b class="text-slate-200">${cand.mat}</b> | Tarih: <b class="text-slate-200">${cand.tar}</b> | Coğ: <b class="text-slate-200">${cand.cog}</b> | Eğt: <b class="text-slate-200">${cand.egt}</b> | Mev: <b class="text-slate-200">${cand.mev}</b> | ÖABT: <b class="text-purple-300">${cand.oabt} Net</b>
+              Sözel: <b class="text-slate-200">${cand.soz}</b> | Sayısal: <b class="text-slate-200">${cand.mat}</b> | Tarih: <b class="text-slate-200">${cand.tar}</b><span class="text-slate-600">/10</span> | Coğ: <b class="text-slate-200">${cand.cog}</b><span class="text-slate-600">/8</span> | Eğt: <b class="text-slate-200">${cand.egt}</b><span class="text-slate-600">/24</span> | Mev: <b class="text-slate-200">${cand.mev}</b> | ÖABT: <b class="text-purple-300">${cand.oabt} Net</b>
             </div>
+            <div class="text-[9px] text-amber-500/70 mt-0.5">2025 gerçek soru sayısıyla (bu adayın sınavı); karşılaştırma başarı yüzdesi üzerinden yapıldı</div>
           </div>
           <span class="text-[10px] text-emerald-400 font-bold bg-emerald-950/80 px-2 py-1 rounded">Birebir Profil</span>
         `;
