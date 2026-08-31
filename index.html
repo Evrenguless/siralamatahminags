@@ -83,7 +83,7 @@
         2027 AGS PDR <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400">Sıralama & Canlı Lig</span>
       </h1>
       <p class="text-slate-400 text-xs sm:text-sm mt-1 max-w-xl mx-auto">
-        Netlerinizi girin; hem 2026/2027 başarı sıranızı hem de Pdrkampus kullanıcıları arasındaki <b>canlı sıralamanızı</b> anında görün.
+        Netlerinizi girin, yerinizi görün ve <b>Canlı Sıralamaya Kaydet</b> butonu ile sıralamanızı sabitleyin.
       </p>
     </div>
 
@@ -251,6 +251,11 @@
             <input type="number" id="oabt-net" step="0.25" min="-12.5" max="50" placeholder="0 - 50 Net" class="w-full bg-slate-950 border border-slate-700/80 rounded-2xl px-3 py-2 text-sm text-purple-300 font-bold focus:border-purple-500 outline-none" oninput="handleInputChange()">
           </div>
         </div>
+
+        <!-- 🚀 CANLI SIRALAMAYA GÖNDER / GÜNCELLE BUTONU -->
+        <button onclick="publishToLiveLeaderboard()" id="btn-publish-live" class="w-full py-3.5 px-4 rounded-2xl font-black text-white bg-gradient-to-r from-emerald-600 via-teal-600 to-indigo-600 hover:from-emerald-500 hover:to-indigo-500 shadow-xl shadow-emerald-950/40 transition-all duration-200 active:scale-[0.99] text-xs sm:text-sm tracking-wide flex items-center justify-center gap-2">
+          <span>🏆 Canlı Sıralamaya Kaydet & Güncelle</span>
+        </button>
 
       </div>
 
@@ -427,7 +432,7 @@
               <h3 class="font-extrabold text-white text-sm flex items-center gap-1.5">
                 <span>🏆 Pdrkampus Canlı Ligi</span>
               </h3>
-              <p class="text-[11px] text-slate-400">Google hesabı ile netlerini giren adaylar arasındaki anlık yarışma tablosu:</p>
+              <p class="text-[11px] text-slate-400">Google ile kaydedilen gerçek adaylar arasındaki anlık yarışma tablosu:</p>
             </div>
             
             <div class="flex items-center gap-3">
@@ -583,7 +588,6 @@
 
     let supabaseClient = null;
     let currentUser = null;
-    let syncDebounceTimer = null;
     let liveLeaderboardData = [];
 
     if (SUPABASE_CONFIG.URL && SUPABASE_CONFIG.ANON_KEY && window.supabase) {
@@ -771,20 +775,35 @@
     }
 
     async function checkAuthSession() {
-      if (!supabaseClient) return;
+      if (!supabaseClient) {
+        restoreLocalInputs();
+        return;
+      }
+
       try {
         const { data: { session } } = await supabaseClient.auth.getSession();
         currentUser = session?.user || null;
         updateAuthUI();
+
+        if (currentUser) {
+          await loadUserCloudData();
+        } else {
+          restoreLocalInputs();
+        }
+
         fetchLiveLeaderboard();
 
-        supabaseClient.auth.onAuthStateChange((_event, session) => {
+        supabaseClient.auth.onAuthStateChange(async (_event, session) => {
           currentUser = session?.user || null;
           updateAuthUI();
+          if (currentUser) {
+            await loadUserCloudData();
+          }
           fetchLiveLeaderboard();
         });
       } catch (err) {
         console.warn("Auth kontrolü yerel modda çalışıyor:", err);
+        restoreLocalInputs();
       }
     }
 
@@ -808,32 +827,151 @@
     }
 
     // ==========================================
+    // 💾 FORM GİRDİLERİNİ SAKLAMA & GERİ YÜKLEME
+    // ==========================================
+    function saveInputsLocally() {
+      const inputs = collectCurrentDOMInputs();
+      localStorage.setItem('pdrkampus_saved_inputs', JSON.stringify(inputs));
+    }
+
+    function restoreLocalInputs() {
+      const saved = localStorage.getItem('pdrkampus_saved_inputs');
+      if (saved) {
+        try {
+          applyInputsToDOM(JSON.parse(saved));
+        } catch (e) {
+          console.warn("Yerel girdiler okunamadı:", e);
+        }
+      }
+      handleInputChange(false); // UI güncelle ama tekrar buluta gönderme
+    }
+
+    async function loadUserCloudData() {
+      if (!supabaseClient || !currentUser) return;
+      try {
+        const { data, error } = await supabaseClient
+          .from('leaderboard')
+          .select('*')
+          .eq('user_id', currentUser.id)
+          .single();
+
+        if (!error && data && data.raw_inputs) {
+          applyInputsToDOM(data.raw_inputs);
+          if (data.is_anonymous) {
+            const anonCheckbox = document.getElementById('anon-toggle');
+            if (anonCheckbox) anonCheckbox.checked = true;
+          }
+          handleInputChange(false);
+          return;
+        }
+      } catch (err) {
+        console.warn("Bulut girdileri çekilemedi:", err);
+      }
+      restoreLocalInputs();
+    }
+
+    function collectCurrentDOMInputs() {
+      return {
+        mode: currentInputMode,
+        'sozel-d': document.getElementById('sozel-d').value,
+        'sozel-y': document.getElementById('sozel-y').value,
+        'sozel-net': document.getElementById('sozel-net').value,
+        'sayisal-d': document.getElementById('sayisal-d').value,
+        'sayisal-y': document.getElementById('sayisal-y').value,
+        'sayisal-net': document.getElementById('sayisal-net').value,
+        'tarih-d': document.getElementById('tarih-d').value,
+        'tarih-y': document.getElementById('tarih-y').value,
+        'tarih-net': document.getElementById('tarih-net').value,
+        'cografya-d': document.getElementById('cografya-d').value,
+        'cografya-y': document.getElementById('cografya-y').value,
+        'cografya-net': document.getElementById('cografya-net').value,
+        'egitim-d': document.getElementById('egitim-d').value,
+        'egitim-y': document.getElementById('egitim-y').value,
+        'egitim-net': document.getElementById('egitim-net').value,
+        'mevzuat-d': document.getElementById('mevzuat-d').value,
+        'mevzuat-y': document.getElementById('mevzuat-y').value,
+        'mevzuat-net': document.getElementById('mevzuat-net').value,
+        'oabt-d': document.getElementById('oabt-d').value,
+        'oabt-y': document.getElementById('oabt-y').value,
+        'oabt-net': document.getElementById('oabt-net').value
+      };
+    }
+
+    function applyInputsToDOM(inputs) {
+      if (!inputs) return;
+      if (inputs.mode && inputs.mode !== currentInputMode) {
+        setInputMode(inputs.mode);
+      }
+
+      for (let id in inputs) {
+        if (id === 'mode') continue;
+        const el = document.getElementById(id);
+        if (el && inputs[id] !== undefined) {
+          el.value = inputs[id];
+        }
+      }
+    }
+
+    // ==========================================
     // 🏆 CANLI LİDERLİK TABLOSU MOTORU
     // ==========================================
-    async function syncScoreToLiveLeaderboard(userNets, score) {
-      if (!supabaseClient || !currentUser) return;
+    async function publishToLiveLeaderboard() {
+      if (!supabaseClient) {
+        alert("Lütfen önce Supabase bağlantı anahtarlarınızı kontrol edin.");
+        return;
+      }
 
+      if (!currentUser) {
+        if (confirm("Canlı sıralamaya katılmak ve netlerinizi hesabınıza kaydetmek için lütfen Google ile giriş yapın.\n\nGiriş sayfasına yönlendirilsin mi?")) {
+          loginWithGoogle();
+        }
+        return;
+      }
+
+      const userNets = getUserNets();
+      const evaluation = evaluateUserDirectly(userNets);
       const isAnonymous = document.getElementById('anon-toggle')?.checked || false;
       const rawName = currentUser.user_metadata?.full_name || currentUser.email?.split('@')[0] || 'Aday';
       const displayName = isAnonymous ? anonymizeName(rawName) : rawName;
       const avatarUrl = isAnonymous ? '' : (currentUser.user_metadata?.avatar_url || '');
       const totalAgs = userNets.sozel + userNets.sayisal + userNets.tarih + userNets.cografya + userNets.egitim + userNets.mevzuat;
+      const rawInputs = collectCurrentDOMInputs();
+
+      const btn = document.getElementById('btn-publish-live');
+      const originalText = btn.innerHTML;
+      btn.innerHTML = `<span>⏳ Kaydediliyor...</span>`;
+      btn.disabled = true;
 
       try {
-        await supabaseClient.from('leaderboard').upsert({
+        const { error } = await supabaseClient.from('leaderboard').upsert({
           user_id: currentUser.id,
           full_name: displayName,
           avatar_url: avatarUrl,
           ags_net: totalAgs,
           oabt_net: userNets.oabt,
-          score: score,
+          score: evaluation.score,
+          raw_inputs: rawInputs,
           is_anonymous: isAnonymous,
           updated_at: new Date().toISOString()
         }, { onConflict: 'user_id' });
 
-        fetchLiveLeaderboard();
+        if (error) throw error;
+
+        await fetchLiveLeaderboard();
+
+        btn.innerHTML = `<span>✅ Canlı Sıralamanız Güncellendi!</span>`;
+        btn.className = "w-full py-3.5 px-4 rounded-2xl font-black text-white bg-emerald-600 shadow-xl transition-all text-xs sm:text-sm tracking-wide flex items-center justify-center gap-2";
+
+        setTimeout(() => {
+          btn.innerHTML = originalText;
+          btn.className = "w-full py-3.5 px-4 rounded-2xl font-black text-white bg-gradient-to-r from-emerald-600 via-teal-600 to-indigo-600 hover:from-emerald-500 hover:to-indigo-500 shadow-xl shadow-emerald-950/40 transition-all duration-200 active:scale-[0.99] text-xs sm:text-sm tracking-wide flex items-center justify-center gap-2";
+          btn.disabled = false;
+        }, 2500);
+
       } catch (err) {
-        console.warn("Canlı sıralama senkronizasyon hatası:", err);
+        alert("Canlı sıralama güncellenemedi: " + err.message);
+        btn.innerHTML = originalText;
+        btn.disabled = false;
       }
     }
 
@@ -843,9 +981,9 @@
     }
 
     function toggleAnonymousMode() {
-      const userNets = getUserNets();
-      const evaluation = evaluateUserDirectly(userNets);
-      syncScoreToLiveLeaderboard(userNets, evaluation.score);
+      if (currentUser && supabaseClient) {
+        publishToLiveLeaderboard();
+      }
     }
 
     async function fetchLiveLeaderboard() {
@@ -1006,7 +1144,7 @@
       return Math.max(0, d - (y / 4));
     }
 
-    function handleInputChange() {
+    function handleInputChange(autoSave = true) {
       const userNets = getUserNets();
 
       document.getElementById('net-sozel').innerText = userNets.sozel.toFixed(2);
@@ -1019,6 +1157,10 @@
 
       const totalAgs = userNets.sozel + userNets.sayisal + userNets.tarih + userNets.cografya + userNets.egitim + userNets.mevzuat;
       document.getElementById('total-ags-net-badge').innerText = totalAgs.toFixed(2) + ' Net';
+
+      if (autoSave) {
+        saveInputsLocally();
+      }
 
       calculateRanking(userNets);
     }
@@ -1160,28 +1302,17 @@
       updateRadarChart(userNets);
       renderScenarioMatrix(userNets);
       runCustomSimulation();
-
-      // Canlı Sıralamaya Otomatik Güncelleme (Debounce ile 1.5 saniye sonra)
-      if (currentUser && supabaseClient) {
-        clearTimeout(syncDebounceTimer);
-        syncDebounceTimer = setTimeout(() => {
-          syncScoreToLiveLeaderboard(userNets, baseScore);
-        }, 1500);
-      }
     }
 
-    // 📑 4 ANA MODÜL SEKME DEĞİŞTİRİCİSİ
     function switchTab(tabId) {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
       
-      // Tüm butonları pasif stile çevir
       document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.className = "tab-btn p-3 rounded-2xl border transition-all text-left flex flex-col justify-between gap-1 shadow-md bg-slate-900/90 text-slate-300 border-slate-800 hover:border-slate-700";
       });
 
       document.getElementById(tabId).classList.remove('hidden');
       
-      // Tıklanan butonu aktif/parlayan stile çevir
       const activeBtn = document.getElementById(`btn-${tabId}`);
       if (activeBtn) {
         activeBtn.className = "tab-btn p-3 rounded-2xl border transition-all text-left flex flex-col justify-between gap-1 shadow-lg bg-gradient-to-br from-indigo-600 to-purple-600 text-white border-indigo-400 ring-2 ring-indigo-500/50";
@@ -1427,9 +1558,8 @@
       document.getElementById('custom-sim-desc').innerText = desc;
     }
 
-    // SAYFA AÇILDIĞINDA ÇALIŞTIR
+    // SAYFA AÇILDIĞINDA OTURUM VE NETLERİ YÜKLE
     window.onload = function() {
-      handleInputChange();
       checkAuthSession();
     };
   </script>
