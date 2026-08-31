@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>2027 AGS PDR Sıralama & Strateji Robotu</title>
+  <title>Pdrkampus | 2027 AGS PDR Sıralama & Strateji Robotu</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Chart.js CDN -->
@@ -20,371 +20,467 @@
     }
   </style>
 </head>
-<body class="gradient-bg min-h-screen text-slate-100 p-3 md:p-8">
+<body class="gradient-bg min-h-screen text-slate-100 flex flex-col justify-between">
 
-  <!-- Header -->
-  <div class="max-w-7xl mx-auto text-center mb-8">
-    <div class="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 text-xs md:text-sm font-semibold px-4 py-1.5 rounded-full mb-3 shadow-inner">
-      <span>🎯 Doğrudan 118 Gerçek Belge Eşleştirmeli • 2026/2027 PDR Sıralama Motoru</span>
-    </div>
-    <h1 class="text-3xl md:text-5xl font-black tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400">
-      2027 AGS PDR Sıralama & Strateji Robotu
-    </h1>
-    <p class="text-slate-400 text-xs md:text-sm mt-2 max-w-3xl mx-auto leading-relaxed">
-      2026 MEB-AGS ve ÖABT Rehberlik sonuç belgelerindeki gerçek puan ve sıralamalar öncelikli olarak eşleştirilir.
-    </p>
-  </div>
-
-  <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
-    
-    <!-- SOL KOLON: FORM GİRİŞİ & HEDEF MODU (5 Kolon) -->
-    <div class="lg:col-span-5 flex flex-col gap-5">
+  <!-- 🌟 PDRKAMPUS ÜST NAVBAR & MARKA BANNERI -->
+  <header class="w-full bg-slate-950/80 backdrop-blur-md border-b border-slate-800/80 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-3 sm:px-6 lg:px-8 flex flex-wrap items-center justify-between gap-4">
       
-      <!-- MEB-AGS Kartı -->
-      <div class="bg-slate-900/90 backdrop-blur-xl border border-slate-800 rounded-2xl p-5 shadow-xl">
-        <div class="flex justify-between items-center mb-3 pb-2 border-b border-slate-800">
-          <h2 class="text-sm font-bold text-indigo-300 flex items-center gap-2">
-            <span>📚 MEB-AGS Testleri (80 Soru - %50 Etki)</span>
-          </h2>
-          <span class="text-xs text-indigo-300 bg-indigo-950/90 border border-indigo-700/50 px-2.5 py-0.5 rounded-md font-bold" id="total-ags-net-badge">0.00 / 80 Net</span>
+      <!-- Logo & Marka -->
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-600/30 border border-indigo-400/40">
+          <span class="text-xl font-black text-white tracking-tighter">Ψ</span>
         </div>
-        
-        <div class="grid grid-cols-1 gap-2 text-xs">
-          
-          <!-- Sözel -->
-          <div class="bg-slate-800/50 p-2.5 rounded-xl border border-slate-700/40 flex items-center justify-between gap-2">
-            <div class="w-1/2">
-              <span class="font-medium text-slate-200 block text-[13px]">Sözel Yetenek</span>
-              <span class="text-[10px] text-indigo-400">15 Soru (Ort: 8.3 | SS: 3.2)</span>
-            </div>
-            <div class="flex items-center gap-1.5 w-1/2">
-              <input type="number" id="sozel-d" min="0" max="15" placeholder="D" class="w-14 bg-slate-950 border border-slate-700 rounded-lg p-1.5 text-center text-xs text-emerald-400 font-bold focus:border-indigo-500 outline-none" oninput="calcNets()">
-              <input type="number" id="sozel-y" min="0" max="15" placeholder="Y" class="w-14 bg-slate-950 border border-slate-700 rounded-lg p-1.5 text-center text-xs text-rose-400 font-bold focus:border-indigo-500 outline-none" oninput="calcNets()">
-              <span class="text-[11px] font-bold text-slate-300 w-12 text-right" id="net-sozel">0.0</span>
-            </div>
-          </div>
-
-          <!-- Sayısal -->
-          <div class="bg-slate-800/50 p-2.5 rounded-xl border border-slate-700/40 flex items-center justify-between gap-2">
-            <div class="w-1/2">
-              <span class="font-medium text-slate-200 block text-[13px]">Sayısal Yetenek</span>
-              <span class="text-[10px] text-indigo-400">15 Soru (Ort: 3.4 | SS: 3.9)</span>
-            </div>
-            <div class="flex items-center gap-1.5 w-1/2">
-              <input type="number" id="sayisal-d" min="0" max="15" placeholder="D" class="w-14 bg-slate-950 border border-slate-700 rounded-lg p-1.5 text-center text-xs text-emerald-400 font-bold focus:border-indigo-500 outline-none" oninput="calcNets()">
-              <input type="number" id="sayisal-y" min="0" max="15" placeholder="Y" class="w-14 bg-slate-950 border border-slate-700 rounded-lg p-1.5 text-center text-xs text-rose-400 font-bold focus:border-indigo-500 outline-none" oninput="calcNets()">
-              <span class="text-[11px] font-bold text-slate-300 w-12 text-right" id="net-sayisal">0.0</span>
-            </div>
-          </div>
-
-          <!-- Tarih -->
-          <div class="bg-slate-800/50 p-2.5 rounded-xl border border-slate-700/40 flex items-center justify-between gap-2">
-            <div class="w-1/2">
-              <span class="font-medium text-slate-200 block text-[13px]">Tarih</span>
-              <span class="text-[10px] text-indigo-400">6 Soru (Ort: 2.7 | SS: 2.1)</span>
-            </div>
-            <div class="flex items-center gap-1.5 w-1/2">
-              <input type="number" id="tarih-d" min="0" max="6" placeholder="D" class="w-14 bg-slate-950 border border-slate-700 rounded-lg p-1.5 text-center text-xs text-emerald-400 font-bold focus:border-indigo-500 outline-none" oninput="calcNets()">
-              <input type="number" id="tarih-y" min="0" max="6" placeholder="Y" class="w-14 bg-slate-950 border border-slate-700 rounded-lg p-1.5 text-center text-xs text-rose-400 font-bold focus:border-indigo-500 outline-none" oninput="calcNets()">
-              <span class="text-[11px] font-bold text-slate-300 w-12 text-right" id="net-tarih">0.0</span>
-            </div>
-          </div>
-
-          <!-- Coğrafya -->
-          <div class="bg-slate-800/50 p-2.5 rounded-xl border border-slate-700/40 flex items-center justify-between gap-2">
-            <div class="w-1/2">
-              <span class="font-medium text-slate-200 block text-[13px]">Türkiye Coğrafyası</span>
-              <span class="text-[10px] text-indigo-400">6 Soru (Ort: 2.2 | SS: 1.7)</span>
-            </div>
-            <div class="flex items-center gap-1.5 w-1/2">
-              <input type="number" id="cografya-d" min="0" max="6" placeholder="D" class="w-14 bg-slate-950 border border-slate-700 rounded-lg p-1.5 text-center text-xs text-emerald-400 font-bold focus:border-indigo-500 outline-none" oninput="calcNets()">
-              <input type="number" id="cografya-y" min="0" max="6" placeholder="Y" class="w-14 bg-slate-950 border border-slate-700 rounded-lg p-1.5 text-center text-xs text-rose-400 font-bold focus:border-indigo-500 outline-none" oninput="calcNets()">
-              <span class="text-[11px] font-bold text-slate-300 w-12 text-right" id="net-cografya">0.0</span>
-            </div>
-          </div>
-
-          <!-- Eğitim Bilimleri & TMES -->
-          <div class="bg-slate-800/50 p-2.5 rounded-xl border border-slate-700/40 flex items-center justify-between gap-2">
-            <div class="w-1/2">
-              <span class="font-medium text-slate-200 block text-[13px]">Eğitim Bilimleri & TMES</span>
-              <span class="text-[10px] text-indigo-400">30 Soru (Ort: 11.2 | SS: 6.3)</span>
-            </div>
-            <div class="flex items-center gap-1.5 w-1/2">
-              <input type="number" id="egitim-d" min="0" max="30" placeholder="D" class="w-14 bg-slate-950 border border-slate-700 rounded-lg p-1.5 text-center text-xs text-emerald-400 font-bold focus:border-indigo-500 outline-none" oninput="calcNets()">
-              <input type="number" id="egitim-y" min="0" max="30" placeholder="Y" class="w-14 bg-slate-950 border border-slate-700 rounded-lg p-1.5 text-center text-xs text-rose-400 font-bold focus:border-indigo-500 outline-none" oninput="calcNets()">
-              <span class="text-[11px] font-bold text-slate-300 w-12 text-right" id="net-egitim">0.0</span>
-            </div>
-          </div>
-
-          <!-- Mevzuat -->
-          <div class="bg-slate-800/50 p-2.5 rounded-xl border border-slate-700/40 flex items-center justify-between gap-2">
-            <div class="w-1/2">
-              <span class="font-medium text-slate-200 block text-[13px]">Mevzuat (ÖMK 7528)</span>
-              <span class="text-[10px] text-indigo-400">8 Soru (Ort: 2.5 | SS: 2.4)</span>
-            </div>
-            <div class="flex items-center gap-1.5 w-1/2">
-              <input type="number" id="mevzuat-d" min="0" max="8" placeholder="D" class="w-14 bg-slate-950 border border-slate-700 rounded-lg p-1.5 text-center text-xs text-emerald-400 font-bold focus:border-indigo-500 outline-none" oninput="calcNets()">
-              <input type="number" id="mevzuat-y" min="0" max="8" placeholder="Y" class="w-14 bg-slate-950 border border-slate-700 rounded-lg p-1.5 text-center text-xs text-rose-400 font-bold focus:border-indigo-500 outline-none" oninput="calcNets()">
-              <span class="text-[11px] font-bold text-slate-300 w-12 text-right" id="net-mevzuat">0.0</span>
-            </div>
-          </div>
-
+        <div>
+          <a href="#" class="text-xl sm:text-2xl font-black tracking-tight text-white flex items-center gap-1.5">
+            <span>Pdr<span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">kampus</span></span>
+          </a>
+          <span class="text-[10px] text-slate-400 block font-medium -mt-1 tracking-wide">Rehberlik & Psikolojik Danışmanlık Platformu</span>
         </div>
       </div>
 
-      <!-- ÖABT Rehberlik Kartı -->
-      <div class="bg-purple-950/30 border border-purple-800/50 rounded-2xl p-5 shadow-xl">
-        <div class="flex justify-between items-center mb-3 pb-2 border-b border-purple-800/50">
-          <h2 class="text-sm font-bold text-purple-300 flex items-center gap-2">
-            <span>🎯 ÖABT Rehberlik / PDR (50 Soru - %50 Etki)</span>
-          </h2>
-          <span class="text-xs text-purple-300 bg-purple-900/60 border border-purple-600/40 px-2.5 py-0.5 rounded-md font-bold" id="net-oabt">0.00 / 50 Net</span>
-        </div>
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block text-[11px] text-slate-400 mb-1 font-medium">Doğru Sayısı (Max 50)</label>
-            <input type="number" id="oabt-d" min="0" max="50" placeholder="0 - 50" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-emerald-400 font-bold focus:border-purple-500 outline-none" oninput="calcNets()">
-          </div>
-          <div>
-            <label class="block text-[11px] text-slate-400 mb-1 font-medium">Yanlış Sayısı (Max 50)</label>
-            <input type="number" id="oabt-y" min="0" max="50" placeholder="0 - 50" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-rose-400 font-bold focus:border-purple-500 outline-none" oninput="calcNets()">
-          </div>
-        </div>
-        <div class="text-[10px] text-purple-300/80 mt-2 text-right">ÖABT Rehberlik Ort: 33.5 | SS: 9.2 (23.236 Aday)</div>
+      <!-- Orta Bilgi Rozetleri -->
+      <div class="hidden md:flex items-center gap-2">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-950/80 border border-indigo-800/60 text-indigo-300">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          2026 Resmi ÖSYM Verisi Entegre
+        </span>
+        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-purple-950/60 border border-purple-800/50 text-purple-300">
+          118 Gerçek Belge Doğrulamalı
+        </span>
       </div>
 
-      <!-- Hesapla Butonu -->
-      <button onclick="calculateRanking()" class="w-full py-4 px-6 rounded-2xl font-bold text-white bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 shadow-xl shadow-indigo-900/40 transition-all duration-200 active:scale-[0.99] text-base tracking-wide flex items-center justify-center gap-2">
-        <span>🚀 Sıralama & Strateji Raporunu Üret</span>
-      </button>
-
-      <!-- HEDEF SIRALAMA ROBOTU (TERSİNE HESAPLAMA) -->
-      <div class="bg-slate-900/90 border border-cyan-500/40 rounded-2xl p-5 shadow-xl">
-        <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-800">
-          <h3 class="text-xs font-bold text-cyan-300 uppercase tracking-wider flex items-center gap-1.5">
-            <span>🔮 Hedef Sıralama Modu (Tersine Çözüm)</span>
-          </h3>
-          <span class="text-[10px] text-cyan-400 bg-cyan-950/80 px-2 py-0.5 rounded border border-cyan-800/60 font-semibold">Hedef Odaklı</span>
-        </div>
-        <p class="text-[11px] text-slate-400 mb-3">Ulaşmak istediğiniz hedef sırayı girin; mevcut durumunuzla aranızdaki puan farkını ve en kestirme net artış kombinasyonlarını görün.</p>
-        
-        <div class="flex gap-2">
-          <input type="number" id="target-rank-input" placeholder="Örn: 350 veya 500" min="1" max="20000" class="w-2/3 bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-cyan-300 font-bold focus:border-cyan-500 outline-none">
-          <button onclick="runGoalSeeker()" class="w-1/3 py-2 px-3 rounded-xl font-bold text-xs bg-cyan-600 hover:bg-cyan-500 text-white transition-colors shadow">
-            Hedefi Çöz
-          </button>
-        </div>
-
-        <div id="goal-seeker-result" class="mt-3.5 p-3 rounded-xl bg-slate-950/80 border border-slate-800 text-xs text-slate-300 hidden">
-          <!-- Dinamik Hedef Analizi -->
-        </div>
+      <!-- Topluluk & Sosyal Butonlar -->
+      <div class="flex items-center gap-2">
+        <a href="#target-rank-input" class="bg-indigo-600 hover:bg-indigo-500 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all shadow-md shadow-indigo-900/30 flex items-center gap-1.5">
+          <span>🎯 Hedef Robotu</span>
+        </a>
       </div>
 
     </div>
+  </header>
 
-    <!-- SAĞ KOLON: GELİŞMİŞ ANALİZ VE SENARYO MERKEZİ (7 Kolon) -->
-    <div class="lg:col-span-7 flex flex-col gap-5">
+  <!-- ANA İÇERİK ALANI -->
+  <main class="flex-grow p-3 md:p-8">
+
+    <!-- Başlık & Karşılama Alanı -->
+    <div class="max-w-7xl mx-auto text-center mb-8 pt-2">
+      <div class="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 text-xs md:text-sm font-semibold px-4 py-1.5 rounded-full mb-3 shadow-inner">
+        <span>🎓 Pdrkampus • 2027 AGS PDR Başarı Sırası & Strateji Simülatörü</span>
+      </div>
+      <h1 class="text-3xl md:text-5xl font-black tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400">
+        2027 AGS PDR Sıralama & Strateji Robotu
+      </h1>
+      <p class="text-slate-400 text-xs md:text-sm mt-2 max-w-3xl mx-auto leading-relaxed">
+        MEB-AGS ve ÖABT Rehberlik netlerinizi girin; 2026 resmi katsayıları ve gerçek sonuç belgeleriyle kalibre edilmiş doğru sıralamanızı, net reçetenizi ve 2027 projeksiyonunu görüntüleyin.
+      </p>
+    </div>
+
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
       
-      <!-- Ana Sıralama Kartı -->
-      <div class="bg-gradient-to-br from-indigo-950/90 via-slate-900 to-slate-900 border border-indigo-500/40 rounded-2xl p-5 md:p-6 shadow-2xl relative overflow-hidden">
-        <div class="flex flex-wrap justify-between items-start gap-2 mb-2">
-          <span class="text-xs font-bold text-indigo-400 uppercase tracking-wider">Tahmini 2027 PDR Başarı Sırası</span>
-          <span class="text-xs font-bold px-3 py-1 rounded-full border" id="status-badge">Netlerinizi Girin</span>
-        </div>
+      <!-- SOL KOLON: FORM GİRİŞİ & HEDEF MODU (5 Kolon) -->
+      <div class="lg:col-span-5 flex flex-col gap-5">
         
-        <div class="text-4xl md:text-6xl font-black text-white my-2 tracking-tight" id="result-rank-range">
-          -- - --
-        </div>
-        
-        <div class="grid grid-cols-3 gap-2 border-t border-slate-800/80 pt-3 mt-3 text-xs">
-          <div>
-            <span class="text-slate-400 block">Gerçek P2-10 Puanı:</span>
-            <span class="font-black text-emerald-400 text-base" id="result-p2-score">--</span>
+        <!-- MEB-AGS Kartı -->
+        <div class="bg-slate-900/90 backdrop-blur-xl border border-slate-800 rounded-2xl p-5 shadow-xl">
+          <div class="flex justify-between items-center mb-3 pb-2 border-b border-slate-800">
+            <h2 class="text-sm font-bold text-indigo-300 flex items-center gap-2">
+              <span>📚 MEB-AGS Testleri (80 Soru - %50 Etki)</span>
+            </h2>
+            <span class="text-xs text-indigo-300 bg-indigo-950/90 border border-indigo-700/50 px-2.5 py-0.5 rounded-md font-bold" id="total-ags-net-badge">0.00 / 80 Net</span>
           </div>
-          <div>
-            <span class="text-slate-400 block">2026 Birebir Sıranız:</span>
-            <span class="font-bold text-indigo-300 text-base" id="result-2026-rank">--</span>
-          </div>
-          <div>
-            <span class="text-slate-400 block">Yüzdelik Dilim:</span>
-            <span class="font-bold text-purple-300 text-base" id="percentile-label">%--</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- KİŞİSELLEŞTİRİLMİŞ AKILLI KOÇLUK & NET REÇETESİ -->
-      <div class="bg-slate-900/90 border border-emerald-500/30 rounded-2xl p-5 shadow-xl" id="prescription-card">
-        <div class="flex items-center justify-between mb-2.5 pb-2 border-b border-slate-800">
-          <h3 class="text-xs font-bold text-emerald-300 uppercase tracking-wider flex items-center gap-1.5">
-            <span>🩺 Akıllı Koçluk: Kişiye Özel Net Reçetesi</span>
-          </h3>
-          <span class="text-[10px] text-emerald-400 bg-emerald-950/80 border border-emerald-800/60 px-2 py-0.5 rounded font-semibold">Ders Analizi</span>
-        </div>
-        <div id="prescription-content" class="space-y-2 text-xs text-slate-300 leading-relaxed">
-          <div class="text-slate-500 italic">Netlerinizi girdikten sonra sistem zayıf ve güçlü yönlerinizi tarayarak size özel nokta atışı çalışma tavsiyeleri üretecektir.</div>
-        </div>
-      </div>
-
-      <!-- RADAR GRAFİĞİ & DAĞILIM ÇAN EĞRİSİ -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        
-        <!-- Radar Grafiği (Aday vs Türkiye Ortalaması) -->
-        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-xl flex flex-col justify-between">
-          <div class="flex justify-between items-center mb-2 pb-1 border-b border-slate-800">
-            <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider">🕸️ Başarı Profili Radar Grafiği</h4>
-            <span class="text-[10px] text-indigo-400">Siz vs TR Ortalaması</span>
-          </div>
-          <div class="h-44 relative flex items-center justify-center">
-            <canvas id="radarChart"></canvas>
-          </div>
-        </div>
-
-        <!-- Çan Eğrisi / Dağılım Grafiği -->
-        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-xl flex flex-col justify-between">
-          <div class="flex justify-between items-center mb-2 pb-1 border-b border-slate-800">
-            <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider">📊 23.236 Aday Yığılma Grafiği</h4>
-            <span class="text-[10px] text-slate-400">Dilim Konumunuz</span>
-          </div>
-          <div class="h-44 relative flex items-center justify-center">
-            <canvas id="distributionChart"></canvas>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- 🎛️ 2027 ÖZEL SENARYO SİMÜLATÖRÜ -->
-      <div class="bg-slate-900/90 border border-indigo-500/30 rounded-2xl p-5 shadow-xl">
-        <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-800">
-          <h3 class="text-xs font-bold text-indigo-300 uppercase tracking-wider flex items-center gap-1.5">
-            <span>🎛️ 2027 Özel Senaryo Simülatörü (Canlı Kaydırıcı)</span>
-          </h3>
-          <span class="text-[10px] text-slate-400">2026'ya göre $\pm 5$ Net Değişimi</span>
-        </div>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
           
-          <!-- AGS Slider -->
-          <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800">
-            <div class="flex justify-between items-center mb-1.5">
-              <span class="text-slate-300 font-medium">2027 AGS Ortalama Değişimi:</span>
-              <span class="font-bold text-indigo-400 text-xs" id="slider-ags-val">0 Net (2026 ile Aynı)</span>
+          <div class="grid grid-cols-1 gap-2 text-xs">
+            
+            <!-- Sözel -->
+            <div class="bg-slate-800/50 p-2.5 rounded-xl border border-slate-700/40 flex items-center justify-between gap-2">
+              <div class="w-1/2">
+                <span class="font-medium text-slate-200 block text-[13px]">Sözel Yetenek</span>
+                <span class="text-[10px] text-indigo-400">15 Soru (Ort: 8.3 | SS: 3.2)</span>
+              </div>
+              <div class="flex items-center gap-1.5 w-1/2">
+                <input type="number" id="sozel-d" min="0" max="15" placeholder="D" class="w-14 bg-slate-950 border border-slate-700 rounded-lg p-1.5 text-center text-xs text-emerald-400 font-bold focus:border-indigo-500 outline-none" oninput="calcNets()">
+                <input type="number" id="sozel-y" min="0" max="15" placeholder="Y" class="w-14 bg-slate-950 border border-slate-700 rounded-lg p-1.5 text-center text-xs text-rose-400 font-bold focus:border-indigo-500 outline-none" oninput="calcNets()">
+                <span class="text-[11px] font-bold text-slate-300 w-12 text-right" id="net-sozel">0.0</span>
+              </div>
             </div>
-            <input type="range" id="slider-ags" min="-5" max="5" value="0" step="1" class="w-full accent-indigo-500 cursor-pointer" oninput="runCustomSimulation()">
-            <div class="flex justify-between text-[10px] text-slate-500 mt-1">
-              <span>-5 (Çok Zorlaştı)</span>
-              <span>0 (2026 Ayarı)</span>
-              <span>+5 (Çok Kolaylaştı)</span>
-            </div>
-          </div>
 
-          <!-- ÖABT Slider -->
-          <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800">
-            <div class="flex justify-between items-center mb-1.5">
-              <span class="text-slate-300 font-medium">2027 ÖABT Ortalama Değişimi:</span>
-              <span class="font-bold text-purple-400 text-xs" id="slider-oabt-val">0 Net (2026 ile Aynı)</span>
+            <!-- Sayısal -->
+            <div class="bg-slate-800/50 p-2.5 rounded-xl border border-slate-700/40 flex items-center justify-between gap-2">
+              <div class="w-1/2">
+                <span class="font-medium text-slate-200 block text-[13px]">Sayısal Yetenek</span>
+                <span class="text-[10px] text-indigo-400">15 Soru (Ort: 3.4 | SS: 3.9)</span>
+              </div>
+              <div class="flex items-center gap-1.5 w-1/2">
+                <input type="number" id="sayisal-d" min="0" max="15" placeholder="D" class="w-14 bg-slate-950 border border-slate-700 rounded-lg p-1.5 text-center text-xs text-emerald-400 font-bold focus:border-indigo-500 outline-none" oninput="calcNets()">
+                <input type="number" id="sayisal-y" min="0" max="15" placeholder="Y" class="w-14 bg-slate-950 border border-slate-700 rounded-lg p-1.5 text-center text-xs text-rose-400 font-bold focus:border-indigo-500 outline-none" oninput="calcNets()">
+                <span class="text-[11px] font-bold text-slate-300 w-12 text-right" id="net-sayisal">0.0</span>
+              </div>
             </div>
-            <input type="range" id="slider-oabt" min="-5" max="5" value="0" step="1" class="w-full accent-purple-500 cursor-pointer" oninput="runCustomSimulation()">
-            <div class="flex justify-between text-[10px] text-slate-500 mt-1">
-              <span>-5 (Çok Zorlaştı)</span>
-              <span>0 (2026 Ayarı)</span>
-              <span>+5 (Çok Kolaylaştı)</span>
-            </div>
-          </div>
 
+            <!-- Tarih -->
+            <div class="bg-slate-800/50 p-2.5 rounded-xl border border-slate-700/40 flex items-center justify-between gap-2">
+              <div class="w-1/2">
+                <span class="font-medium text-slate-200 block text-[13px]">Tarih</span>
+                <span class="text-[10px] text-indigo-400">6 Soru (Ort: 2.7 | SS: 2.1)</span>
+              </div>
+              <div class="flex items-center gap-1.5 w-1/2">
+                <input type="number" id="tarih-d" min="0" max="6" placeholder="D" class="w-14 bg-slate-950 border border-slate-700 rounded-lg p-1.5 text-center text-xs text-emerald-400 font-bold focus:border-indigo-500 outline-none" oninput="calcNets()">
+                <input type="number" id="tarih-y" min="0" max="6" placeholder="Y" class="w-14 bg-slate-950 border border-slate-700 rounded-lg p-1.5 text-center text-xs text-rose-400 font-bold focus:border-indigo-500 outline-none" oninput="calcNets()">
+                <span class="text-[11px] font-bold text-slate-300 w-12 text-right" id="net-tarih">0.0</span>
+              </div>
+            </div>
+
+            <!-- Coğrafya -->
+            <div class="bg-slate-800/50 p-2.5 rounded-xl border border-slate-700/40 flex items-center justify-between gap-2">
+              <div class="w-1/2">
+                <span class="font-medium text-slate-200 block text-[13px]">Türkiye Coğrafyası</span>
+                <span class="text-[10px] text-indigo-400">6 Soru (Ort: 2.2 | SS: 1.7)</span>
+              </div>
+              <div class="flex items-center gap-1.5 w-1/2">
+                <input type="number" id="cografya-d" min="0" max="6" placeholder="D" class="w-14 bg-slate-950 border border-slate-700 rounded-lg p-1.5 text-center text-xs text-emerald-400 font-bold focus:border-indigo-500 outline-none" oninput="calcNets()">
+                <input type="number" id="cografya-y" min="0" max="6" placeholder="Y" class="w-14 bg-slate-950 border border-slate-700 rounded-lg p-1.5 text-center text-xs text-rose-400 font-bold focus:border-indigo-500 outline-none" oninput="calcNets()">
+                <span class="text-[11px] font-bold text-slate-300 w-12 text-right" id="net-cografya">0.0</span>
+              </div>
+            </div>
+
+            <!-- Eğitim Bilimleri & TMES -->
+            <div class="bg-slate-800/50 p-2.5 rounded-xl border border-slate-700/40 flex items-center justify-between gap-2">
+              <div class="w-1/2">
+                <span class="font-medium text-slate-200 block text-[13px]">Eğitim Bilimleri & TMES</span>
+                <span class="text-[10px] text-indigo-400">30 Soru (Ort: 11.2 | SS: 6.3)</span>
+              </div>
+              <div class="flex items-center gap-1.5 w-1/2">
+                <input type="number" id="egitim-d" min="0" max="30" placeholder="D" class="w-14 bg-slate-950 border border-slate-700 rounded-lg p-1.5 text-center text-xs text-emerald-400 font-bold focus:border-indigo-500 outline-none" oninput="calcNets()">
+                <input type="number" id="egitim-y" min="0" max="30" placeholder="Y" class="w-14 bg-slate-950 border border-slate-700 rounded-lg p-1.5 text-center text-xs text-rose-400 font-bold focus:border-indigo-500 outline-none" oninput="calcNets()">
+                <span class="text-[11px] font-bold text-slate-300 w-12 text-right" id="net-egitim">0.0</span>
+              </div>
+            </div>
+
+            <!-- Mevzuat -->
+            <div class="bg-slate-800/50 p-2.5 rounded-xl border border-slate-700/40 flex items-center justify-between gap-2">
+              <div class="w-1/2">
+                <span class="font-medium text-slate-200 block text-[13px]">Mevzuat (ÖMK 7528)</span>
+                <span class="text-[10px] text-indigo-400">8 Soru (Ort: 2.5 | SS: 2.4)</span>
+              </div>
+              <div class="flex items-center gap-1.5 w-1/2">
+                <input type="number" id="mevzuat-d" min="0" max="8" placeholder="D" class="w-14 bg-slate-950 border border-slate-700 rounded-lg p-1.5 text-center text-xs text-emerald-400 font-bold focus:border-indigo-500 outline-none" oninput="calcNets()">
+                <input type="number" id="mevzuat-y" min="0" max="8" placeholder="Y" class="w-14 bg-slate-950 border border-slate-700 rounded-lg p-1.5 text-center text-xs text-rose-400 font-bold focus:border-indigo-500 outline-none" oninput="calcNets()">
+                <span class="text-[11px] font-bold text-slate-300 w-12 text-right" id="net-mevzuat">0.0</span>
+              </div>
+            </div>
+
+          </div>
         </div>
 
-        <!-- Simülasyon Sonuç Şeridi -->
-        <div class="mt-3.5 bg-gradient-to-r from-indigo-950/80 to-purple-950/80 border border-indigo-700/40 rounded-xl p-3 flex flex-wrap items-center justify-between gap-2 text-xs">
-          <div>
-            <span class="text-slate-300 font-medium block">2027 Senaryosunda Olası Başarı Sıranız:</span>
-            <span class="text-[11px] text-slate-400" id="custom-sim-desc">Gerçek 2026 aday dağılımı referans alınmaktadır.</span>
+        <!-- ÖABT Rehberlik Kartı -->
+        <div class="bg-purple-950/30 border border-purple-800/50 rounded-2xl p-5 shadow-xl">
+          <div class="flex justify-between items-center mb-3 pb-2 border-b border-purple-800/50">
+            <h2 class="text-sm font-bold text-purple-300 flex items-center gap-2">
+              <span>🎯 ÖABT Rehberlik / PDR (50 Soru - %50 Etki)</span>
+            </h2>
+            <span class="text-xs text-purple-300 bg-purple-900/60 border border-purple-600/40 px-2.5 py-0.5 rounded-md font-bold" id="net-oabt">0.00 / 50 Net</span>
           </div>
-          <div class="text-right">
-            <span class="text-xl md:text-2xl font-black text-emerald-400" id="custom-sim-rank">--. Sıra</span>
-            <span class="block text-[10px] text-indigo-300 font-semibold" id="custom-sim-score">P2-10: --</span>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-[11px] text-slate-400 mb-1 font-medium">Doğru Sayısı (Max 50)</label>
+              <input type="number" id="oabt-d" min="0" max="50" placeholder="0 - 50" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-emerald-400 font-bold focus:border-purple-500 outline-none" oninput="calcNets()">
+            </div>
+            <div>
+              <label class="block text-[11px] text-slate-400 mb-1 font-medium">Yanlış Sayısı (Max 50)</label>
+              <input type="number" id="oabt-y" min="0" max="50" placeholder="0 - 50" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-rose-400 font-bold focus:border-purple-500 outline-none" oninput="calcNets()">
+            </div>
+          </div>
+          <div class="text-[10px] text-purple-300/80 mt-2 text-right">ÖABT Rehberlik Ort: 33.5 | SS: 9.2 (23.236 Aday)</div>
+        </div>
+
+        <!-- Hesapla Butonu -->
+        <button onclick="calculateRanking()" class="w-full py-4 px-6 rounded-2xl font-bold text-white bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 shadow-xl shadow-indigo-900/40 transition-all duration-200 active:scale-[0.99] text-base tracking-wide flex items-center justify-center gap-2">
+          <span>🚀 Sıralama & Strateji Raporunu Üret</span>
+        </button>
+
+        <!-- HEDEF SIRALAMA ROBOTU (TERSİNE HESAPLAMA) -->
+        <div class="bg-slate-900/90 border border-cyan-500/40 rounded-2xl p-5 shadow-xl">
+          <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-800">
+            <h3 class="text-xs font-bold text-cyan-300 uppercase tracking-wider flex items-center gap-1.5">
+              <span>🔮 Hedef Sıralama Modu (Tersine Çözüm)</span>
+            </h3>
+            <span class="text-[10px] text-cyan-400 bg-cyan-950/80 px-2 py-0.5 rounded border border-cyan-800/60 font-semibold">Hedef Odaklı</span>
+          </div>
+          <p class="text-[11px] text-slate-400 mb-3">Ulaşmak istediğiniz hedef sırayı girin; mevcut durumunuzla aranızdaki puan farkını ve en kestirme net artış kombinasyonlarını görün.</p>
+          
+          <div class="flex gap-2">
+            <input type="number" id="target-rank-input" placeholder="Örn: 350 veya 500" min="1" max="20000" class="w-2/3 bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-cyan-300 font-bold focus:border-cyan-500 outline-none">
+            <button onclick="runGoalSeeker()" class="w-1/3 py-2 px-3 rounded-xl font-bold text-xs bg-cyan-600 hover:bg-cyan-500 text-white transition-colors shadow">
+              Hedefi Çöz
+            </button>
+          </div>
+
+          <div id="goal-seeker-result" class="mt-3.5 p-3 rounded-xl bg-slate-950/80 border border-slate-800 text-xs text-slate-300 hidden">
+            <!-- Dinamik Hedef Analizi -->
           </div>
         </div>
+
       </div>
 
-      <!-- DERS BAZLI STANDART SAPMA VE ETKİ KARNESİ -->
-      <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl">
-        <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider mb-3 flex items-center justify-between">
-          <span>📊 Ders Ders Standart Sapma ve Etki Analizi</span>
-          <span class="text-[11px] text-indigo-400 font-normal">2026 Resmi Ortalamaya Göre Sapmanız ($Z$-Skoru)</span>
-        </h3>
+      <!-- SAĞ KOLON: GELİŞMİŞ ANALİZ VE SENARYO MERKEZİ (7 Kolon) -->
+      <div class="lg:col-span-7 flex flex-col gap-5">
         
-        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 text-xs" id="subtest-cards-container">
-          <div class="p-2.5 bg-slate-950/60 border border-slate-800 rounded-xl">
-            <span class="text-slate-400 block text-[11px]">Sözel (Ort: 8.3)</span>
-            <span class="font-bold text-slate-200 block text-sm" id="z-sozel">--</span>
-            <span class="text-[10px] text-slate-500" id="stat-sozel">Bekleniyor</span>
+        <!-- Ana Sıralama Kartı -->
+        <div class="bg-gradient-to-br from-indigo-950/90 via-slate-900 to-slate-900 border border-indigo-500/40 rounded-2xl p-5 md:p-6 shadow-2xl relative overflow-hidden">
+          <div class="flex flex-wrap justify-between items-start gap-2 mb-2">
+            <span class="text-xs font-bold text-indigo-400 uppercase tracking-wider">Tahmini 2027 PDR Başarı Sırası</span>
+            <span class="text-xs font-bold px-3 py-1 rounded-full border" id="status-badge">Netlerinizi Girin</span>
           </div>
-          <div class="p-2.5 bg-slate-950/60 border border-slate-800 rounded-xl">
-            <span class="text-slate-400 block text-[11px]">Sayısal (Ort: 3.4)</span>
-            <span class="font-bold text-slate-200 block text-sm" id="z-sayisal">--</span>
-            <span class="text-[10px] text-slate-500" id="stat-sayisal">Bekleniyor</span>
+          
+          <div class="text-4xl md:text-6xl font-black text-white my-2 tracking-tight" id="result-rank-range">
+            -- - --
           </div>
-          <div class="p-2.5 bg-slate-950/60 border border-slate-800 rounded-xl">
-            <span class="text-slate-400 block text-[11px]">Tarih (Ort: 2.7)</span>
-            <span class="font-bold text-slate-200 block text-sm" id="z-tarih">--</span>
-            <span class="text-[10px] text-slate-500" id="stat-tarih">Bekleniyor</span>
-          </div>
-          <div class="p-2.5 bg-slate-950/60 border border-slate-800 rounded-xl">
-            <span class="text-slate-400 block text-[11px]">Coğrafya (Ort: 2.2)</span>
-            <span class="font-bold text-slate-200 block text-sm" id="z-cografya">--</span>
-            <span class="text-[10px] text-slate-500" id="stat-cografya">Bekleniyor</span>
-          </div>
-          <div class="p-2.5 bg-slate-950/60 border border-slate-800 rounded-xl">
-            <span class="text-slate-400 block text-[11px]">Eğitim Bilimleri (Ort: 11.2)</span>
-            <span class="font-bold text-slate-200 block text-sm" id="z-egitim">--</span>
-            <span class="text-[10px] text-slate-500" id="stat-egitim">Bekleniyor</span>
-          </div>
-          <div class="p-2.5 bg-slate-950/60 border border-purple-900/40 rounded-xl bg-purple-950/20">
-            <span class="text-purple-300 block text-[11px] font-semibold">ÖABT PDR (Ort: 33.5)</span>
-            <span class="font-bold text-purple-200 block text-sm" id="z-oabt">--</span>
-            <span class="text-[10px] text-purple-400" id="stat-oabt">Bekleniyor</span>
+          
+          <div class="grid grid-cols-3 gap-2 border-t border-slate-800/80 pt-3 mt-3 text-xs">
+            <div>
+              <span class="text-slate-400 block">Gerçek P2-10 Puanı:</span>
+              <span class="font-black text-emerald-400 text-base" id="result-p2-score">--</span>
+            </div>
+            <div>
+              <span class="text-slate-400 block">2026 Birebir Sıranız:</span>
+              <span class="font-bold text-indigo-300 text-base" id="result-2026-rank">--</span>
+            </div>
+            <div>
+              <span class="text-slate-400 block">Yüzdelik Dilim:</span>
+              <span class="font-bold text-purple-300 text-base" id="percentile-label">%--</span>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- GERÇEK 2026 SONUÇ BELGELERİ EŞLEŞMESİ (5 ADAY) -->
-      <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl">
-        <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider mb-2 flex items-center gap-2">
-          <span>🎯 Ders Profilinize En Çok Benzeyen 5 Gerçek Sonuç Belgesi</span>
-        </h3>
-        <p class="text-[11px] text-slate-400 mb-3">118 resmi sonuç belgesi arasından net profilinize en yakın 5 gerçek aday:</p>
-
-        <div class="space-y-2" id="similar-candidates-list">
-          <div class="text-center py-4 text-xs text-slate-500">Netlerinizi girdikten sonra eşleşen 5 gerçek aday burada listelenecektir.</div>
+        <!-- KİŞİSELLEŞTİRİLMİŞ AKILLI KOÇLUK & NET REÇETESİ -->
+        <div class="bg-slate-900/90 border border-emerald-500/30 rounded-2xl p-5 shadow-xl" id="prescription-card">
+          <div class="flex items-center justify-between mb-2.5 pb-2 border-b border-slate-800">
+            <h3 class="text-xs font-bold text-emerald-300 uppercase tracking-wider flex items-center gap-1.5">
+              <span>🩺 Akıllı Koçluk: Kişiye Özel Net Reçetesi</span>
+            </h3>
+            <span class="text-[10px] text-emerald-400 bg-emerald-950/80 border border-emerald-800/60 px-2 py-0.5 rounded font-semibold">Ders Analizi</span>
+          </div>
+          <div id="prescription-content" class="space-y-2 text-xs text-slate-300 leading-relaxed">
+            <div class="text-slate-500 italic">Netlerinizi girdikten sonra sistem zayıf ve güçlü yönlerinizi tarayarak size özel nokta atışı çalışma tavsiyeleri üretecektir.</div>
+          </div>
         </div>
-      </div>
 
-      <!-- 2027 SENARYO MATRİSİ TABLOSU -->
-      <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl">
-        <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">🔮 2027 Ortalamalar Değiştiğinde Sıralamanız</h3>
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs border-collapse">
-            <thead>
-              <tr class="bg-slate-950/80 text-slate-400 border-b border-slate-800">
-                <th class="py-2 px-2.5 font-semibold">2027 Senaryosu</th>
-                <th class="py-2 px-2.5 font-semibold">AGS</th>
-                <th class="py-2 px-2.5 font-semibold">ÖABT</th>
-                <th class="py-2 px-2.5 font-semibold">Tahmini P2-10</th>
-                <th class="py-2 px-2.5 font-semibold text-right">2027 Olası Sıra</th>
-              </tr>
-            </thead>
-            <tbody id="scenario-matrix-body" class="divide-y divide-slate-800/60 text-slate-300">
-              <tr>
-                <td colspan="5" class="py-3 text-center text-slate-500">Netlerinizi giriniz.</td>
-              </tr>
-            </tbody>
-          </table>
+        <!-- RADAR GRAFİĞİ & DAĞILIM ÇAN EĞRİSİ -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          
+          <!-- Radar Grafiği (Aday vs Türkiye Ortalaması) -->
+          <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-xl flex flex-col justify-between">
+            <div class="flex justify-between items-center mb-2 pb-1 border-b border-slate-800">
+              <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider">🕸️ Başarı Profili Radar Grafiği</h4>
+              <span class="text-[10px] text-indigo-400">Siz vs TR Ortalaması</span>
+            </div>
+            <div class="h-44 relative flex items-center justify-center">
+              <canvas id="radarChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Çan Eğrisi / Dağılım Grafiği -->
+          <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-xl flex flex-col justify-between">
+            <div class="flex justify-between items-center mb-2 pb-1 border-b border-slate-800">
+              <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider">📊 23.236 Aday Yığılma Grafiği</h4>
+              <span class="text-[10px] text-slate-400">Dilim Konumunuz</span>
+            </div>
+            <div class="h-44 relative flex items-center justify-center">
+              <canvas id="distributionChart"></canvas>
+            </div>
+          </div>
+
         </div>
+
+        <!-- 🎛️ 2027 ÖZEL SENARYO SİMÜLATÖRÜ -->
+        <div class="bg-slate-900/90 border border-indigo-500/30 rounded-2xl p-5 shadow-xl">
+          <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-800">
+            <h3 class="text-xs font-bold text-indigo-300 uppercase tracking-wider flex items-center gap-1.5">
+              <span>🎛️ 2027 Özel Senaryo Simülatörü (Canlı Kaydırıcı)</span>
+            </h3>
+            <span class="text-[10px] text-slate-400">2026'ya göre $\pm 5$ Net Değişimi</span>
+          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+            
+            <!-- AGS Slider -->
+            <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800">
+              <div class="flex justify-between items-center mb-1.5">
+                <span class="text-slate-300 font-medium">2027 AGS Ortalama Değişimi:</span>
+                <span class="font-bold text-indigo-400 text-xs" id="slider-ags-val">0 Net (2026 ile Aynı)</span>
+              </div>
+              <input type="range" id="slider-ags" min="-5" max="5" value="0" step="1" class="w-full accent-indigo-500 cursor-pointer" oninput="runCustomSimulation()">
+              <div class="flex justify-between text-[10px] text-slate-500 mt-1">
+                <span>-5 (Çok Zorlaştı)</span>
+                <span>0 (2026 Ayarı)</span>
+                <span>+5 (Çok Kolaylaştı)</span>
+              </div>
+            </div>
+
+            <!-- ÖABT Slider -->
+            <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800">
+              <div class="flex justify-between items-center mb-1.5">
+                <span class="text-slate-300 font-medium">2027 ÖABT Ortalama Değişimi:</span>
+                <span class="font-bold text-purple-400 text-xs" id="slider-oabt-val">0 Net (2026 ile Aynı)</span>
+              </div>
+              <input type="range" id="slider-oabt" min="-5" max="5" value="0" step="1" class="w-full accent-purple-500 cursor-pointer" oninput="runCustomSimulation()">
+              <div class="flex justify-between text-[10px] text-slate-500 mt-1">
+                <span>-5 (Çok Zorlaştı)</span>
+                <span>0 (2026 Ayarı)</span>
+                <span>+5 (Çok Kolaylaştı)</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Simülasyon Sonuç Şeridi -->
+          <div class="mt-3.5 bg-gradient-to-r from-indigo-950/80 to-purple-950/80 border border-indigo-700/40 rounded-xl p-3 flex flex-wrap items-center justify-between gap-2 text-xs">
+            <div>
+              <span class="text-slate-300 font-medium block">2027 Senaryosunda Olası Başarı Sıranız:</span>
+              <span class="text-[11px] text-slate-400" id="custom-sim-desc">Gerçek 2026 aday dağılımı referans alınmaktadır.</span>
+            </div>
+            <div class="text-right">
+              <span class="text-xl md:text-2xl font-black text-emerald-400" id="custom-sim-rank">--. Sıra</span>
+              <span class="block text-[10px] text-indigo-300 font-semibold" id="custom-sim-score">P2-10: --</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- DERS BAZLI STANDART SAPMA VE ETKİ KARNESİ -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl">
+          <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider mb-3 flex items-center justify-between">
+            <span>📊 Ders Ders Standart Sapma ve Etki Analizi</span>
+            <span class="text-[11px] text-indigo-400 font-normal">2026 Resmi Ortalamaya Göre Sapmanız ($Z$-Skoru)</span>
+          </h3>
+          
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 text-xs" id="subtest-cards-container">
+            <div class="p-2.5 bg-slate-950/60 border border-slate-800 rounded-xl">
+              <span class="text-slate-400 block text-[11px]">Sözel (Ort: 8.3)</span>
+              <span class="font-bold text-slate-200 block text-sm" id="z-sozel">--</span>
+              <span class="text-[10px] text-slate-500" id="stat-sozel">Bekleniyor</span>
+            </div>
+            <div class="p-2.5 bg-slate-950/60 border border-slate-800 rounded-xl">
+              <span class="text-slate-400 block text-[11px]">Sayısal (Ort: 3.4)</span>
+              <span class="font-bold text-slate-200 block text-sm" id="z-sayisal">--</span>
+              <span class="text-[10px] text-slate-500" id="stat-sayisal">Bekleniyor</span>
+            </div>
+            <div class="p-2.5 bg-slate-950/60 border border-slate-800 rounded-xl">
+              <span class="text-slate-400 block text-[11px]">Tarih (Ort: 2.7)</span>
+              <span class="font-bold text-slate-200 block text-sm" id="z-tarih">--</span>
+              <span class="text-[10px] text-slate-500" id="stat-tarih">Bekleniyor</span>
+            </div>
+            <div class="p-2.5 bg-slate-950/60 border border-slate-800 rounded-xl">
+              <span class="text-slate-400 block text-[11px]">Coğrafya (Ort: 2.2)</span>
+              <span class="font-bold text-slate-200 block text-sm" id="z-cografya">--</span>
+              <span class="text-[10px] text-slate-500" id="stat-cografya">Bekleniyor</span>
+            </div>
+            <div class="p-2.5 bg-slate-950/60 border border-slate-800 rounded-xl">
+              <span class="text-slate-400 block text-[11px]">Eğitim Bilimleri (Ort: 11.2)</span>
+              <span class="font-bold text-slate-200 block text-sm" id="z-egitim">--</span>
+              <span class="text-[10px] text-slate-500" id="stat-egitim">Bekleniyor</span>
+            </div>
+            <div class="p-2.5 bg-slate-950/60 border border-purple-900/40 rounded-xl bg-purple-950/20">
+              <span class="text-purple-300 block text-[11px] font-semibold">ÖABT PDR (Ort: 33.5)</span>
+              <span class="font-bold text-purple-200 block text-sm" id="z-oabt">--</span>
+              <span class="text-[10px] text-purple-400" id="stat-oabt">Bekleniyor</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- GERÇEK 2026 SONUÇ BELGELERİ EŞLEŞMESİ (5 ADAY) -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl">
+          <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider mb-2 flex items-center gap-2">
+            <span>🎯 Ders Profilinize En Çok Benzeyen 5 Gerçek Sonuç Belgesi</span>
+          </h3>
+          <p class="text-[11px] text-slate-400 mb-3">118 resmi sonuç belgesi arasından net profilinize en yakın 5 gerçek aday:</p>
+
+          <div class="space-y-2" id="similar-candidates-list">
+            <div class="text-center py-4 text-xs text-slate-500">Netlerinizi girdikten sonra eşleşen 5 gerçek aday burada listelenecektir.</div>
+          </div>
+        </div>
+
+        <!-- 2027 SENARYO MATRİSİ TABLOSU -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl">
+          <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">🔮 2027 Ortalamalar Değiştiğinde Sıralamanız</h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr class="bg-slate-950/80 text-slate-400 border-b border-slate-800">
+                  <th class="py-2 px-2.5 font-semibold">2027 Senaryosu</th>
+                  <th class="py-2 px-2.5 font-semibold">AGS</th>
+                  <th class="py-2 px-2.5 font-semibold">ÖABT</th>
+                  <th class="py-2 px-2.5 font-semibold">Tahmini P2-10</th>
+                  <th class="py-2 px-2.5 font-semibold text-right">2027 Olası Sıra</th>
+                </tr>
+              </thead>
+              <tbody id="scenario-matrix-body" class="divide-y divide-slate-800/60 text-slate-300">
+                <tr>
+                  <td colspan="5" class="py-3 text-center text-slate-500">Netlerinizi giriniz.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
       </div>
 
     </div>
 
-  </div>
+  </main>
+
+  <!-- 🌟 PDRKAMPUS FOOTER (ALT BİLGİ ALANI) -->
+  <footer class="w-full bg-slate-950 border-t border-slate-800/80 mt-12 pt-10 pb-8 text-xs text-slate-400">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 pb-8 border-b border-slate-800/60">
+        
+        <!-- Marka & Hakkında (5 Kolon) -->
+        <div class="md:col-span-5 space-y-3">
+          <div class="flex items-center gap-2.5">
+            <div class="w-7 h-7 rounded-xl bg-gradient-to-tr from-blue-600 to-purple-600 flex items-center justify-center text-white font-black text-sm">
+              Ψ
+            </div>
+            <span class="text-lg font-black text-white tracking-tight">Pdr<span class="text-indigo-400">kampus</span></span>
+          </div>
+          <p class="text-slate-400 text-[11px] leading-relaxed pr-4">
+            <b>Pdrkampus</b>, Rehberlik ve Psikolojik Danışmanlık mezunları ve adayları için geliştirilmiş bağımsız veri analitiği, sınav simülasyonu ve kariyer platformudur.
+          </p>
+          <div class="flex items-center gap-2 text-[10px] text-slate-500 pt-1">
+            <span class="inline-block w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span>2026 MEB-AGS & ÖABT İstatistikleri Aktif</span>
+          </div>
+        </div>
+
+        <!-- Hızlı Modüller (4 Kolon) -->
+        <div class="md:col-span-4 space-y-2">
+          <h4 class="text-xs font-bold text-slate-200 uppercase tracking-wider">Simülasyon Modülleri</h4>
+          <ul class="space-y-1.5 text-[11px]">
+            <li class="text-slate-400 hover:text-indigo-300 transition-colors cursor-pointer">• 118 Gerçek Belge Doğrulamalı Sıralama</li>
+            <li class="text-slate-400 hover:text-indigo-300 transition-colors cursor-pointer">• 2027 AGS-PDR Hedef Robotu (Tersine Çözüm)</li>
+            <li class="text-slate-400 hover:text-indigo-300 transition-colors cursor-pointer">• Akıllı Koçluk & Kişiselleştirilmiş Net Reçetesi</li>
+            <li class="text-slate-400 hover:text-indigo-300 transition-colors cursor-pointer">• Ders Başarı Radar Grafiği vs Türkiye Ortalaması</li>
+          </ul>
+        </div>
+
+        <!-- Yasal Bilgilendirme (3 Kolon) -->
+        <div class="md:col-span-3 space-y-2">
+          <h4 class="text-xs font-bold text-slate-200 uppercase tracking-wider">Yasal Uyarı</h4>
+          <p class="text-[10px] text-slate-500 leading-normal">
+            Bu simülatördeki veriler ÖSYM'nin 2026 MEB-AGS ve ÖABT Rehberlik resmi sayısal bültenleri ile gerçek aday sonuç belgeleri üzerinden matematiksel olarak modellenmiştir. Resmi sonuç belgesi yerine geçmez, bilgilendirme amaçlıdır.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Alt Telif & İsim -->
+      <div class="pt-6 flex flex-wrap items-center justify-between gap-3 text-[11px]">
+        <span class="text-slate-500">© 2026 - 2027 <b class="text-slate-300">Pdrkampus</b>. Tüm hakları saklıdır.</span>
+        <span class="text-slate-500">PDR Adayları ve Mezunları İçin Geliştirildi.</span>
+      </div>
+
+    </div>
+  </footer>
 
   <script>
     // 2026 MEB-AGS PDR RESMİ 118 ADAY VERİTABANI
@@ -516,7 +612,6 @@
                 (0.0375 * (c.cog / 6)) + (0.1875 * (c.egt / 30)) + (0.05 * (c.mev / 8)) + (0.50 * (c.oabt / 50));
     });
 
-    // Endekse göre büyükten küçüğe sıralı liste
     const sortedCandidates = [...candidateDatabase].sort((a, b) => b.index - a.index);
 
     const subtestStats = {
@@ -568,7 +663,6 @@
 
     // 🎯 DOĞRUDAN VERİTABANI ÖNCELİKLİ HESAPLAMA MOTORU
     function evaluateUserDirectly(userNets) {
-      // 1. Önce birebir eşleşen gerçek aday kontrolü yap
       for (let i = 0; i < candidateDatabase.length; i++) {
         const c = candidateDatabase[i];
         const diff = Math.abs(userNets.sozel - c.soz) + 
@@ -580,7 +674,6 @@
                      Math.abs(userNets.oabt - c.oabt);
         
         if (diff < 0.05) {
-          // BİREBİR GERÇEK BELGE EŞLEŞTİ
           return {
             score: c.score,
             rank: c.rank,
@@ -589,7 +682,6 @@
         }
       }
 
-      // 2. Adayın ağırlıklı başarı endeksini hesapla
       const userIndex = (0.09375 * (userNets.sozel / 15)) + 
                         (0.09375 * (userNets.sayisal / 15)) + 
                         (0.0375 * (userNets.tarih / 6)) + 
@@ -601,7 +693,6 @@
       const topCand = sortedCandidates[0];
       const botCand = sortedCandidates[sortedCandidates.length - 1];
 
-      // Sınavı Full Çekenler veya 1. Adayın Üzerinde Yapanlar
       if (userIndex >= topCand.index) {
         const bonus = (userIndex - topCand.index) * 140;
         return {
@@ -611,7 +702,6 @@
         };
       }
 
-      // 9982. sıradan daha düşük olanlar
       if (userIndex <= botCand.index) {
         const ratio = (botCand.index - userIndex) / Math.max(0.01, botCand.index);
         const projectedRank = Math.min(TOTAL_PDR_2026_CANDIDATES, Math.round(botCand.rank + ratio * 13254));
@@ -623,7 +713,6 @@
         };
       }
 
-      // İki gerçek aday arasına doğrusal yerleştirme
       for (let i = 0; i < sortedCandidates.length - 1; i++) {
         const high = sortedCandidates[i];
         const low = sortedCandidates[i + 1];
@@ -644,7 +733,6 @@
       return { score: 70.0, rank: 11000, isExact: false };
     }
 
-    // En Yakın 5 Gerçek Belgeyi Seçici
     function findNearestCandidates(userNets) {
       return candidateDatabase.map(cand => {
         const dSoz = (userNets.sozel - cand.soz) * 1.0;
@@ -674,7 +762,6 @@
         oabt: getNet('oabt-d', 'oabt-y', 50)
       };
 
-      // 1. Z-Skorları
       const zScores = {
         sozel: computeZScore(userNets.sozel, subtestStats.sozel),
         sayisal: computeZScore(userNets.sayisal, subtestStats.sayisal),
@@ -692,16 +779,13 @@
       updateSubtestCard('egitim', zScores.egitim);
       updateSubtestCard('oabt', zScores.oabt);
 
-      // 2. Doğrudan Belge Eşleştirme & Sıra
       const evaluation = evaluateUserDirectly(userNets);
       const exact2026Rank = evaluation.rank;
       const baseScore = evaluation.score;
 
-      // 3. Eşleşen 5 Gerçek Belge
       const nearest5 = findNearestCandidates(userNets);
       renderSimilarCandidates(nearest5);
 
-      // 4. 2027 Tahmini Bandı
       const min2027Rank = Math.max(1, Math.round(exact2026Rank * 0.95));
       const max2027Rank = Math.round(exact2026Rank * 1.05);
 
@@ -712,7 +796,6 @@
       const percentile = ((exact2026Rank / TOTAL_PDR_2026_CANDIDATES) * 100).toFixed(1);
       document.getElementById('percentile-label').innerText = `İlk %${percentile}`;
 
-      // Durum Rozeti
       const statusBadge = document.getElementById('status-badge');
       if (exact2026Rank <= 450) {
         statusBadge.innerText = "🏆 Derece / Çok Güvenli Asil";
@@ -728,17 +811,14 @@
         statusBadge.className = "text-xs font-bold px-3 py-1 rounded-full border bg-rose-500/20 border-rose-500/50 text-rose-300";
       }
 
-      // Reçete & Grafikler
       renderPrescription(userNets, zScores, exact2026Rank);
       updateRadarChart(userNets);
       updateChart(exact2026Rank);
 
-      // Senaryolar
       renderScenarioMatrix(userNets);
       runCustomSimulation();
     }
 
-    // Kişiye Özel Net Reçetesi
     function renderPrescription(userNets, zScores, currentRank) {
       const container = document.getElementById('prescription-content');
       let recs = [];
@@ -773,7 +853,6 @@
       `).join('');
     }
 
-    // Radar Grafiği (Aday Başarısı vs TR Ortalaması)
     function updateRadarChart(userNets) {
       const ctx = document.getElementById('radarChart').getContext('2d');
       const labels = ['Sözel', 'Sayısal', 'Tarih', 'Coğrafya', 'Eğitim', 'Mevzuat', 'ÖABT'];
@@ -846,7 +925,6 @@
       });
     }
 
-    // Hedef Sıralama Robotu (Goal Seeker)
     function runGoalSeeker() {
       const targetRank = parseInt(document.getElementById('target-rank-input').value);
       const resContainer = document.getElementById('goal-seeker-result');
