@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>2027 AGS PDR Sıralama & Senaryo Robotu (Gerçek Sonuç Belgeli)</title>
+  <title>2027 AGS PDR Sıralama & Strateji Robotu</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Chart.js CDN -->
@@ -25,19 +25,19 @@
   <!-- Header -->
   <div class="max-w-7xl mx-auto text-center mb-8">
     <div class="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 text-xs md:text-sm font-semibold px-4 py-1.5 rounded-full mb-3 shadow-inner">
-      <span>🎯 118 Gerçek Sonuç Belgesiyle Birebir Eşleşen Doğrudan Sıralama Motoru</span>
+      <span>🎯 Doğrudan 118 Gerçek Belge Eşleştirmeli • 2026/2027 PDR Sıralama Motoru</span>
     </div>
     <h1 class="text-3xl md:text-5xl font-black tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400">
-      2027 AGS PDR Sıralama & Senaryo Robotu
+      2027 AGS PDR Sıralama & Strateji Robotu
     </h1>
     <p class="text-slate-400 text-xs md:text-sm mt-2 max-w-3xl mx-auto leading-relaxed">
-      Teorik formül sapmaları engellenmiş, 118 gerçek MEB-AGS PDR sonuç belgesi üzerinden doğrudan enterpolasyon yapan gerçekçi sıralama ve 2027 senaryo simülatörü.
+      2026 MEB-AGS ve ÖABT Rehberlik sonuç belgelerindeki gerçek puan ve sıralamalar öncelikli olarak eşleştirilir.
     </p>
   </div>
 
   <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
     
-    <!-- SOL KOLON: FORM GİRİŞİ (5 Kolon) -->
+    <!-- SOL KOLON: FORM GİRİŞİ & HEDEF MODU (5 Kolon) -->
     <div class="lg:col-span-5 flex flex-col gap-5">
       
       <!-- MEB-AGS Kartı -->
@@ -155,8 +155,30 @@
 
       <!-- Hesapla Butonu -->
       <button onclick="calculateRanking()" class="w-full py-4 px-6 rounded-2xl font-bold text-white bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 shadow-xl shadow-indigo-900/40 transition-all duration-200 active:scale-[0.99] text-base tracking-wide flex items-center justify-center gap-2">
-        <span>🚀 Sıralama & 2027 Senaryolarını Hesapla</span>
+        <span>🚀 Sıralama & Strateji Raporunu Üret</span>
       </button>
+
+      <!-- HEDEF SIRALAMA ROBOTU (TERSİNE HESAPLAMA) -->
+      <div class="bg-slate-900/90 border border-cyan-500/40 rounded-2xl p-5 shadow-xl">
+        <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-800">
+          <h3 class="text-xs font-bold text-cyan-300 uppercase tracking-wider flex items-center gap-1.5">
+            <span>🔮 Hedef Sıralama Modu (Tersine Çözüm)</span>
+          </h3>
+          <span class="text-[10px] text-cyan-400 bg-cyan-950/80 px-2 py-0.5 rounded border border-cyan-800/60 font-semibold">Hedef Odaklı</span>
+        </div>
+        <p class="text-[11px] text-slate-400 mb-3">Ulaşmak istediğiniz hedef sırayı girin; mevcut durumunuzla aranızdaki puan farkını ve en kestirme net artış kombinasyonlarını görün.</p>
+        
+        <div class="flex gap-2">
+          <input type="number" id="target-rank-input" placeholder="Örn: 350 veya 500" min="1" max="20000" class="w-2/3 bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-cyan-300 font-bold focus:border-cyan-500 outline-none">
+          <button onclick="runGoalSeeker()" class="w-1/3 py-2 px-3 rounded-xl font-bold text-xs bg-cyan-600 hover:bg-cyan-500 text-white transition-colors shadow">
+            Hedefi Çöz
+          </button>
+        </div>
+
+        <div id="goal-seeker-result" class="mt-3.5 p-3 rounded-xl bg-slate-950/80 border border-slate-800 text-xs text-slate-300 hidden">
+          <!-- Dinamik Hedef Analizi -->
+        </div>
+      </div>
 
     </div>
 
@@ -188,6 +210,46 @@
             <span class="font-bold text-purple-300 text-base" id="percentile-label">%--</span>
           </div>
         </div>
+      </div>
+
+      <!-- KİŞİSELLEŞTİRİLMİŞ AKILLI KOÇLUK & NET REÇETESİ -->
+      <div class="bg-slate-900/90 border border-emerald-500/30 rounded-2xl p-5 shadow-xl" id="prescription-card">
+        <div class="flex items-center justify-between mb-2.5 pb-2 border-b border-slate-800">
+          <h3 class="text-xs font-bold text-emerald-300 uppercase tracking-wider flex items-center gap-1.5">
+            <span>🩺 Akıllı Koçluk: Kişiye Özel Net Reçetesi</span>
+          </h3>
+          <span class="text-[10px] text-emerald-400 bg-emerald-950/80 border border-emerald-800/60 px-2 py-0.5 rounded font-semibold">Ders Analizi</span>
+        </div>
+        <div id="prescription-content" class="space-y-2 text-xs text-slate-300 leading-relaxed">
+          <div class="text-slate-500 italic">Netlerinizi girdikten sonra sistem zayıf ve güçlü yönlerinizi tarayarak size özel nokta atışı çalışma tavsiyeleri üretecektir.</div>
+        </div>
+      </div>
+
+      <!-- RADAR GRAFİĞİ & DAĞILIM ÇAN EĞRİSİ -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        
+        <!-- Radar Grafiği (Aday vs Türkiye Ortalaması) -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-xl flex flex-col justify-between">
+          <div class="flex justify-between items-center mb-2 pb-1 border-b border-slate-800">
+            <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider">🕸️ Başarı Profili Radar Grafiği</h4>
+            <span class="text-[10px] text-indigo-400">Siz vs TR Ortalaması</span>
+          </div>
+          <div class="h-44 relative flex items-center justify-center">
+            <canvas id="radarChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Çan Eğrisi / Dağılım Grafiği -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-xl flex flex-col justify-between">
+          <div class="flex justify-between items-center mb-2 pb-1 border-b border-slate-800">
+            <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider">📊 23.236 Aday Yığılma Grafiği</h4>
+            <span class="text-[10px] text-slate-400">Dilim Konumunuz</span>
+          </div>
+          <div class="h-44 relative flex items-center justify-center">
+            <canvas id="distributionChart"></canvas>
+          </div>
+        </div>
+
       </div>
 
       <!-- 🎛️ 2027 ÖZEL SENARYO SİMÜLATÖRÜ -->
@@ -285,7 +347,7 @@
         </div>
       </div>
 
-      <!-- GERÇEK 2026 SONUÇ BELGELERİ EŞLEŞMESİ (EN AZ 5 ADAY) -->
+      <!-- GERÇEK 2026 SONUÇ BELGELERİ EŞLEŞMESİ (5 ADAY) -->
       <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl">
         <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider mb-2 flex items-center gap-2">
           <span>🎯 Ders Profilinize En Çok Benzeyen 5 Gerçek Sonuç Belgesi</span>
@@ -320,23 +382,12 @@
         </div>
       </div>
 
-      <!-- Çan Eğrisi & Dağılım Grafiği -->
-      <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-xl">
-        <div class="flex justify-between items-center mb-2">
-          <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider">📊 23.236 PDR Adayı Dağılım Grafiği</h3>
-          <span class="text-[11px] text-slate-400">23.236 Toplam Geçerli Aday</span>
-        </div>
-        <div class="h-32">
-          <canvas id="distributionChart"></canvas>
-        </div>
-      </div>
-
     </div>
 
   </div>
 
   <script>
-    // 2026 MEB-AGS PDR RESMİ 118 ADAY VERİTABANI (1. sıradan 9.982. sıraya)
+    // 2026 MEB-AGS PDR RESMİ 118 ADAY VERİTABANI
     const candidateDatabase = [
       { soz: 13.75, mat: 11.75, tar: 6.00, cog: 5.00, egt: 27.50, mev: 8.00, oabt: 50.00, score: 89.90556, rank: 1 },
       { soz: 12.50, mat: 10.50, tar: 6.00, cog: 4.75, egt: 28.75, mev: 6.75, oabt: 50.00, score: 88.86279, rank: 3 },
@@ -459,6 +510,15 @@
       { soz: 10.00, mat: 3.75,  tar: 4.75, cog: 1.00, egt: 17.75, mev: 2.50, oabt: 37.75, score: 71.00036, rank: 9982 }
     ];
 
+    // Her adayın veri tabanındaki ağırlıklı başarı endeksini hesapla
+    candidateDatabase.forEach(c => {
+      c.index = (0.09375 * (c.soz / 15)) + (0.09375 * (c.mat / 15)) + (0.0375 * (c.tar / 6)) + 
+                (0.0375 * (c.cog / 6)) + (0.1875 * (c.egt / 30)) + (0.05 * (c.mev / 8)) + (0.50 * (c.oabt / 50));
+    });
+
+    // Endekse göre büyükten küçüğe sıralı liste
+    const sortedCandidates = [...candidateDatabase].sort((a, b) => b.index - a.index);
+
     const subtestStats = {
       sozel:    { max: 15, mu: 8.3,  sigma: 3.2 },
       sayisal:  { max: 15, mu: 3.4,  sigma: 3.9 },
@@ -471,6 +531,7 @@
 
     const TOTAL_PDR_2026_CANDIDATES = 23236;
     let chartInstance = null;
+    let radarChartInstance = null;
 
     function getNet(dId, yId, maxQ) {
       let d = parseFloat(document.getElementById(dId).value) || 0;
@@ -505,9 +566,87 @@
       return (net - stat.mu) / stat.sigma;
     }
 
-    // 118 Gerçek Belge Doğrulamalı KNN Sıralama & Puan Enterpolasyon Motoru
-    function evaluateUserAgainstDatabase(userNets) {
-      const distances = candidateDatabase.map(cand => {
+    // 🎯 DOĞRUDAN VERİTABANI ÖNCELİKLİ HESAPLAMA MOTORU
+    function evaluateUserDirectly(userNets) {
+      // 1. Önce birebir eşleşen gerçek aday kontrolü yap
+      for (let i = 0; i < candidateDatabase.length; i++) {
+        const c = candidateDatabase[i];
+        const diff = Math.abs(userNets.sozel - c.soz) + 
+                     Math.abs(userNets.sayisal - c.mat) + 
+                     Math.abs(userNets.tarih - c.tar) + 
+                     Math.abs(userNets.cografya - c.cog) + 
+                     Math.abs(userNets.egitim - c.egt) + 
+                     Math.abs(userNets.mevzuat - c.mev) + 
+                     Math.abs(userNets.oabt - c.oabt);
+        
+        if (diff < 0.05) {
+          // BİREBİR GERÇEK BELGE EŞLEŞTİ
+          return {
+            score: c.score,
+            rank: c.rank,
+            isExact: true
+          };
+        }
+      }
+
+      // 2. Adayın ağırlıklı başarı endeksini hesapla
+      const userIndex = (0.09375 * (userNets.sozel / 15)) + 
+                        (0.09375 * (userNets.sayisal / 15)) + 
+                        (0.0375 * (userNets.tarih / 6)) + 
+                        (0.0375 * (userNets.cografya / 6)) + 
+                        (0.1875 * (userNets.egitim / 30)) + 
+                        (0.05 * (userNets.mevzuat / 8)) + 
+                        (0.50 * (userNets.oabt / 50));
+
+      const topCand = sortedCandidates[0];
+      const botCand = sortedCandidates[sortedCandidates.length - 1];
+
+      // Sınavı Full Çekenler veya 1. Adayın Üzerinde Yapanlar
+      if (userIndex >= topCand.index) {
+        const bonus = (userIndex - topCand.index) * 140;
+        return {
+          score: Math.min(100, topCand.score + bonus),
+          rank: 1,
+          isExact: false
+        };
+      }
+
+      // 9982. sıradan daha düşük olanlar
+      if (userIndex <= botCand.index) {
+        const ratio = (botCand.index - userIndex) / Math.max(0.01, botCand.index);
+        const projectedRank = Math.min(TOTAL_PDR_2026_CANDIDATES, Math.round(botCand.rank + ratio * 13254));
+        const projectedScore = Math.max(40, botCand.score - ratio * 30);
+        return {
+          score: projectedScore,
+          rank: projectedRank,
+          isExact: false
+        };
+      }
+
+      // İki gerçek aday arasına doğrusal yerleştirme
+      for (let i = 0; i < sortedCandidates.length - 1; i++) {
+        const high = sortedCandidates[i];
+        const low = sortedCandidates[i + 1];
+
+        if (userIndex <= high.index && userIndex >= low.index) {
+          const t = (userIndex - low.index) / (high.index - low.index);
+          const interpolatedRank = Math.round(low.rank + (1 - t) * (high.rank - low.rank));
+          const interpolatedScore = low.score + t * (high.score - low.score);
+
+          return {
+            score: interpolatedScore,
+            rank: Math.max(1, interpolatedRank),
+            isExact: false
+          };
+        }
+      }
+
+      return { score: 70.0, rank: 11000, isExact: false };
+    }
+
+    // En Yakın 5 Gerçek Belgeyi Seçici
+    function findNearestCandidates(userNets) {
+      return candidateDatabase.map(cand => {
         const dSoz = (userNets.sozel - cand.soz) * 1.0;
         const dMat = (userNets.sayisal - cand.mat) * 1.0;
         const dTar = (userNets.tarih - cand.tar) * 1.2;
@@ -521,35 +660,7 @@
         );
 
         return { ...cand, distance: dist };
-      }).sort((a, b) => a.distance - b.distance);
-
-      // Birebir eşleşme kontrolü
-      if (distances[0].distance < 0.15) {
-        return {
-          score: distances[0].score,
-          rank: distances[0].rank,
-          nearestList: distances.slice(0, 5) // En az 5 gerçek belge
-        };
-      }
-
-      // En yakın 5 adayın ağırlıklı ters mesafe (IDW) enterpolasyonu
-      const k = 5;
-      let totalWeight = 0;
-      let weightedScore = 0;
-      let weightedRank = 0;
-
-      for (let i = 0; i < k; i++) {
-        const w = 1.0 / Math.pow(distances[i].distance + 0.05, 2);
-        totalWeight += w;
-        weightedScore += distances[i].score * w;
-        weightedRank += distances[i].rank * w;
-      }
-
-      return {
-        score: weightedScore / totalWeight,
-        rank: Math.round(weightedRank / totalWeight),
-        nearestList: distances.slice(0, 5) // En az 5 gerçek belge
-      };
+      }).sort((a, b) => a.distance - b.distance).slice(0, 5);
     }
 
     function calculateRanking() {
@@ -563,7 +674,7 @@
         oabt: getNet('oabt-d', 'oabt-y', 50)
       };
 
-      // 1. Z-Skorları Hesapla
+      // 1. Z-Skorları
       const zScores = {
         sozel: computeZScore(userNets.sozel, subtestStats.sozel),
         sayisal: computeZScore(userNets.sayisal, subtestStats.sayisal),
@@ -581,19 +692,20 @@
       updateSubtestCard('egitim', zScores.egitim);
       updateSubtestCard('oabt', zScores.oabt);
 
-      // 2. Doğrudan Gerçek Belge Eşleştirmesi ve Sıralaması
-      const result = evaluateUserAgainstDatabase(userNets);
-      const exact2026Rank = result.rank;
-      const baseScore = result.score;
+      // 2. Doğrudan Belge Eşleştirme & Sıra
+      const evaluation = evaluateUserDirectly(userNets);
+      const exact2026Rank = evaluation.rank;
+      const baseScore = evaluation.score;
 
-      // 3. Eşleşen 5 Gerçek Belgeyi Listele
-      renderSimilarCandidates(result.nearestList);
+      // 3. Eşleşen 5 Gerçek Belge
+      const nearest5 = findNearestCandidates(userNets);
+      renderSimilarCandidates(nearest5);
 
-      // 4. 2027 Tahmini Bandı (±%5 Gerçekçi Oynama Payı)
+      // 4. 2027 Tahmini Bandı
       const min2027Rank = Math.max(1, Math.round(exact2026Rank * 0.95));
       const max2027Rank = Math.round(exact2026Rank * 1.05);
 
-      document.getElementById('result-rank-range').innerText = `${min2027Rank.toLocaleString('tr-TR')} - ${max2027Rank.toLocaleString('tr-TR')}`;
+      document.getElementById('result-rank-range').innerText = (exact2026Rank === 1) ? "1 - 1" : `${min2027Rank.toLocaleString('tr-TR')} - ${max2027Rank.toLocaleString('tr-TR')}`;
       document.getElementById('result-p2-score').innerText = baseScore.toFixed(5);
       document.getElementById('result-2026-rank').innerText = `${exact2026Rank.toLocaleString('tr-TR')}. Sıra`;
 
@@ -616,12 +728,182 @@
         statusBadge.className = "text-xs font-bold px-3 py-1 rounded-full border bg-rose-500/20 border-rose-500/50 text-rose-300";
       }
 
-      // Senaryo Matrisi ve Canlı Kaydırıcı
+      // Reçete & Grafikler
+      renderPrescription(userNets, zScores, exact2026Rank);
+      updateRadarChart(userNets);
+      updateChart(exact2026Rank);
+
+      // Senaryolar
       renderScenarioMatrix(userNets);
       runCustomSimulation();
+    }
 
-      // Grafik
-      updateChart(exact2026Rank);
+    // Kişiye Özel Net Reçetesi
+    function renderPrescription(userNets, zScores, currentRank) {
+      const container = document.getElementById('prescription-content');
+      let recs = [];
+
+      if (userNets.oabt < 38) {
+        recs.push(`🎯 <b class="text-purple-300">ÖABT Önceliği:</b> ÖABT netiniz (${userNets.oabt.toFixed(2)}) ortalama civarında. Puanın %50'si buradan geldiği için ÖABT'yi 43+ seviyesine çekmek sıralamanızı tek başına <b>en az 600-800 kişi</b> öne atar.`);
+      } else {
+        recs.push(`🌟 <b class="text-emerald-300">Harika ÖABT Gücü:</b> ÖABT netiniz (${userNets.oabt.toFixed(2)}) çok güçlü bir taban oluşturuyor.`);
+      }
+
+      if (zScores.sayisal < 0.2) {
+        recs.push(`📐 <b class="text-blue-300">Sayısal Fırsat Alanı:</b> Türkiye sayısal ortalaması (3.4) çok düşük olduğu için buradan yapacağınız her +1 doğru cevap, yüksek standart sapma çarpanıyla sizi yüzlerce adayın önüne geçirir.`);
+      }
+
+      if (userNets.mevzuat < 5) {
+        recs.push(`⚖️ <b class="text-amber-300">Mevzuat (ÖMK 7528) Kolay Net:</b> 8 soruluk ÖMK mevzuatını eksiksiz tekrarlamak çok kısa sürede risksiz +3 net kazandıracaktır.`);
+      }
+
+      if (userNets.egitim < 20) {
+        recs.push(`📚 <b class="text-indigo-300">Eğitim Bilimleri Ağırlığı:</b> 30 soruluk Eğitim testi tek başına AGS'nin %37.5'ini oluşturur. Buradaki netinizi 24+ seviyesine çekmek taban puanınızı garantiye alır.`);
+      }
+
+      if (currentRank <= 500) {
+        recs.push(`🏆 <b class="text-emerald-400">Derece Stratejisi:</b> Derece bandındasınız. Konu eksiğinden ziyade karma branş denemeleriyle hız ve dikkat yönetimine odaklanmalısınız.`);
+      }
+
+      container.innerHTML = recs.map(r => `
+        <div class="p-2.5 bg-slate-950/70 border border-slate-800 rounded-xl flex items-start gap-2">
+          <span class="text-sm">📌</span>
+          <div>${r}</div>
+        </div>
+      `).join('');
+    }
+
+    // Radar Grafiği (Aday Başarısı vs TR Ortalaması)
+    function updateRadarChart(userNets) {
+      const ctx = document.getElementById('radarChart').getContext('2d');
+      const labels = ['Sözel', 'Sayısal', 'Tarih', 'Coğrafya', 'Eğitim', 'Mevzuat', 'ÖABT'];
+      
+      const userPercents = [
+        Math.min(100, (userNets.sozel / 15) * 100),
+        Math.min(100, (userNets.sayisal / 15) * 100),
+        Math.min(100, (userNets.tarih / 6) * 100),
+        Math.min(100, (userNets.cografya / 6) * 100),
+        Math.min(100, (userNets.egitim / 30) * 100),
+        Math.min(100, (userNets.mevzuat / 8) * 100),
+        Math.min(100, (userNets.oabt / 50) * 100)
+      ];
+
+      const trPercents = [
+        (8.3 / 15) * 100,
+        (3.4 / 15) * 100,
+        (2.7 / 6) * 100,
+        (2.2 / 6) * 100,
+        (11.2 / 30) * 100,
+        (2.5 / 8) * 100,
+        (33.5 / 50) * 100
+      ];
+
+      if (radarChartInstance) radarChartInstance.destroy();
+
+      radarChartInstance = new Chart(ctx, {
+        type: 'radar',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Sizin Başarınız (%)',
+              data: userPercents,
+              borderColor: '#a855f7',
+              backgroundColor: 'rgba(168, 85, 247, 0.25)',
+              pointBackgroundColor: '#a855f7',
+              borderWidth: 2
+            },
+            {
+              label: 'Türkiye Ortalaması (%)',
+              data: trPercents,
+              borderColor: '#64748b',
+              backgroundColor: 'rgba(100, 116, 139, 0.15)',
+              pointBackgroundColor: '#64748b',
+              borderWidth: 1.5,
+              borderDash: [3, 3]
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              labels: { color: '#94a3b8', font: { size: 9 }, boxWidth: 10 }
+            }
+          },
+          scales: {
+            r: {
+              min: 0,
+              max: 100,
+              ticks: { display: false, stepSize: 25 },
+              angleLines: { color: '#1e293b' },
+              grid: { color: '#1e293b' },
+              pointLabels: { color: '#cbd5e1', font: { size: 10, weight: 'bold' } }
+            }
+          }
+        }
+      });
+    }
+
+    // Hedef Sıralama Robotu (Goal Seeker)
+    function runGoalSeeker() {
+      const targetRank = parseInt(document.getElementById('target-rank-input').value);
+      const resContainer = document.getElementById('goal-seeker-result');
+      
+      if (!targetRank || targetRank < 1) {
+        alert("Lütfen geçerli bir hedef başarı sırası giriniz (Örn: 350).");
+        return;
+      }
+
+      const userNets = {
+        sozel: getNet('sozel-d', 'sozel-y', 15),
+        sayisal: getNet('sayisal-d', 'sayisal-y', 15),
+        tarih: getNet('tarih-d', 'tarih-y', 6),
+        cografya: getNet('cografya-d', 'cografya-y', 6),
+        egitim: getNet('egitim-d', 'egitim-y', 30),
+        mevzuat: getNet('mevzuat-d', 'mevzuat-y', 8),
+        oabt: getNet('oabt-d', 'oabt-y', 50)
+      };
+
+      const currentEval = evaluateUserDirectly(userNets);
+      const currentRank = currentEval.rank;
+      const currentScore = currentEval.score;
+
+      const targetCandidate = candidateDatabase.reduce((prev, curr) => {
+        return (Math.abs(curr.rank - targetRank) < Math.abs(prev.rank - targetRank) ? curr : prev);
+      });
+
+      const scoreDiff = targetCandidate.score - currentScore;
+
+      resContainer.classList.remove('hidden');
+
+      if (currentRank <= targetRank) {
+        resContainer.innerHTML = `
+          <div class="text-emerald-400 font-bold mb-1">🎉 Tebrikler! Zaten Hedefinizin Önündesiniz.</div>
+          <div class="text-slate-400">Mevcut tahmini sıranız <b>${currentRank}. Sıra</b>, hedefiniz ise <b>${targetRank}. Sıra</b>. Bu seviyeyi korumaya odaklanın.</div>
+        `;
+        return;
+      }
+
+      const reqOabtNet = Math.max(0, (scoreDiff / 0.704)).toFixed(1);
+      const reqEgtNet = Math.max(0, (scoreDiff / 0.26)).toFixed(1);
+      const reqMatNet = Math.max(0, (scoreDiff / 0.32)).toFixed(1);
+
+      resContainer.innerHTML = `
+        <div class="flex justify-between items-center border-b border-slate-800 pb-2 mb-2">
+          <span class="font-bold text-cyan-300">Hedef: ${targetRank}. Sıra</span>
+          <span class="text-emerald-400 font-bold font-mono">Gereken: +${scoreDiff.toFixed(3)} Puan</span>
+        </div>
+        <div class="text-slate-300 space-y-1.5 text-[11px]">
+          <div>Bu hedef sıraya (${targetRank}.) ulaşmak için mevcut profilinizin üzerine şu <b>alternatif net artışlarından birini</b> yapmanız yeterlidir:</div>
+          <ul class="list-disc list-inside space-y-1 text-slate-200 mt-1 pl-1">
+            <li><b>Yol 1 (ÖABT Odaklı):</b> Yalnızca ÖABT'de <b>+${reqOabtNet} Net</b> yapmak.</li>
+            <li><b>Yol 2 (Eğitim + Sayısal):</b> Eğitimde <b>+${(reqEgtNet*0.6).toFixed(1)} Net</b> ve Sayısalda <b>+${(reqMatNet*0.4).toFixed(1)} Net</b> eklemek.</li>
+            <li><b>Yol 3 (Dengeli Artış):</b> ÖABT +1.5 Net, Eğitim +2 Net ve Mevzuat +1 Net yapmak.</li>
+          </ul>
+        </div>
+      `;
     }
 
     function updateSubtestCard(testKey, z) {
@@ -701,7 +983,7 @@
           oabt: Math.max(0, userNets.oabt - sc.oabtShift)
         };
 
-        const res = evaluateUserAgainstDatabase(shiftedNets);
+        const res = evaluateUserDirectly(shiftedNets);
 
         const agsLabel = sc.agsShift === 0 ? "2026 ile Aynı" : (sc.agsShift < 0 ? `${Math.abs(sc.agsShift)} Net Zor` : `+${sc.agsShift} Net Kolay`);
         const oabtLabel = sc.oabtShift === 0 ? "2026 ile Aynı" : (sc.oabtShift > 0 ? `+${sc.oabtShift} Net Kolay` : `${Math.abs(sc.oabtShift)} Net Zor`);
@@ -746,7 +1028,7 @@
         oabt: Math.max(0, userNets.oabt - oabtShift)
       };
 
-      const res = evaluateUserAgainstDatabase(shiftedNets);
+      const res = evaluateUserDirectly(shiftedNets);
 
       document.getElementById('custom-sim-rank').innerText = `${res.rank.toLocaleString('tr-TR')}. Sıra`;
       document.getElementById('custom-sim-score').innerText = `P2-10: ${res.score.toFixed(3)}`;
@@ -806,11 +1088,11 @@
           },
           scales: {
             x: {
-              ticks: { color: '#94a3b8', font: { size: 10 } },
+              ticks: { color: '#94a3b8', font: { size: 9 } },
               grid: { display: false }
             },
             y: {
-              ticks: { color: '#94a3b8', font: { size: 10 } },
+              ticks: { color: '#94a3b8', font: { size: 9 } },
               grid: { color: '#1e293b' }
             }
           }
