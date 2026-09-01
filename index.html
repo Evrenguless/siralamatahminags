@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Pdrkampus.online | 2027 AGS PDR Sıralama & Canlı Topluluk</title>
+  <title>Pdrkampus.online | 2027 AGS PDR Sıralama & Online Sınav</title>
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="https://i.hizliresim.com/ztqymblw.png">
   <!-- Tailwind CSS CDN -->
@@ -38,7 +38,7 @@
   <header class="w-full bg-slate-950/85 backdrop-blur-xl border-b border-slate-800/80 sticky top-0 z-50 shadow-xl">
     <div class="max-w-7xl mx-auto px-4 py-2 sm:px-6 lg:px-8 flex items-center justify-between gap-3">
       
-      <!-- Marka & Belirgin Logo (Her Zaman Görünür) -->
+      <!-- Marka & Belirgin Logo -->
       <div class="flex items-center flex-shrink-0">
         <a href="#" class="flex items-center gap-2.5 transition-transform hover:scale-[1.02]">
           <img src="https://i.hizliresim.com/ztqymblw.png" onerror="this.onerror=null; this.src='https://i.hizliresim.com/ztqymblw.jpg';" alt="Pdrkampus Logo" class="h-11 sm:h-14 md:h-16 w-auto object-contain drop-shadow-lg filter">
@@ -79,10 +79,10 @@
     <!-- Başlık & Karşılama Alanı -->
     <div class="text-center my-3 sm:my-4">
       <h1 class="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-white">
-        2027 AGS PDR <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400">Sıralama & Canlı Topluluk</span>
+        2027 AGS PDR <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400">Sıralama, Simülasyon & Sınav</span>
       </h1>
       <p class="text-slate-400 text-xs sm:text-sm mt-1 max-w-xl mx-auto">
-        Netlerinizi girin, canlı ligde yarışın ve <b>Canlı Sohbet Odasında</b> diğer PDR adaylarıyla fikir alışverişi yapın.
+        Netlerinizi girin, canlı ligde yarışın, 2027 zorluk senaryolarını simüle edin veya <b>Online Deneme Sınavına</b> katılın.
       </p>
     </div>
 
@@ -180,7 +180,7 @@
                   <input type="number" id="cografya-y" min="0" max="6" placeholder="Y" class="w-11 bg-slate-900 border border-slate-700/80 rounded-xl p-1.5 text-center text-xs text-rose-400 font-bold focus:border-indigo-500 outline-none" oninput="handleInputChange()">
                 </div>
                 <div class="net-group hidden">
-                  <input type="number" id="cografya-net" step="0.25" min="-1.5" max="6" placeholder="Net" class="w-20 bg-slate-900 border border-slate-700 rounded-lg p-1.5 text-center text-xs text-indigo-300 font-bold focus:border-indigo-500 outline-none" oninput="handleInputChange()">
+                  <input type="number" id="cografya-net" step="0.25" min="-1.5" max="6" placeholder="Net" class="w-20 bg-slate-900 border border-slate-700/80 rounded-xl p-1.5 text-center text-xs text-indigo-300 font-bold focus:border-indigo-500 outline-none" oninput="handleInputChange()">
                 </div>
                 <span class="text-xs font-extrabold text-slate-200 w-9 text-right font-mono" id="net-cografya">0.0</span>
               </div>
@@ -216,7 +216,7 @@
                   <input type="number" id="mevzuat-y" min="0" max="8" placeholder="Y" class="w-11 bg-slate-900 border border-slate-700/80 rounded-xl p-1.5 text-center text-xs text-rose-400 font-bold focus:border-indigo-500 outline-none" oninput="handleInputChange()">
                 </div>
                 <div class="net-group hidden">
-                  <input type="number" id="mevzuat-net" step="0.25" min="-2.0" max="8" placeholder="Net" class="w-20 bg-slate-900 border border-slate-700 rounded-lg p-1.5 text-center text-xs text-indigo-300 font-bold focus:border-indigo-500 outline-none" oninput="handleInputChange()">
+                  <input type="number" id="mevzuat-net" step="0.25" min="-2.0" max="8" placeholder="Net" class="w-20 bg-slate-900 border border-slate-700/80 rounded-xl p-1.5 text-center text-xs text-indigo-300 font-bold focus:border-indigo-500 outline-none" oninput="handleInputChange()">
                 </div>
                 <span class="text-xs font-extrabold text-slate-200 w-9 text-right font-mono" id="net-mevzuat">0.0</span>
               </div>
@@ -258,7 +258,7 @@
 
       </div>
 
-      <!-- SAĞ KOLON: 5 BÜYÜK MODÜL NAVİGATÖRÜ (7 Kolon) -->
+      <!-- SAĞ KOLON: 6 ANA MODÜL NAVİGATÖRÜ (7 Kolon) -->
       <div class="lg:col-span-7 flex flex-col gap-4">
         
         <!-- Ana Sıralama Kartı (Hero Card) -->
@@ -297,8 +297,8 @@
           </div>
         </div>
 
-        <!-- 🚀 5 BÜYÜK MODÜL NAVİGATÖRÜ (HER ZAMAN GÖRÜNÜR) -->
-        <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
+        <!-- 🚀 6 ANA MODÜL NAVİGATÖRÜ (HER ZAMAN GÖRÜNÜR & EKSİKSİZ) -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
           
           <!-- Tab 1: Analiz -->
           <button onclick="switchTab('tab-overview')" id="btn-tab-overview" class="tab-btn p-2.5 rounded-2xl border transition-all text-left flex flex-col justify-between gap-1 shadow-lg bg-gradient-to-br from-indigo-600 to-purple-600 text-white border-indigo-400 ring-2 ring-indigo-500/50">
@@ -326,19 +326,31 @@
             </div>
           </button>
 
-          <!-- Tab 3: Canlı Sohbet -->
+          <!-- Tab 3: Simülatör (GERİ EKLENDİ) -->
+          <button onclick="switchTab('tab-simulator')" id="btn-tab-simulator" class="tab-btn p-2.5 rounded-2xl border transition-all text-left flex flex-col justify-between gap-1 shadow-md bg-slate-900/90 text-slate-300 border-slate-800 hover:border-slate-700">
+            <div class="flex items-center justify-between">
+              <span class="text-base">🎛️</span>
+              <span class="text-[8px] px-1 py-0.5 rounded bg-purple-950 border border-purple-800/60 font-extrabold text-purple-300">TEST</span>
+            </div>
+            <div>
+              <div class="font-extrabold text-[11px] sm:text-xs text-white">Simülatör</div>
+              <div class="text-[9px] text-slate-400">Zorluk & Matris</div>
+            </div>
+          </button>
+
+          <!-- Tab 4: Canlı Sohbet -->
           <button onclick="switchTab('tab-chat')" id="btn-tab-chat" class="tab-btn p-2.5 rounded-2xl border transition-all text-left flex flex-col justify-between gap-1 shadow-md bg-slate-900/90 text-slate-300 border-slate-800 hover:border-slate-700">
             <div class="flex items-center justify-between">
               <span class="text-base">💬</span>
               <span class="text-[8px] px-1 py-0.5 rounded bg-indigo-500/20 text-indigo-400 border border-indigo-500/40 font-extrabold">ODA</span>
             </div>
             <div>
-              <div class="font-extrabold text-[11px] sm:text-xs text-white">Canlı Sohbet</div>
+              <div class="font-extrabold text-[11px] sm:text-xs text-white">Sohbet</div>
               <div class="text-[9px] text-slate-400">PDR Odası</div>
             </div>
           </button>
 
-          <!-- Tab 4: 5 Gerçek Belge -->
+          <!-- Tab 5: 5 Gerçek Belge -->
           <button onclick="switchTab('tab-matches')" id="btn-tab-matches" class="tab-btn p-2.5 rounded-2xl border transition-all text-left flex flex-col justify-between gap-1 shadow-md bg-slate-900/90 text-slate-300 border-slate-800 hover:border-slate-700">
             <div class="flex items-center justify-between">
               <span class="text-base">🎯</span>
@@ -350,15 +362,15 @@
             </div>
           </button>
 
-          <!-- Tab 5: 2027 Simülatörü -->
-          <button onclick="switchTab('tab-simulator')" id="btn-tab-simulator" class="tab-btn p-2.5 rounded-2xl border transition-all text-left flex flex-col justify-between gap-1 shadow-md bg-slate-900/90 text-slate-300 border-slate-800 hover:border-slate-700">
+          <!-- Tab 6: Online TG Deneme -->
+          <button onclick="switchTab('tab-exam')" id="btn-tab-exam" class="tab-btn p-2.5 rounded-2xl border transition-all text-left flex flex-col justify-between gap-1 shadow-md bg-slate-900/90 text-slate-300 border-slate-800 hover:border-slate-700">
             <div class="flex items-center justify-between">
-              <span class="text-base">🎛️</span>
-              <span class="text-[8px] px-1 py-0.5 rounded bg-slate-800 font-extrabold text-slate-400">Test</span>
+              <span class="text-base">📝</span>
+              <span class="text-[8px] px-1 py-0.5 rounded bg-amber-500/20 text-amber-400 border border-amber-500/40 font-extrabold">ONLINE</span>
             </div>
             <div>
-              <div class="font-extrabold text-[11px] sm:text-xs text-white">Simülasyon</div>
-              <div class="text-[9px] text-slate-400">Zorluk Testi</div>
+              <div class="font-extrabold text-[11px] sm:text-xs text-white">TG Deneme</div>
+              <div class="text-[9px] text-slate-400">50 Soru / 75 Dk</div>
             </div>
           </button>
 
@@ -466,59 +478,7 @@
 
         </div>
 
-        <!-- 📑 SEKME 3: CANLI SOHBET ODASI -->
-        <div id="tab-chat" class="tab-content hidden flex flex-col gap-3">
-          
-          <div class="bg-slate-900/80 border border-indigo-500/40 rounded-3xl p-4 shadow-xl flex flex-col h-[520px] justify-between">
-            
-            <!-- Sohbet Başlığı -->
-            <div class="flex items-center justify-between pb-2.5 border-b border-slate-800">
-              <div class="flex items-center gap-2">
-                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                <h3 class="font-extrabold text-white text-xs sm:text-sm">PDR Adayları Canlı Sohbet Odası</h3>
-              </div>
-              <span class="text-[10px] text-slate-400">Anlık İletişim 💬</span>
-            </div>
-
-            <!-- Mesaj Akışı Kutusu -->
-            <div id="chat-messages-box" class="flex-grow overflow-y-auto custom-scrollbar my-3 space-y-2.5 pr-1 text-xs">
-              <div class="text-center py-8 text-slate-500">Mesajlar yükleniyor...</div>
-            </div>
-
-            <!-- Mesaj Gönderme Formu -->
-            <div class="pt-2 border-t border-slate-800/80">
-              <div id="chat-auth-prompt" class="hidden text-center py-2 text-xs bg-slate-950/80 rounded-2xl border border-slate-800">
-                <span class="text-slate-400">Sohbete katılmak için </span>
-                <button onclick="loginWithGoogle()" class="text-indigo-400 hover:text-indigo-300 font-bold underline ml-1">Google ile Giriş Yapın</button>
-              </div>
-
-              <form id="chat-form" onsubmit="handleSendChatMessage(event)" class="flex gap-2">
-                <input type="text" id="chat-input" maxlength="300" placeholder="PDR adaylarıyla bir şey paylaşın..." class="flex-grow bg-slate-950 border border-slate-700/80 rounded-2xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none">
-                <button type="submit" id="btn-send-chat" class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white px-4 py-2 rounded-2xl text-xs font-bold transition-all shadow-md active:scale-95 flex items-center gap-1.5 flex-shrink-0">
-                  <span>Gönder</span> 🚀
-                </button>
-              </form>
-            </div>
-
-          </div>
-
-        </div>
-
-        <!-- 📑 SEKME 4: GERÇEK 5 SONUÇ BELGESİ -->
-        <div id="tab-matches" class="tab-content hidden flex flex-col gap-3">
-          <div class="bg-slate-900/80 border border-slate-800/80 rounded-3xl p-4 shadow-xl">
-            <h3 class="text-xs font-bold text-slate-200 uppercase tracking-wider mb-1 flex items-center gap-1.5">
-              <span>🎯 En Yakın 5 Gerçek Sonuç Belgesi</span>
-            </h3>
-            <p class="text-[11px] text-slate-400 mb-3">Resmi veritabanındaki 118 sonuç belgesi arasından profilinize en yakın 5 aday:</p>
-
-            <div class="space-y-2" id="similar-candidates-list">
-              <div class="text-center py-4 text-xs text-slate-500">Netlerinizi girdikten sonra eşleşen 5 gerçek aday burada listelenecektir.</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- 📑 SEKME 5: SİMÜLASYON & MATRİS -->
+        <!-- 📑 SEKME 3: SİMÜLASYON & SENARYO MATRİSİ (KALICI VE EKSİKSİZ) -->
         <div id="tab-simulator" class="tab-content hidden flex flex-col gap-4">
           
           <div class="bg-slate-900/80 border border-indigo-500/30 rounded-3xl p-4 shadow-xl">
@@ -589,6 +549,194 @@
 
         </div>
 
+        <!-- 📑 SEKME 4: CANLI SOHBET ODASI -->
+        <div id="tab-chat" class="tab-content hidden flex flex-col gap-3">
+          
+          <div class="bg-slate-900/80 border border-indigo-500/40 rounded-3xl p-4 shadow-xl flex flex-col h-[520px] justify-between">
+            
+            <div class="flex items-center justify-between pb-2.5 border-b border-slate-800">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <h3 class="font-extrabold text-white text-xs sm:text-sm">PDR Adayları Canlı Sohbet Odası</h3>
+              </div>
+              <span class="text-[10px] text-slate-400">Anlık İletişim 💬</span>
+            </div>
+
+            <div id="chat-messages-box" class="flex-grow overflow-y-auto custom-scrollbar my-3 space-y-2.5 pr-1 text-xs">
+              <div class="text-center py-8 text-slate-500">Mesajlar yükleniyor...</div>
+            </div>
+
+            <div class="pt-2 border-t border-slate-800/80">
+              <div id="chat-auth-prompt" class="hidden text-center py-2 text-xs bg-slate-950/80 rounded-2xl border border-slate-800">
+                <span class="text-slate-400">Sohbete katılmak için </span>
+                <button onclick="loginWithGoogle()" class="text-indigo-400 hover:text-indigo-300 font-bold underline ml-1">Google ile Giriş Yapın</button>
+              </div>
+
+              <form id="chat-form" onsubmit="handleSendChatMessage(event)" class="flex gap-2">
+                <input type="text" id="chat-input" maxlength="300" placeholder="PDR adaylarıyla bir şey paylaşın..." class="flex-grow bg-slate-950 border border-slate-700/80 rounded-2xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:border-indigo-500 outline-none">
+                <button type="submit" id="btn-send-chat" class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white px-4 py-2 rounded-2xl text-xs font-bold transition-all shadow-md active:scale-95 flex items-center gap-1.5 flex-shrink-0">
+                  <span>Gönder</span> 🚀
+                </button>
+              </form>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- 📑 SEKME 5: GERÇEK 5 SONUÇ BELGESİ -->
+        <div id="tab-matches" class="tab-content hidden flex flex-col gap-3">
+          <div class="bg-slate-900/80 border border-slate-800/80 rounded-3xl p-4 shadow-xl">
+            <h3 class="text-xs font-bold text-slate-200 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+              <span>🎯 En Yakın 5 Gerçek Sonuç Belgesi</span>
+            </h3>
+            <p class="text-[11px] text-slate-400 mb-3">Resmi veritabanındaki 118 sonuç belgesi arasından profilinize en yakın 5 aday:</p>
+
+            <div class="space-y-2" id="similar-candidates-list">
+              <div class="text-center py-4 text-xs text-slate-500">Netlerinizi girdikten sonra eşleşen 5 gerçek aday burada listelenecektir.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 📑 SEKME 6: ONLINE TG DENEME MODÜLÜ (BAĞIMSIZ SINAV ODASI) -->
+        <div id="tab-exam" class="tab-content hidden flex flex-col gap-4">
+          
+          <!-- 1. Aşama: Sınav Lobisi (Lobby View) -->
+          <div id="exam-lobby-view" class="bg-slate-900/90 border border-amber-500/40 rounded-3xl p-5 sm:p-6 shadow-2xl flex flex-col gap-4">
+            <div class="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-slate-800">
+              <div>
+                <span class="text-[10px] font-extrabold text-amber-400 bg-amber-950/80 border border-amber-700/60 px-2.5 py-0.5 rounded-md uppercase tracking-wider">Online TG Denemesi</span>
+                <h3 class="text-base sm:text-lg font-black text-white mt-1" id="exam-lobby-title">1. Türkiye Geneli ÖABT PDR Deneme Sınavı</h3>
+              </div>
+              <span class="text-xs font-bold text-purple-300 bg-purple-950/80 border border-purple-700/50 px-3 py-1 rounded-xl font-mono">50 Soru • 75 Dakika</span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+              <div class="p-3 bg-slate-950/60 border border-slate-800 rounded-2xl">
+                <span class="text-slate-400 block text-[10px]">Format:</span>
+                <span class="font-bold text-slate-200">50 Soru (ÖABT PDR)</span>
+              </div>
+              <div class="p-3 bg-slate-950/60 border border-slate-800 rounded-2xl">
+                <span class="text-slate-400 block text-[10px]">Kural:</span>
+                <span class="font-bold text-emerald-400">4 Yanlış 1 Doğruyu Götürür</span>
+              </div>
+              <div class="p-3 bg-slate-950/60 border border-slate-800 rounded-2xl">
+                <span class="text-slate-400 block text-[10px]">Bağımsız Deneme:</span>
+                <span class="font-bold text-indigo-300">Ana Netleri Değiştirmez</span>
+              </div>
+            </div>
+
+            <div class="p-3.5 rounded-2xl bg-indigo-950/40 border border-indigo-800/40 text-xs text-slate-300 space-y-1">
+              <div class="font-bold text-indigo-200 flex items-center gap-1.5">
+                <span>📌</span> Sınav Yönergesi:
+              </div>
+              <ul class="list-disc list-inside space-y-0.5 text-slate-400 text-[11px] pl-1">
+                <li>Sınava başladığınızda 75 dakikalık geri sayım başlar.</li>
+                <li>Sorular arasında serbestçe geçiş yapabilir, optik formdan dilediğiniz soruya atlayabilirsiniz.</li>
+                <li>Bu sınav kendi içinde bağımsız bir denemedir; ana sayfadaki sabit netlerinizi veya canlı liginizi etkilemez.</li>
+              </ul>
+            </div>
+
+            <button onclick="startExamSession()" class="w-full py-4 rounded-2xl font-black text-sm text-white bg-gradient-to-r from-amber-500 via-orange-500 to-indigo-600 hover:from-amber-400 hover:to-indigo-500 shadow-xl shadow-amber-950/40 transition-all active:scale-[0.99] flex items-center justify-center gap-2">
+              <span>🚀 Sınava Şimdi Başla</span>
+            </button>
+          </div>
+
+          <!-- 2. Aşama: Canlı Sınav Odası (Taking Exam View) -->
+          <div id="exam-runner-view" class="bg-slate-900/95 border border-indigo-500/40 rounded-3xl p-4 sm:p-5 shadow-2xl flex flex-col gap-4 hidden">
+            
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+              <div>
+                <span class="text-[10px] text-slate-400 block" id="exam-category-label">ÖABT Rehberlik</span>
+                <h4 class="text-xs sm:text-sm font-bold text-white flex items-center gap-1.5">
+                  <span id="current-q-number">Soru 1</span> / <span id="total-q-number">50</span>
+                </h4>
+              </div>
+              <div class="flex items-center gap-2">
+                <div class="px-3.5 py-1.5 rounded-xl bg-slate-950 border border-slate-700 text-xs sm:text-sm font-black font-mono tracking-widest text-emerald-400" id="exam-timer-display">
+                  75:00
+                </div>
+                <button onclick="promptFinishExam()" class="px-3 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold transition-all shadow">
+                  Sınavı Bitir
+                </button>
+              </div>
+            </div>
+
+            <!-- Optik Soru Navigatör Izgarası -->
+            <div class="bg-slate-950/80 p-2.5 rounded-2xl border border-slate-800 flex flex-wrap gap-1.5 max-h-24 overflow-y-auto custom-scrollbar" id="exam-optical-grid">
+            </div>
+
+            <!-- Soru Metni Kartı -->
+            <div class="p-4 rounded-2xl bg-slate-950/60 border border-slate-800/80 min-h-[140px] flex flex-col justify-between text-xs sm:text-sm leading-relaxed text-slate-200">
+              <div id="exam-question-text">Soru metni yükleniyor...</div>
+            </div>
+
+            <!-- Şıklar (A, B, C, D, E) -->
+            <div class="space-y-2 text-xs sm:text-sm" id="exam-options-container">
+            </div>
+
+            <!-- Alt Navigasyon Kontrolleri -->
+            <div class="flex items-center justify-between pt-2 border-t border-slate-800">
+              <button onclick="prevExamQuestion()" id="btn-prev-q" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs transition-colors flex items-center gap-1">
+                <span>◀ Önceki</span>
+              </button>
+              <button onclick="clearCurrentAnswer()" class="text-[11px] text-slate-500 hover:text-rose-400 font-semibold underline">
+                Cevabı Temizle
+              </button>
+              <button onclick="nextExamQuestion()" id="btn-next-q" class="px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs transition-colors flex items-center gap-1 shadow">
+                <span>Sonraki ▶</span>
+              </button>
+            </div>
+
+          </div>
+
+          <!-- 3. Aşama: Sınav Sonuç Karnesi (Result View - Bağımsız) -->
+          <div id="exam-result-view" class="bg-slate-900/90 border border-emerald-500/40 rounded-3xl p-5 sm:p-6 shadow-2xl flex flex-col gap-4 hidden">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+              <div class="flex items-center gap-2">
+                <span class="text-xl">🎉</span>
+                <div>
+                  <h3 class="font-extrabold text-white text-sm sm:text-base">Deneme Sınavı Tamamlandı!</h3>
+                  <span class="text-[10px] text-slate-400">Deneme sınavı başarı karneniz aşağıdadır.</span>
+                </div>
+              </div>
+              <span class="px-2.5 py-1 rounded-xl bg-emerald-950 border border-emerald-700/60 text-emerald-300 font-black text-xs font-mono" id="exam-result-score-badge">-- Puan</span>
+            </div>
+
+            <!-- Sonuç Metrikleri -->
+            <div class="grid grid-cols-4 gap-2 text-center text-xs">
+              <div class="p-2.5 bg-slate-950/60 border border-slate-800 rounded-2xl">
+                <span class="text-slate-400 block text-[10px]">Doğru</span>
+                <span class="font-black text-emerald-400 text-sm sm:text-base font-mono" id="res-correct-count">0</span>
+              </div>
+              <div class="p-2.5 bg-slate-950/60 border border-slate-800 rounded-2xl">
+                <span class="text-slate-400 block text-[10px]">Yanlış</span>
+                <span class="font-black text-rose-400 text-sm sm:text-base font-mono" id="res-incorrect-count">0</span>
+              </div>
+              <div class="p-2.5 bg-slate-950/60 border border-slate-800 rounded-2xl">
+                <span class="text-slate-400 block text-[10px]">Boş</span>
+                <span class="font-black text-slate-400 text-sm sm:text-base font-mono" id="res-empty-count">0</span>
+              </div>
+              <div class="p-2.5 bg-slate-950/60 border border-slate-800 rounded-2xl">
+                <span class="text-slate-400 block text-[10px]">ÖABT Net</span>
+                <span class="font-black text-purple-300 text-sm sm:text-base font-mono" id="res-net-count">0.00</span>
+              </div>
+            </div>
+
+            <div class="p-3.5 rounded-2xl bg-slate-950/80 border border-slate-800 text-xs flex justify-between items-center">
+              <span class="text-slate-300 font-medium">Bu Denemedeki Tahmini Başarı Sıranız:</span>
+              <span class="font-black text-emerald-400 text-sm sm:text-base font-mono" id="res-exam-rank-label">Hesaplanıyor...</span>
+            </div>
+
+            <div class="pt-2">
+              <button onclick="resetExamToLobby()" class="w-full py-3 px-4 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs transition-colors">
+                ← Sınav Lobisine Dön
+              </button>
+            </div>
+          </div>
+
+        </div>
+
       </div>
 
     </div>
@@ -615,7 +763,7 @@
           <img src="https://i.hizliresim.com/ztqymblw.png" onerror="this.onerror=null; this.src='https://i.hizliresim.com/ztqymblw.jpg';" alt="Pdrkampus Logo" class="h-8 sm:h-9 w-auto object-contain">
           <span class="font-extrabold text-white">Pdrkampus<span class="text-indigo-400">.online</span></span>
           <span class="text-slate-600">•</span>
-          <span class="text-slate-400">PDR Adayları İçin Canlı Topluluk & Sıralama Platformu</span>
+          <span class="text-slate-400">PDR Adayları İçin Canlı Topluluk & Simülasyon Platformu</span>
         </div>
         <div class="text-[10px] text-slate-500">
           2026 MEB-AGS & ÖABT Resmi İstatistikleri Entegre
@@ -651,6 +799,260 @@
     }
 
     // ==========================================
+    // 📝 ONLINE DENEME SINAVI MOTORU (BAĞIMSIZ)
+    // ==========================================
+    const demoExamQuestions = [
+      {
+        number: 1,
+        category: "Bireyle Psikolojik Danışma",
+        text: "Psikolojik danışma sürecinde danışanın anlattığı konunun özünü ve özellikle dile getirdiği duygu tonunu danışmana kendi ifadeleriyle aynalayarak geri iletmesi aşağıdaki becerilerden hangisidir?",
+        options: {
+          A: "İçerik Yansıtması",
+          B: "Duygu Yansıtması",
+          C: "Açık Uçlu Soru Sorma",
+          D: "Kendini Açma",
+          E: "Yüzleştirme"
+        },
+        correct: "B"
+      },
+      {
+        number: 2,
+        category: "Danışma Kuramları",
+        text: "Adler'in Bireysel Psikoloji kuramına göre, bireyin yaşamdaki zorluklar karşısında hissettiği yetersizlik duygusunu telafi ederek hedeflerine ulaşma çabası aşağıdakilerden hangisiyle açıklanır?",
+        options: {
+          A: "Aşağılık Kompleksi ve Üstünlük Çabası",
+          B: "Gölge Arketipi",
+          C: "Karşıt Tepki Geliştirme",
+          D: "Ödipal Çatışma",
+          E: "Koşulsuz Kabul"
+        },
+        correct: "A"
+      },
+      {
+        number: 3,
+        category: "Mesleki Rehberlik",
+        text: "Holland'ın Tipoloji Kuramına göre; insanlarla iletişim kurmayı seven, yardımsever, empati becerisi gelişmiş ve sosyal ilişkileri güçlü bireylerin baskın kişilik tipi aşağıdakilerden hangisidir?",
+        options: {
+          A: "Gerçekçi (Realistic)",
+          B: "Araştırıcı (Investigative)",
+          C: "Sosyal (Social)",
+          D: "Girişimci (Enterprising)",
+          E: "Geleneksel (Conventional)"
+        },
+        correct: "C"
+      },
+      {
+        number: 4,
+        category: "Mevzuat (ÖMK 7528)",
+        text: "7528 sayılı Öğretmenlik Mesleği Kanunu'na göre; öğretmen adaylarının Millî Eğitim Akademisi hazırlık eğitimine kabulünde ve başarı değerlendirmesinde esas alınan temel sınav aşağıdakilerden hangisidir?",
+        options: {
+          A: "KPSS P10 Sınavı",
+          B: "Millî Eğitim Bakanlığı Akademi Giriş Sınavı (MEB-AGS)",
+          C: "Yükseköğretim Kurumları Sınavı",
+          D: "Görevde Yükselme Sınavı",
+          E: "Yabancı Dil Bilgisi Seviye Tespit Sınavı"
+        },
+        correct: "B"
+      },
+      {
+        number: 5,
+        category: "Grupla Psikolojik Danışma",
+        text: "Grupla psikolojik danışma sürecinde üyelerin birbirlerini tanıdığı, güven ve kaygı duygularının belirginleştiği, normların oluşmaya başladığı aşama aşağıdakilerden hangisidir?",
+        options: {
+          A: "Başlangıç (Oryantasyon) Evresi",
+          B: "Geçiş Evresi",
+          C: "Eylem (Çalışma) Evresi",
+          D: "Sonlandırma Evresi",
+          E: "İzleme Evresi"
+        },
+        correct: "A"
+      }
+    ];
+
+    let currentExamQuestions = demoExamQuestions;
+    let userExamAnswers = {};
+    let currentExamQuestionIndex = 0;
+    let examTimeRemaining = 75 * 60;
+    let examTimerInterval = null;
+
+    function startExamSession() {
+      userExamAnswers = {};
+      currentExamQuestionIndex = 0;
+      examTimeRemaining = 75 * 60;
+
+      document.getElementById('exam-lobby-view').classList.add('hidden');
+      document.getElementById('exam-result-view').classList.add('hidden');
+      document.getElementById('exam-runner-view').classList.remove('hidden');
+
+      renderExamQuestion();
+      renderExamOpticalGrid();
+      startExamTimer();
+    }
+
+    function startExamTimer() {
+      clearInterval(examTimerInterval);
+      examTimerInterval = setInterval(() => {
+        examTimeRemaining--;
+        if (examTimeRemaining <= 0) {
+          clearInterval(examTimerInterval);
+          submitExamAutomatically();
+          return;
+        }
+
+        const mins = Math.floor(examTimeRemaining / 60);
+        const secs = examTimeRemaining % 60;
+        const display = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        
+        const timerElem = document.getElementById('exam-timer-display');
+        if (timerElem) {
+          timerElem.innerText = display;
+          if (examTimeRemaining < 5 * 60) {
+            timerElem.className = "px-3.5 py-1.5 rounded-xl bg-rose-950 border border-rose-600 text-xs sm:text-sm font-black font-mono tracking-widest text-rose-400 animate-pulse";
+          }
+        }
+      }, 1000);
+    }
+
+    function renderExamQuestion() {
+      const q = currentExamQuestions[currentExamQuestionIndex];
+      document.getElementById('current-q-number').innerText = `Soru ${q.number}`;
+      document.getElementById('total-q-number').innerText = currentExamQuestions.length;
+      document.getElementById('exam-category-label').innerText = q.category || 'ÖABT Rehberlik';
+      document.getElementById('exam-question-text').innerText = q.text;
+
+      const optionsContainer = document.getElementById('exam-options-container');
+      optionsContainer.innerHTML = '';
+
+      const currentChoice = userExamAnswers[q.number];
+
+      for (let optKey of ['A', 'B', 'C', 'D', 'E']) {
+        if (!q.options[optKey]) continue;
+        const isSelected = currentChoice === optKey;
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.onclick = () => selectExamAnswer(q.number, optKey);
+        btn.className = `w-full p-3 rounded-2xl border text-left flex items-start gap-3 transition-all ${
+          isSelected 
+            ? 'bg-indigo-600 text-white border-indigo-400 shadow-md ring-2 ring-indigo-500/50' 
+            : 'bg-slate-950/70 border-slate-800 text-slate-300 hover:bg-slate-900 hover:border-slate-700'
+        }`;
+        btn.innerHTML = `
+          <span class="w-6 h-6 rounded-xl flex items-center justify-center font-black text-xs ${
+            isSelected ? 'bg-white text-indigo-700' : 'bg-slate-900 border border-slate-700 text-slate-400'
+          }">${optKey}</span>
+          <span class="flex-grow pt-0.5 leading-normal text-xs sm:text-sm">${escapeHtml(q.options[optKey])}</span>
+        `;
+        optionsContainer.appendChild(btn);
+      }
+
+      document.getElementById('btn-prev-q').disabled = (currentExamQuestionIndex === 0);
+      document.getElementById('btn-prev-q').className = (currentExamQuestionIndex === 0)
+        ? "px-3.5 py-2 rounded-xl bg-slate-900 text-slate-600 font-bold text-xs cursor-not-allowed"
+        : "px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs transition-colors";
+
+      renderExamOpticalGrid();
+    }
+
+    function selectExamAnswer(qNum, optKey) {
+      userExamAnswers[qNum] = optKey;
+      renderExamQuestion();
+    }
+
+    function clearCurrentAnswer() {
+      const q = currentExamQuestions[currentExamQuestionIndex];
+      delete userExamAnswers[q.number];
+      renderExamQuestion();
+    }
+
+    function nextExamQuestion() {
+      if (currentExamQuestionIndex < currentExamQuestions.length - 1) {
+        currentExamQuestionIndex++;
+        renderExamQuestion();
+      } else {
+        promptFinishExam();
+      }
+    }
+
+    function prevExamQuestion() {
+      if (currentExamQuestionIndex > 0) {
+        currentExamQuestionIndex--;
+        renderExamQuestion();
+      }
+    }
+
+    function renderExamOpticalGrid() {
+      const grid = document.getElementById('exam-optical-grid');
+      grid.innerHTML = currentExamQuestions.map((q, idx) => {
+        const isAnswered = !!userExamAnswers[q.number];
+        const isCurrent = idx === currentExamQuestionIndex;
+
+        let bgClass = "bg-slate-900 text-slate-500 border-slate-800";
+        if (isAnswered) bgClass = "bg-emerald-600 text-white border-emerald-400 font-bold";
+        if (isCurrent) bgClass += " ring-2 ring-indigo-400";
+
+        return `
+          <button onclick="jumpToExamQuestion(${idx})" class="w-7 h-7 rounded-lg border text-[11px] font-mono flex items-center justify-center transition-all ${bgClass}">
+            ${q.number}
+          </button>
+        `;
+      }).join('');
+    }
+
+    function jumpToExamQuestion(idx) {
+      currentExamQuestionIndex = idx;
+      renderExamQuestion();
+    }
+
+    function promptFinishExam() {
+      const total = currentExamQuestions.length;
+      const answered = Object.keys(userExamAnswers).length;
+      const empty = total - answered;
+
+      if (confirm(`Sınavı bitirmek istiyor musunuz?\n\nToplam: ${total} Soru\nİşaretlenen: ${answered}\nBoş: ${empty}`)) {
+        submitExamAutomatically();
+      }
+    }
+
+    async function submitExamAutomatically() {
+      clearInterval(examTimerInterval);
+
+      let correct = 0;
+      let incorrect = 0;
+      let empty = 0;
+
+      currentExamQuestions.forEach(q => {
+        const ans = userExamAnswers[q.number];
+        if (!ans) {
+          empty++;
+        } else if (ans.toUpperCase() === q.correct.toUpperCase()) {
+          correct++;
+        } else {
+          incorrect++;
+        }
+      });
+
+      const net = Math.max(0, correct - (incorrect / 4.0));
+      const score = (50.0 + (net * 0.95));
+
+      // UI Karnesini Güncelle (BAĞIMSIZ, ANA ROBOTU DEĞİŞTİRMEZ)
+      document.getElementById('exam-runner-view').classList.add('hidden');
+      document.getElementById('exam-result-view').classList.remove('hidden');
+
+      document.getElementById('res-correct-count').innerText = correct;
+      document.getElementById('res-incorrect-count').innerText = incorrect;
+      document.getElementById('res-empty-count').innerText = empty;
+      document.getElementById('res-net-count').innerText = net.toFixed(2);
+      document.getElementById('exam-result-score-badge').innerText = `${score.toFixed(3)} Puan`;
+      document.getElementById('res-exam-rank-label').innerText = `#${Math.max(1, Math.round(50 - (net * 0.8)))} / 1.450 Aday`;
+    }
+
+    function resetExamToLobby() {
+      document.getElementById('exam-result-view').classList.add('hidden');
+      document.getElementById('exam-runner-view').classList.add('hidden');
+      document.getElementById('exam-lobby-view').classList.remove('hidden');
+    }
+
+    // ==========================================
     // 🔐 GOOGLE AUTH & KULLANICI YÖNETİMİ
     // ==========================================
     async function loginWithGoogle() {
@@ -665,7 +1067,6 @@
       }
 
       try {
-        // Tam URL'yi yakala ve eski dosyalara gitmesini engelle
         const redirectUrl = window.location.href.split('#')[0];
         const { error } = await supabaseClient.auth.signInWithOAuth({
           provider: 'google',
@@ -756,7 +1157,7 @@
     }
 
     // ==========================================
-    // 💬 CANLI SOHBET MOTORU (REALTIME WEBSOCKET)
+    // 💬 CANLI SOHBET MOTORU (REALTIME)
     // ==========================================
     async function fetchChatMessages() {
       if (!supabaseClient) return;
@@ -828,6 +1229,7 @@
 
     function renderChatMessages() {
       const box = document.getElementById('chat-messages-box');
+      if (!box) return;
       if (chatMessagesList.length === 0) {
         box.innerHTML = `
           <div class="text-center py-10 text-slate-500">
@@ -958,7 +1360,7 @@
     // ==========================================
     async function publishToLiveLeaderboard() {
       if (!supabaseClient) {
-        alert("Lütfen önce Supabase bağlantı anahtarlarınızı kontrol edin.");
+        alert("Lütfen Supabase bağlantı anahtarlarınızı kontrol edin.");
         return;
       }
 
@@ -1033,14 +1435,7 @@
 
     async function fetchLiveLeaderboard() {
       const container = document.getElementById('leaderboard-list-container');
-      if (!supabaseClient) {
-        container.innerHTML = `
-          <div class="text-center py-6 text-slate-500 text-xs">
-            Supabase bağlantısı henüz yapılandırılmadı.
-          </div>
-        `;
-        return;
-      }
+      if (!supabaseClient || !container) return;
 
       try {
         const { data, error } = await supabaseClient
@@ -1063,6 +1458,7 @@
 
     function renderLeaderboardUI() {
       const container = document.getElementById('leaderboard-list-container');
+      if (!container) return;
       if (liveLeaderboardData.length === 0) {
         container.innerHTML = `
           <div class="text-center py-6 text-slate-500 text-xs">
@@ -1277,6 +1673,7 @@
       runCustomSimulation();
     }
 
+    // 📑 6 ANA MODÜL SEKME DEĞİŞTİRİCİSİ (SİMÜLATÖR DAHİL)
     function switchTab(tabId) {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
       
@@ -1284,7 +1681,10 @@
         btn.className = "tab-btn p-2.5 rounded-2xl border transition-all text-left flex flex-col justify-between gap-1 shadow-md bg-slate-900/90 text-slate-300 border-slate-800 hover:border-slate-700";
       });
 
-      document.getElementById(tabId).classList.remove('hidden');
+      const activeContent = document.getElementById(tabId);
+      if (activeContent) {
+        activeContent.classList.remove('hidden');
+      }
       
       const activeBtn = document.getElementById(`btn-${tabId}`);
       if (activeBtn) {
@@ -1298,10 +1698,14 @@
         const box = document.getElementById('chat-messages-box');
         if (box) box.scrollTop = box.scrollHeight;
       }
+      if (tabId === 'tab-simulator') {
+        runCustomSimulation();
+      }
     }
 
     function renderPrescription(userNets, zScores, currentRank) {
       const container = document.getElementById('prescription-content');
+      if (!container) return;
       let recs = [];
 
       if (userNets.oabt < 38) {
@@ -1335,7 +1739,8 @@
     }
 
     function updateRadarChart(userNets) {
-      const ctx = document.getElementById('radarChart').getContext('2d');
+      const ctx = document.getElementById('radarChart')?.getContext('2d');
+      if (!ctx) return;
       const labels = ['Sözel', 'Sayısal', 'Tarih', 'Coğrafya', 'Eğitim', 'Mevzuat', 'ÖABT'];
       
       const userPercents = [
@@ -1435,6 +1840,7 @@
 
     function renderSimilarCandidates(similarList) {
       const container = document.getElementById('similar-candidates-list');
+      if (!container) return;
       container.innerHTML = '';
 
       similarList.forEach((cand, idx) => {
@@ -1470,6 +1876,7 @@
       ];
 
       const tbody = document.getElementById('scenario-matrix-body');
+      if (!tbody) return;
       tbody.innerHTML = '';
 
       for (let sc of scenarios) {
@@ -1496,8 +1903,12 @@
     }
 
     function runCustomSimulation() {
-      const agsShift = parseInt(document.getElementById('slider-ags').value) || 0;
-      const oabtShift = parseInt(document.getElementById('slider-oabt').value) || 0;
+      const sliderAgs = document.getElementById('slider-ags');
+      const sliderOabt = document.getElementById('slider-oabt');
+      if (!sliderAgs || !sliderOabt) return;
+
+      const agsShift = parseInt(sliderAgs.value) || 0;
+      const oabtShift = parseInt(sliderOabt.value) || 0;
 
       document.getElementById('slider-ags-val').innerText = agsShift === 0 ? "0 Net (Aynı)" : (agsShift > 0 ? `+${agsShift} Net (Kolay)` : `${agsShift} Net (Zor)`);
       document.getElementById('slider-oabt-val').innerText = oabtShift === 0 ? "0 Net (Aynı)" : (oabtShift > 0 ? `+${oabtShift} Net (Kolay)` : `${oabtShift} Net (Zor)`);
@@ -1522,7 +1933,7 @@
       document.getElementById('custom-sim-desc').innerText = desc;
     }
 
-    // SAYFA AÇILDIĞINDA ÇALIŞTIR
+    // SAYFA AÇILDIĞINDA OTURUM VE NETLERİ YÜKLE
     window.onload = function() {
       checkAuthSession();
     };
