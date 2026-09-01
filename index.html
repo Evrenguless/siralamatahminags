@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Pdrkampus | 2027 AGS PDR Sıralama & Canlı Liderlik</title>
+  <title>Pdrkampus.online | 2027 AGS PDR Sıralama & Canlı Topluluk</title>
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="https://i.hizliresim.com/ztqymblw.png">
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Chart.js CDN -->
@@ -32,27 +34,24 @@
 </head>
 <body class="bg-mesh min-h-screen text-slate-100 flex flex-col justify-between antialiased selection:bg-indigo-500 selection:text-white">
 
-  <!-- 🌟 ÜST NAVBAR & GOOGLE KULLANICI PROFİL ALANI -->
-  <header class="w-full bg-slate-950/80 backdrop-blur-xl border-b border-slate-800/80 sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 py-3 sm:px-6 lg:px-8 flex items-center justify-between gap-3">
+  <!-- 🌟 ÜST NAVBAR & KALICI LOGO ALANI -->
+  <header class="w-full bg-slate-950/85 backdrop-blur-xl border-b border-slate-800/80 sticky top-0 z-50 shadow-xl">
+    <div class="max-w-7xl mx-auto px-4 py-2 sm:px-6 lg:px-8 flex items-center justify-between gap-3">
       
-      <!-- Marka & Logo -->
-      <div class="flex items-center gap-3">
-        <div class="w-9 h-9 rounded-2xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-pink-500 flex items-center justify-center shadow-lg shadow-indigo-500/25 border border-white/10">
-          <span class="text-base font-black text-white">Ψ</span>
-        </div>
-        <div>
-          <div class="text-lg font-extrabold tracking-tight text-white flex items-center gap-0.5">
-            Pdr<span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">kampus</span>
-          </div>
-          <span class="text-[10px] text-slate-400 block font-medium -mt-1 hidden sm:block">PDR Veri & Canlı Sıralama Platformu</span>
-        </div>
+      <!-- Marka & Belirgin Logo (Her Zaman Görünür) -->
+      <div class="flex items-center flex-shrink-0">
+        <a href="#" class="flex items-center gap-2.5 transition-transform hover:scale-[1.02]">
+          <img src="https://i.hizliresim.com/ztqymblw.png" onerror="this.onerror=null; this.src='https://i.hizliresim.com/ztqymblw.jpg';" alt="Pdrkampus Logo" class="h-11 sm:h-14 md:h-16 w-auto object-contain drop-shadow-lg filter">
+          <span class="text-xl sm:text-2xl font-black tracking-tight text-white hidden sm:flex items-center">
+            Pdrkampus<span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400">.online</span>
+          </span>
+        </a>
       </div>
 
       <!-- Sağ Profil / Google Giriş Buton Alanı -->
-      <div class="flex items-center gap-2" id="auth-header-container">
+      <div class="flex items-center gap-2 flex-shrink-0" id="auth-header-container">
         <!-- Giriş Yapılmadığında Görünecek Buton -->
-        <button onclick="loginWithGoogle()" id="btn-login" class="bg-slate-900 hover:bg-slate-800 text-white border border-slate-700/80 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-2 shadow-sm active:scale-95">
+        <button onclick="loginWithGoogle()" id="btn-login" class="bg-slate-900 hover:bg-slate-800 text-white border border-slate-700/80 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-2xl text-xs font-bold transition-all flex items-center gap-2 shadow-sm active:scale-95">
           <svg class="w-4 h-4" viewBox="0 0 24 24">
             <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
             <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
@@ -64,9 +63,9 @@
         </button>
 
         <!-- Giriş Yapıldığında Görünecek Profil Kutusu -->
-        <div id="user-profile-badge" class="hidden flex items-center gap-2 bg-slate-900/90 border border-indigo-500/40 px-2.5 py-1 rounded-2xl shadow-md">
+        <div id="user-profile-badge" class="hidden flex items-center gap-2 bg-slate-900/90 border border-indigo-500/40 px-3 py-1.5 rounded-2xl shadow-md">
           <img id="user-avatar" src="" alt="Avatar" class="w-6 h-6 rounded-full border border-indigo-400 object-cover">
-          <span id="user-name" class="text-xs font-bold text-slate-200 hidden sm:inline">Kullanıcı</span>
+          <span id="user-name" class="text-xs font-bold text-slate-200 hidden sm:inline truncate max-w-[120px]">Kullanıcı</span>
           <button onclick="logoutUser()" title="Çıkış Yap" class="text-slate-400 hover:text-rose-400 text-xs ml-1 font-bold">✕</button>
         </div>
       </div>
@@ -80,10 +79,10 @@
     <!-- Başlık & Karşılama Alanı -->
     <div class="text-center my-3 sm:my-4">
       <h1 class="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-white">
-        2027 AGS PDR <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400">Sıralama & Canlı Lig</span>
+        2027 AGS PDR <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400">Sıralama & Canlı Topluluk</span>
       </h1>
       <p class="text-slate-400 text-xs sm:text-sm mt-1 max-w-xl mx-auto">
-        Netlerinizi girin, yerinizi görün ve <b>Canlı Sıralamaya Kaydet</b> butonu ile sıralamanızı sabitleyin.
+        Netlerinizi girin, canlı ligde yarışın ve <b>Canlı Sohbet Odasında</b> diğer PDR adaylarıyla fikir alışverişi yapın.
       </p>
     </div>
 
@@ -181,7 +180,7 @@
                   <input type="number" id="cografya-y" min="0" max="6" placeholder="Y" class="w-11 bg-slate-900 border border-slate-700/80 rounded-xl p-1.5 text-center text-xs text-rose-400 font-bold focus:border-indigo-500 outline-none" oninput="handleInputChange()">
                 </div>
                 <div class="net-group hidden">
-                  <input type="number" id="cografya-net" step="0.25" min="-1.5" max="6" placeholder="Net" class="w-20 bg-slate-900 border border-slate-700/80 rounded-xl p-1.5 text-center text-xs text-indigo-300 font-bold focus:border-indigo-500 outline-none" oninput="handleInputChange()">
+                  <input type="number" id="cografya-net" step="0.25" min="-1.5" max="6" placeholder="Net" class="w-20 bg-slate-900 border border-slate-700 rounded-lg p-1.5 text-center text-xs text-indigo-300 font-bold focus:border-indigo-500 outline-none" oninput="handleInputChange()">
                 </div>
                 <span class="text-xs font-extrabold text-slate-200 w-9 text-right font-mono" id="net-cografya">0.0</span>
               </div>
@@ -217,7 +216,7 @@
                   <input type="number" id="mevzuat-y" min="0" max="8" placeholder="Y" class="w-11 bg-slate-900 border border-slate-700/80 rounded-xl p-1.5 text-center text-xs text-rose-400 font-bold focus:border-indigo-500 outline-none" oninput="handleInputChange()">
                 </div>
                 <div class="net-group hidden">
-                  <input type="number" id="mevzuat-net" step="0.25" min="-2.0" max="8" placeholder="Net" class="w-20 bg-slate-900 border border-slate-700/80 rounded-xl p-1.5 text-center text-xs text-indigo-300 font-bold focus:border-indigo-500 outline-none" oninput="handleInputChange()">
+                  <input type="number" id="mevzuat-net" step="0.25" min="-2.0" max="8" placeholder="Net" class="w-20 bg-slate-900 border border-slate-700 rounded-lg p-1.5 text-center text-xs text-indigo-300 font-bold focus:border-indigo-500 outline-none" oninput="handleInputChange()">
                 </div>
                 <span class="text-xs font-extrabold text-slate-200 w-9 text-right font-mono" id="net-mevzuat">0.0</span>
               </div>
@@ -259,7 +258,7 @@
 
       </div>
 
-      <!-- SAĞ KOLON: 4 BELİRGİN VE MODERN SEKME (7 Kolon) -->
+      <!-- SAĞ KOLON: 5 BÜYÜK MODÜL NAVİGATÖRÜ (7 Kolon) -->
       <div class="lg:col-span-7 flex flex-col gap-4">
         
         <!-- Ana Sıralama Kartı (Hero Card) -->
@@ -298,56 +297,68 @@
           </div>
         </div>
 
-        <!-- 🚀 ÇOK DAHA BELİRGİN & BÜYÜK 4 ANA MODÜL NAVİGATÖRÜ -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+        <!-- 🚀 5 BÜYÜK MODÜL NAVİGATÖRÜ (HER ZAMAN GÖRÜNÜR) -->
+        <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
           
           <!-- Tab 1: Analiz -->
-          <button onclick="switchTab('tab-overview')" id="btn-tab-overview" class="tab-btn p-3 rounded-2xl border transition-all text-left flex flex-col justify-between gap-1 shadow-lg bg-gradient-to-br from-indigo-600 to-purple-600 text-white border-indigo-400 ring-2 ring-indigo-500/50">
+          <button onclick="switchTab('tab-overview')" id="btn-tab-overview" class="tab-btn p-2.5 rounded-2xl border transition-all text-left flex flex-col justify-between gap-1 shadow-lg bg-gradient-to-br from-indigo-600 to-purple-600 text-white border-indigo-400 ring-2 ring-indigo-500/50">
             <div class="flex items-center justify-between">
-              <span class="text-lg">📊</span>
-              <span class="text-[9px] px-1.5 py-0.5 rounded bg-white/20 font-extrabold uppercase">Rapor</span>
+              <span class="text-base">📊</span>
+              <span class="text-[8px] px-1 py-0.5 rounded bg-white/20 font-extrabold uppercase">Rapor</span>
             </div>
             <div>
-              <div class="font-extrabold text-xs sm:text-sm">Analiz & Koçluk</div>
-              <div class="text-[10px] text-indigo-200">Reçete & Radar</div>
+              <div class="font-extrabold text-[11px] sm:text-xs">Analiz</div>
+              <div class="text-[9px] text-indigo-200">Reçete & Radar</div>
             </div>
           </button>
 
           <!-- Tab 2: Canlı Sıra -->
-          <button onclick="switchTab('tab-leaderboard')" id="btn-tab-leaderboard" class="tab-btn p-3 rounded-2xl border transition-all text-left flex flex-col justify-between gap-1 shadow-md bg-slate-900/90 text-slate-300 border-slate-800 hover:border-slate-700">
+          <button onclick="switchTab('tab-leaderboard')" id="btn-tab-leaderboard" class="tab-btn p-2.5 rounded-2xl border transition-all text-left flex flex-col justify-between gap-1 shadow-md bg-slate-900/90 text-slate-300 border-slate-800 hover:border-slate-700">
             <div class="flex items-center justify-between">
-              <span class="text-lg">🏆</span>
-              <span class="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 font-extrabold flex items-center gap-1">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> CANLI
+              <span class="text-base">🏆</span>
+              <span class="text-[8px] px-1 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 font-extrabold flex items-center gap-0.5">
+                <span class="w-1 h-1 rounded-full bg-emerald-400 animate-ping"></span> CANLI
               </span>
             </div>
             <div>
-              <div class="font-extrabold text-xs sm:text-sm text-white">Canlı Sıralama</div>
-              <div class="text-[10px] text-slate-400">Pdrkampus Ligi</div>
+              <div class="font-extrabold text-[11px] sm:text-xs text-white">Canlı Sıra</div>
+              <div class="text-[9px] text-slate-400">PDR Ligi</div>
             </div>
           </button>
 
-          <!-- Tab 3: 5 Gerçek Belge -->
-          <button onclick="switchTab('tab-matches')" id="btn-tab-matches" class="tab-btn p-3 rounded-2xl border transition-all text-left flex flex-col justify-between gap-1 shadow-md bg-slate-900/90 text-slate-300 border-slate-800 hover:border-slate-700">
+          <!-- Tab 3: Canlı Sohbet -->
+          <button onclick="switchTab('tab-chat')" id="btn-tab-chat" class="tab-btn p-2.5 rounded-2xl border transition-all text-left flex flex-col justify-between gap-1 shadow-md bg-slate-900/90 text-slate-300 border-slate-800 hover:border-slate-700">
             <div class="flex items-center justify-between">
-              <span class="text-lg">🎯</span>
-              <span class="text-[9px] px-1.5 py-0.5 rounded bg-slate-800 font-extrabold text-slate-400">ÖSYM</span>
+              <span class="text-base">💬</span>
+              <span class="text-[8px] px-1 py-0.5 rounded bg-indigo-500/20 text-indigo-400 border border-indigo-500/40 font-extrabold">ODA</span>
             </div>
             <div>
-              <div class="font-extrabold text-xs sm:text-sm text-white">5 Gerçek Belge</div>
-              <div class="text-[10px] text-slate-400">Birebir Sonuçlar</div>
+              <div class="font-extrabold text-[11px] sm:text-xs text-white">Canlı Sohbet</div>
+              <div class="text-[9px] text-slate-400">PDR Odası</div>
             </div>
           </button>
 
-          <!-- Tab 4: 2027 Simülatörü -->
-          <button onclick="switchTab('tab-simulator')" id="btn-tab-simulator" class="tab-btn p-3 rounded-2xl border transition-all text-left flex flex-col justify-between gap-1 shadow-md bg-slate-900/90 text-slate-300 border-slate-800 hover:border-slate-700">
+          <!-- Tab 4: 5 Gerçek Belge -->
+          <button onclick="switchTab('tab-matches')" id="btn-tab-matches" class="tab-btn p-2.5 rounded-2xl border transition-all text-left flex flex-col justify-between gap-1 shadow-md bg-slate-900/90 text-slate-300 border-slate-800 hover:border-slate-700">
             <div class="flex items-center justify-between">
-              <span class="text-lg">🎛️</span>
-              <span class="text-[9px] px-1.5 py-0.5 rounded bg-slate-800 font-extrabold text-slate-400">Test</span>
+              <span class="text-base">🎯</span>
+              <span class="text-[8px] px-1 py-0.5 rounded bg-slate-800 font-extrabold text-slate-400">ÖSYM</span>
             </div>
             <div>
-              <div class="font-extrabold text-xs sm:text-sm text-white">2027 Simülasyon</div>
-              <div class="text-[10px] text-slate-400">Zorluk & Senaryo</div>
+              <div class="font-extrabold text-[11px] sm:text-xs text-white">5 Belge</div>
+              <div class="text-[9px] text-slate-400">Eşleşmeler</div>
+            </div>
+          </button>
+
+          <!-- Tab 5: 2027 Simülatörü -->
+          <button onclick="switchTab('tab-simulator')" id="btn-tab-simulator" class="tab-btn p-2.5 rounded-2xl border transition-all text-left flex flex-col justify-between gap-1 shadow-md bg-slate-900/90 text-slate-300 border-slate-800 hover:border-slate-700">
+            <div class="flex items-center justify-between">
+              <span class="text-base">🎛️</span>
+              <span class="text-[8px] px-1 py-0.5 rounded bg-slate-800 font-extrabold text-slate-400">Test</span>
+            </div>
+            <div>
+              <div class="font-extrabold text-[11px] sm:text-xs text-white">Simülasyon</div>
+              <div class="text-[9px] text-slate-400">Zorluk Testi</div>
             </div>
           </button>
 
@@ -455,13 +466,51 @@
 
         </div>
 
-        <!-- 📑 SEKME 3: GERÇEK 5 SONUÇ BELGESİ -->
+        <!-- 📑 SEKME 3: CANLI SOHBET ODASI -->
+        <div id="tab-chat" class="tab-content hidden flex flex-col gap-3">
+          
+          <div class="bg-slate-900/80 border border-indigo-500/40 rounded-3xl p-4 shadow-xl flex flex-col h-[520px] justify-between">
+            
+            <!-- Sohbet Başlığı -->
+            <div class="flex items-center justify-between pb-2.5 border-b border-slate-800">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <h3 class="font-extrabold text-white text-xs sm:text-sm">PDR Adayları Canlı Sohbet Odası</h3>
+              </div>
+              <span class="text-[10px] text-slate-400">Anlık İletişim 💬</span>
+            </div>
+
+            <!-- Mesaj Akışı Kutusu -->
+            <div id="chat-messages-box" class="flex-grow overflow-y-auto custom-scrollbar my-3 space-y-2.5 pr-1 text-xs">
+              <div class="text-center py-8 text-slate-500">Mesajlar yükleniyor...</div>
+            </div>
+
+            <!-- Mesaj Gönderme Formu -->
+            <div class="pt-2 border-t border-slate-800/80">
+              <div id="chat-auth-prompt" class="hidden text-center py-2 text-xs bg-slate-950/80 rounded-2xl border border-slate-800">
+                <span class="text-slate-400">Sohbete katılmak için </span>
+                <button onclick="loginWithGoogle()" class="text-indigo-400 hover:text-indigo-300 font-bold underline ml-1">Google ile Giriş Yapın</button>
+              </div>
+
+              <form id="chat-form" onsubmit="handleSendChatMessage(event)" class="flex gap-2">
+                <input type="text" id="chat-input" maxlength="300" placeholder="PDR adaylarıyla bir şey paylaşın..." class="flex-grow bg-slate-950 border border-slate-700/80 rounded-2xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none">
+                <button type="submit" id="btn-send-chat" class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white px-4 py-2 rounded-2xl text-xs font-bold transition-all shadow-md active:scale-95 flex items-center gap-1.5 flex-shrink-0">
+                  <span>Gönder</span> 🚀
+                </button>
+              </form>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- 📑 SEKME 4: GERÇEK 5 SONUÇ BELGESİ -->
         <div id="tab-matches" class="tab-content hidden flex flex-col gap-3">
           <div class="bg-slate-900/80 border border-slate-800/80 rounded-3xl p-4 shadow-xl">
             <h3 class="text-xs font-bold text-slate-200 uppercase tracking-wider mb-1 flex items-center gap-1.5">
               <span>🎯 En Yakın 5 Gerçek Sonuç Belgesi</span>
             </h3>
-            <p class="text-[11px] text-slate-400 mb-3">118 resmi aday belgesi arasından net profilinize en yakın 5 gerçek sonuç:</p>
+            <p class="text-[11px] text-slate-400 mb-3">Resmi veritabanındaki 118 sonuç belgesi arasından profilinize en yakın 5 aday:</p>
 
             <div class="space-y-2" id="similar-candidates-list">
               <div class="text-center py-4 text-xs text-slate-500">Netlerinizi girdikten sonra eşleşen 5 gerçek aday burada listelenecektir.</div>
@@ -469,7 +518,7 @@
           </div>
         </div>
 
-        <!-- 📑 SEKME 4: SİMÜLASYON & MATRİS -->
+        <!-- 📑 SEKME 5: SİMÜLASYON & MATRİS -->
         <div id="tab-simulator" class="tab-content hidden flex flex-col gap-4">
           
           <div class="bg-slate-900/80 border border-indigo-500/30 rounded-3xl p-4 shadow-xl">
@@ -562,17 +611,18 @@
   <footer class="w-full bg-slate-950 border-t border-slate-800/80 mt-10 pt-8 pb-6 text-xs text-slate-400">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-800/60 text-[11px]">
-        <div class="flex items-center gap-2">
-          <span class="font-extrabold text-white">Pdr<span class="text-indigo-400">kampus</span></span>
+        <div class="flex items-center gap-2.5">
+          <img src="https://i.hizliresim.com/ztqymblw.png" onerror="this.onerror=null; this.src='https://i.hizliresim.com/ztqymblw.jpg';" alt="Pdrkampus Logo" class="h-8 sm:h-9 w-auto object-contain">
+          <span class="font-extrabold text-white">Pdrkampus<span class="text-indigo-400">.online</span></span>
           <span class="text-slate-600">•</span>
-          <span class="text-slate-400">PDR Adayları İçin Canlı Sıralama Platformu</span>
+          <span class="text-slate-400">PDR Adayları İçin Canlı Topluluk & Sıralama Platformu</span>
         </div>
         <div class="text-[10px] text-slate-500">
           2026 MEB-AGS & ÖABT Resmi İstatistikleri Entegre
         </div>
       </div>
       <div class="pt-4 text-center text-[10px] text-slate-600">
-        © 2026 - 2027 Pdrkampus. Bu simülatör bilgilendirme amaçlıdır; resmi sınav sonuç belgesi yerine geçmez.
+        © 2026 - 2027 Pdrkampus.online. Bu simülatör bilgilendirme amaçlıdır; resmi sınav sonuç belgesi yerine geçmez.
       </div>
     </div>
   </footer>
@@ -589,172 +639,34 @@
     let supabaseClient = null;
     let currentUser = null;
     let liveLeaderboardData = [];
+    let chatMessagesList = [];
+    let isChatRealtimeSubscribed = false;
+    let currentInputMode = 'dy';
+    let radarChartInstance = null;
+    let latestServerResult = null;
+    let calcDebounceTimer = null;
 
     if (SUPABASE_CONFIG.URL && SUPABASE_CONFIG.ANON_KEY && window.supabase) {
       supabaseClient = window.supabase.createClient(SUPABASE_CONFIG.URL, SUPABASE_CONFIG.ANON_KEY);
     }
-
-    // 2026 MEB-AGS PDR RESMİ 118 ADAY VERİTABANI
-    const candidateDatabase = [
-      { soz: 13.75, mat: 11.75, tar: 6.00, cog: 5.00, egt: 27.50, mev: 8.00, oabt: 50.00, score: 89.90556, rank: 1 },
-      { soz: 12.50, mat: 10.50, tar: 6.00, cog: 4.75, egt: 28.75, mev: 6.75, oabt: 50.00, score: 88.86279, rank: 3 },
-      { soz: 13.75, mat: 8.75,  tar: 6.00, cog: 6.00, egt: 23.75, mev: 8.00, oabt: 48.75, score: 87.44661, rank: 29 },
-      { soz: 12.50, mat: 11.50, tar: 6.00, cog: 6.00, egt: 21.25, mev: 6.75, oabt: 47.50, score: 85.99929, rank: 118 },
-      { soz: 13.75, mat: 12.75, tar: 6.00, cog: 4.75, egt: 24.50, mev: 8.00, oabt: 45.00, score: 85.86046, rank: 127 },
-      { soz: 12.50, mat: 12.50, tar: 6.00, cog: 6.00, egt: 21.50, mev: 7.00, oabt: 46.25, score: 85.58467, rank: 153 },
-      { soz: 13.75, mat: 7.75,  tar: 6.00, cog: 6.00, egt: 23.75, mev: 5.50, oabt: 47.50, score: 85.55895, rank: 156 },
-      { soz: 13.75, mat: 7.75,  tar: 4.75, cog: 6.00, egt: 29.00, mev: 5.75, oabt: 45.25, score: 84.79395, rank: 282 },
-      { soz: 12.50, mat: 13.00, tar: 6.00, cog: 4.75, egt: 20.25, mev: 5.75, oabt: 46.25, score: 84.62188, rank: 313 },
-      { soz: 11.25, mat: 11.75, tar: 6.00, cog: 4.75, egt: 23.75, mev: 5.75, oabt: 46.25, score: 84.58446, rank: 321 },
-      { soz: 10.00, mat: 13.75, tar: 6.00, cog: 4.75, egt: 22.75, mev: 5.75, oabt: 46.25, score: 84.48568, rank: 353 },
-      { soz: 11.50, mat: 10.75, tar: 6.00, cog: 3.75, egt: 25.75, mev: 4.50, oabt: 46.50, score: 84.32235, rank: 389 },
-      { soz: 11.25, mat: 7.75,  tar: 6.00, cog: 6.00, egt: 26.50, mev: 7.00, oabt: 45.25, score: 84.05631, rank: 456 },
-      { soz: 13.75, mat: 11.00, tar: 6.00, cog: 5.00, egt: 24.50, mev: 8.00, oabt: 42.50, score: 83.61083, rank: 608 },
-      { soz: 12.50, mat: 12.75, tar: 5.00, cog: 5.00, egt: 26.25, mev: 4.50, oabt: 43.75, score: 83.59670, rank: 612 },
-      { soz: 11.25, mat: 6.75,  tar: 4.75, cog: 4.75, egt: 23.75, mev: 6.75, oabt: 47.50, score: 83.47590, rank: 669 },
-      { soz: 9.25,  mat: 10.75, tar: 6.00, cog: 4.75, egt: 23.75, mev: 5.75, oabt: 46.25, score: 83.43094, rank: 685 },
-      { soz: 11.25, mat: 11.75, tar: 6.00, cog: 4.75, egt: 22.50, mev: 5.50, oabt: 45.00, score: 83.31852, rank: 735 },
-      { soz: 10.25, mat: 10.25, tar: 6.00, cog: 4.75, egt: 26.50, mev: 7.00, oabt: 44.25, score: 83.30374, rank: 743 },
-      { soz: 10.00, mat: 4.75,  tar: 6.00, cog: 6.00, egt: 30.00, mev: 5.75, oabt: 45.50, score: 83.27330, rank: 758 },
-      { soz: 13.75, mat: 15.00, tar: 4.75, cog: 3.75, egt: 26.25, mev: 6.75, oabt: 41.25, score: 83.11539, rank: 847 },
-      { soz: 11.25, mat: 7.75,  tar: 6.00, cog: 6.00, egt: 26.25, mev: 7.00, oabt: 44.00, score: 83.11269, rank: 849 },
-      { soz: 10.00, mat: 4.75,  tar: 5.00, cog: 6.00, egt: 22.50, mev: 5.50, oabt: 48.75, score: 83.11162, rank: 850 },
-      { soz: 8.75,  mat: 11.75, tar: 6.00, cog: 3.50, egt: 21.25, mev: 8.00, oabt: 46.25, score: 83.05477, rank: 877 },
-      { soz: 9.50,  mat: 12.75, tar: 6.00, cog: 4.75, egt: 21.25, mev: 7.00, oabt: 45.00, score: 83.02119, rank: 897 },
-      { soz: 13.75, mat: 8.50,  tar: 6.00, cog: 4.75, egt: 25.25, mev: 4.50, oabt: 44.00, score: 82.98457, rank: 914 },
-      { soz: 12.50, mat: 7.25,  tar: 6.00, cog: 4.75, egt: 25.00, mev: 5.50, oabt: 45.00, score: 82.96440, rank: 923 },
-      { soz: 12.50, mat: 9.75,  tar: 6.00, cog: 4.75, egt: 23.75, mev: 6.75, oabt: 43.75, score: 82.93800, rank: 934 },
-      { soz: 12.75, mat: 5.75,  tar: 6.00, cog: 2.25, egt: 20.50, mev: 8.00, oabt: 47.50, score: 82.90296, rank: 946 },
-      { soz: 13.75, mat: 7.50,  tar: 4.75, cog: 5.00, egt: 22.75, mev: 7.00, oabt: 45.00, score: 82.89825, rank: 950 },
-      { soz: 10.25, mat: 7.75,  tar: 6.00, cog: 5.00, egt: 26.75, mev: 5.75, oabt: 45.00, score: 82.81809, rank: 986 },
-      { soz: 8.75,  mat: 7.00,  tar: 6.00, cog: 4.75, egt: 23.75, mev: 5.50, oabt: 47.50, score: 82.78557, rank: 1006 },
-      { soz: 12.50, mat: 6.50,  tar: 6.00, cog: 1.50, egt: 24.00, mev: 8.00, oabt: 46.25, score: 82.77905, rank: 1009 },
-      { soz: 8.75,  mat: 7.00,  tar: 6.00, cog: 6.00, egt: 25.75, mev: 5.00, oabt: 46.25, score: 82.75524, rank: 1020 },
-      { soz: 13.75, mat: 10.75, tar: 6.00, cog: 4.75, egt: 23.00, mev: 6.75, oabt: 42.50, score: 82.71316, rank: 1042 },
-      { soz: 11.50, mat: 13.00, tar: 6.00, cog: 6.00, egt: 23.75, mev: 8.00, oabt: 41.25, score: 82.66570, rank: 1071 },
-      { soz: 11.25, mat: 10.25, tar: 6.00, cog: 6.00, egt: 25.25, mev: 6.75, oabt: 42.50, score: 82.56988, rank: 1114 },
-      { soz: 13.75, mat: 12.75, tar: 4.75, cog: 2.75, egt: 22.75, mev: 5.00, oabt: 44.00, score: 82.55589, rank: 1121 },
-      { soz: 12.75, mat: 11.00, tar: 4.75, cog: 6.00, egt: 23.00, mev: 7.00, oabt: 42.75, score: 82.51752, rank: 1138 },
-      { soz: 12.75, mat: 6.00,  tar: 7.75, cog: 8.00, egt: 22.75, mev: 6.75, oabt: 43.00, score: 82.45691, rank: 1206 },
-      { soz: 12.50, mat: 9.75,  tar: 4.75, cog: 6.00, egt: 21.75, mev: 7.00, oabt: 43.75, score: 82.38260, rank: 1200 },
-      { soz: 11.25, mat: 9.00,  tar: 5.00, cog: 4.75, egt: 25.25, mev: 6.75, oabt: 44.00, score: 82.26397, rank: 1273 },
-      { soz: 15.00, mat: 8.00,  tar: 3.50, cog: 4.75, egt: 23.75, mev: 6.75, oabt: 43.75, score: 82.20313, rank: 1308 },
-      { soz: 12.75, mat: 6.00,  tar: 6.00, cog: 3.75, egt: 28.75, mev: 6.75, oabt: 43.00, score: 82.15481, rank: 1339 },
-      { soz: 12.50, mat: 12.75, tar: 4.00, cog: 3.50, egt: 21.50, mev: 6.75, oabt: 44.00, score: 82.12892, rank: 1348 },
-      { soz: 12.50, mat: 11.75, tar: 5.00, cog: 4.75, egt: 20.50, mev: 8.00, oabt: 42.75, score: 81.94084, rank: 1450 },
-      { soz: 10.00, mat: 12.75, tar: 5.00, cog: 1.75, egt: 22.75, mev: 3.25, oabt: 46.25, score: 81.86974, rank: 1493 },
-      { soz: 12.50, mat: 13.75, tar: 2.50, cog: 3.50, egt: 20.75, mev: 4.50, oabt: 45.25, score: 81.84083, rank: 1507 },
-      { soz: 12.50, mat: 4.50,  tar: 6.00, cog: 6.00, egt: 23.75, mev: 6.75, oabt: 44.00, score: 81.83406, rank: 1513 },
-      { soz: 15.00, mat: 4.75,  tar: 6.00, cog: 4.00, egt: 23.00, mev: 5.50, oabt: 44.25, score: 81.83080, rank: 1519 },
-      { soz: 12.50, mat: 7.00,  tar: 4.75, cog: 3.75, egt: 25.00, mev: 4.50, oabt: 45.25, score: 81.82073, rank: 1525 },
-      { soz: 10.00, mat: 10.50, tar: 5.00, cog: 6.00, egt: 20.00, mev: 5.50, oabt: 45.00, score: 81.75592, rank: 1571 },
-      { soz: 13.75, mat: 9.75,  tar: 6.00, cog: 4.00, egt: 21.75, mev: 5.50, oabt: 42.75, score: 81.61486, rank: 1656 },
-      { soz: 11.25, mat: 4.25,  tar: 6.00, cog: 4.75, egt: 24.00, mev: 6.75, oabt: 45.00, score: 81.53171, rank: 1712 },
-      { soz: 11.50, mat: 7.50,  tar: 5.00, cog: 3.50, egt: 24.00, mev: 4.75, oabt: 45.25, score: 81.41308, rank: 1794 },
-      { soz: 11.25, mat: 4.25,  tar: 6.00, cog: 4.75, egt: 17.50, mev: 5.75, oabt: 47.50, score: 81.36472, rank: 1822 },
-      { soz: 12.75, mat: 5.50,  tar: 5.00, cog: 3.75, egt: 27.50, mev: 8.00, oabt: 42.75, score: 81.36014, rank: 1828 },
-      { soz: 12.50, mat: 8.50,  tar: 5.00, cog: 4.75, egt: 17.50, mev: 6.75, oabt: 45.00, score: 81.33692, rank: 1845 },
-      { soz: 10.75, mat: 6.00,  tar: 4.75, cog: 0.50, egt: 22.00, mev: 8.00, oabt: 47.50, score: 81.29832, rank: 1864 },
-      { soz: 10.00, mat: 7.25,  tar: 6.00, cog: 3.50, egt: 18.75, mev: 4.25, oabt: 47.50, score: 81.29523, rank: 1867 },
-      { soz: 12.50, mat: 12.50, tar: 6.00, cog: 3.50, egt: 18.75, mev: 6.75, oabt: 42.50, score: 81.22786, rank: 1907 },
-      { soz: 15.00, mat: 8.00,  tar: 6.00, cog: 3.50, egt: 23.75, mev: 5.75, oabt: 41.75, score: 81.22587, rank: 1909 },
-      { soz: 11.25, mat: 7.75,  tar: 4.75, cog: 4.75, egt: 21.25, mev: 5.75, oabt: 45.00, score: 81.14343, rank: 1967 },
-      { soz: 14.00, mat: 7.00,  tar: 5.00, cog: 5.00, egt: 26.50, mev: 5.75, oabt: 41.50, score: 81.10670, rank: 1996 },
-      { soz: 12.50, mat: 5.50,  tar: 6.00, cog: 3.50, egt: 24.00, mev: 6.00, oabt: 44.00, score: 81.08117, rank: 2018 },
-      { soz: 11.25, mat: 11.50, tar: 6.00, cog: 4.75, egt: 18.75, mev: 4.25, oabt: 43.75, score: 81.06217, rank: 2031 },
-      { soz: 12.75, mat: 14.00, tar: 2.00, cog: 3.50, egt: 21.00, mev: 5.00, oabt: 43.75, score: 80.93455, rank: 2104 },
-      { soz: 8.75,  mat: 12.75, tar: 1.25, cog: 5.00, egt: 23.75, mev: 5.75, oabt: 45.00, score: 80.87814, rank: 2136 },
-      { soz: 13.75, mat: 8.75,  tar: 3.75, cog: 4.75, egt: 22.50, mev: 6.75, oabt: 42.50, score: 80.86048, rank: 2147 },
-      { soz: 10.25, mat: 5.25,  tar: 3.75, cog: 4.75, egt: 21.25, mev: 4.50, oabt: 47.50, score: 80.85157, rank: 2158 },
-      { soz: 13.75, mat: 6.25,  tar: 6.00, cog: 3.50, egt: 14.75, mev: 5.00, oabt: 46.25, score: 80.79977, rank: 2189 },
-      { soz: 11.25, mat: 2.00,  tar: 5.00, cog: 6.00, egt: 25.00, mev: 5.50, oabt: 45.00, score: 80.70263, rank: 2254 },
-      { soz: 7.75,  mat: 8.75,  tar: 4.75, cog: 6.00, egt: 27.50, mev: 6.75, oabt: 42.50, score: 80.62126, rank: 2310 },
-      { soz: 13.75, mat: 3.75,  tar: 4.75, cog: 4.75, egt: 25.00, mev: 4.50, oabt: 43.75, score: 80.57057, rank: 2360 },
-      { soz: 11.25, mat: 15.00, tar: 5.00, cog: 1.25, egt: 20.00, mev: 6.75, oabt: 42.50, score: 80.54627, rank: 2379 },
-      { soz: 13.75, mat: 8.50,  tar: 3.75, cog: 2.00, egt: 23.00, mev: 2.75, oabt: 45.00, score: 80.54279, rank: 2383 },
-      { soz: 7.50,  mat: 7.50,  tar: 3.75, cog: 3.50, egt: 27.50, mev: 0.50, oabt: 47.50, score: 80.51812, rank: 2398 },
-      { soz: 11.25, mat: 2.00,  tar: 6.00, cog: 4.75, egt: 22.50, mev: 6.75, oabt: 45.00, score: 80.39744, rank: 2473 },
-      { soz: 9.75,  mat: 6.00,  tar: 3.75, cog: 3.75, egt: 21.50, mev: 6.75, oabt: 46.25, score: 80.30801, rank: 2539 },
-      { soz: 8.75,  mat: 4.25,  tar: 6.00, cog: 3.50, egt: 25.00, mev: 6.75, oabt: 45.00, score: 80.28812, rank: 2562 },
-      { soz: 11.25, mat: 12.00, tar: 4.75, cog: 6.00, egt: 22.50, mev: 6.75, oabt: 40.25, score: 80.28254, rank: 2566 },
-      { soz: 12.50, mat: 6.00,  tar: 6.00, cog: 3.75, egt: 25.25, mev: 8.00, oabt: 41.25, score: 80.26501, rank: 2581 },
-      { soz: 13.75, mat: 12.50, tar: 6.00, cog: 3.50, egt: 18.75, mev: 6.75, oabt: 40.25, score: 80.15620, rank: 2661 },
-      { soz: 9.00,  mat: 7.50,  tar: 4.75, cog: 5.00, egt: 22.50, mev: 4.25, oabt: 45.00, score: 80.14749, rank: 2665 },
-      { soz: 8.25,  mat: 9.00,  tar: 6.00, cog: 4.75, egt: 24.00, mev: 6.75, oabt: 42.50, score: 80.13009, rank: 2679 },
-      { soz: 9.00,  mat: 1.75,  tar: 6.00, cog: 6.00, egt: 30.00, mev: 7.00, oabt: 42.50, score: 80.08631, rank: 2715 },
-      { soz: 11.25, mat: 13.75, tar: 4.75, cog: 3.75, egt: 21.25, mev: 4.75, oabt: 41.25, score: 79.85975, rank: 2876 },
-      { soz: 6.75,  mat: 5.75,  tar: 4.00, cog: 2.75, egt: 23.75, mev: 8.00, oabt: 46.25, score: 79.64387, rank: 3035 },
-      { soz: 11.25, mat: 6.50,  tar: 0.25, cog: 2.50, egt: 27.50, mev: 6.75, oabt: 45.00, score: 79.62112, rank: 3054 },
-      { soz: 8.75,  mat: 10.25, tar: 3.75, cog: 3.50, egt: 23.00, mev: 5.50, oabt: 43.75, score: 79.50945, rank: 3151 },
-      { soz: 8.75,  mat: 12.50, tar: 4.75, cog: 6.00, egt: 20.00, mev: 6.75, oabt: 41.25, score: 79.49188, rank: 3170 },
-      { soz: 13.75, mat: 12.75, tar: 4.00, cog: 3.50, egt: 21.25, mev: 5.50, oabt: 40.00, score: 79.42488, rank: 3226 },
-      { soz: 7.50,  mat: 12.50, tar: 6.00, cog: 4.75, egt: 17.50, mev: 6.75, oabt: 42.50, score: 79.33505, rank: 3302 },
-      { soz: 11.25, mat: 8.00,  tar: 3.50, cog: 3.50, egt: 20.00, mev: 7.00, oabt: 43.75, score: 79.30370, rank: 3333 },
-      { soz: 10.00, mat: 7.50,  tar: 5.00, cog: 3.50, egt: 18.00, mev: 4.50, oabt: 45.25, score: 79.20140, rank: 3431 },
-      { soz: 11.50, mat: 9.50,  tar: 3.75, cog: 3.75, egt: 22.00, mev: 8.00, oabt: 40.75, score: 78.78734, rank: 3771 },
-      { soz: 11.25, mat: 6.75,  tar: 4.75, cog: 2.25, egt: 23.75, mev: 5.50, oabt: 42.50, score: 78.67091, rank: 3856 },
-      { soz: 9.00,  mat: 10.50, tar: 5.00, cog: 2.50, egt: 16.50, mev: 3.00, oabt: 45.00, score: 78.45206, rank: 4041 },
-      { soz: 12.50, mat: 8.75,  tar: 6.00, cog: 4.75, egt: 25.00, mev: 4.25, oabt: 38.00, score: 78.20150, rank: 4250 },
-      { soz: 12.50, mat: 5.00,  tar: 3.75, cog: 3.50, egt: 23.75, mev: 2.25, oabt: 42.75, score: 77.90312, rank: 4525 },
-      { soz: 8.75,  mat: 7.75,  tar: 5.00, cog: 2.75, egt: 16.25, mev: 4.50, oabt: 45.00, score: 77.86606, rank: 4554 },
-      { soz: 10.00, mat: 6.00,  tar: 1.00, cog: 2.00, egt: 20.75, mev: 4.75, oabt: 46.25, score: 77.72444, rank: 4690 },
-      { soz: 8.75,  mat: 6.00,  tar: 5.00, cog: 2.25, egt: 23.75, mev: 5.50, oabt: 42.75, score: 77.68956, rank: 4721 },
-      { soz: 6.25,  mat: 4.75,  tar: 5.00, cog: 1.00, egt: 17.75, mev: 5.50, oabt: 47.50, score: 77.58698, rank: 4804 },
-      { soz: 11.25, mat: 11.50, tar: 5.00, cog: 2.25, egt: 18.75, mev: 2.00, oabt: 41.25, score: 77.54719, rank: 4849 },
-      { soz: 8.00,  mat: 4.00,  tar: 3.75, cog: 3.75, egt: 20.00, mev: 8.00, oabt: 44.00, score: 77.29337, rank: 5066 },
-      { soz: 11.25, mat: 5.50,  tar: 5.00, cog: 3.50, egt: 22.75, mev: 4.75, oabt: 40.50, score: 76.98016, rank: 5328 },
-      { soz: 9.25,  mat: 6.75,  tar: 2.75, cog: 2.50, egt: 19.00, mev: 5.75, oabt: 44.00, score: 76.91906, rank: 5372 },
-      { soz: 10.00, mat: 1.00,  tar: 6.00, cog: 4.75, egt: 22.50, mev: 6.75, oabt: 41.25, score: 76.91157, rank: 5379 },
-      { soz: 12.50, mat: 6.50,  tar: 4.75, cog: 2.25, egt: 22.75, mev: 7.00, oabt: 38.75, score: 76.60909, rank: 5640 },
-      { soz: 13.75, mat: 8.50,  tar: 4.75, cog: 4.75, egt: 22.50, mev: 5.50, oabt: 36.25, score: 76.51050, rank: 5724 },
-      { soz: 7.00,  mat: 6.50,  tar: 5.00, cog: 2.50, egt: 13.25, mev: 5.50, oabt: 45.25, score: 76.31709, rank: 5891 },
-      { soz: 8.50,  mat: 2.75,  tar: 6.00, cog: 3.50, egt: 18.50, mev: 4.25, oabt: 43.00, score: 75.94577, rank: 6198 },
-      { soz: 12.50, mat: 7.50,  tar: 2.75, cog: 2.50, egt: 18.50, mev: 2.50, oabt: 41.50, score: 75.73819, rank: 6364 },
-      { soz: 10.00, mat: 9.25,  tar: 3.00, cog: 2.00, egt: 20.25, mev: 4.75, oabt: 39.50, score: 74.87110, rank: 7038 },
-      { soz: 7.50,  mat: 2.75,  tar: 3.50, cog: 2.50, egt: 21.50, mev: 5.00, oabt: 42.75, score: 74.77328, rank: 7113 },
-      { soz: 12.50, mat: 3.25,  tar: 4.75, cog: 1.00, egt: 16.25, mev: 1.75, oabt: 41.25, score: 73.73661, rank: 7935 },
-      { soz: 10.00, mat: 8.00,  tar: 3.75, cog: 6.00, egt: 17.50, mev: 4.25, oabt: 35.50, score: 72.67214, rank: 8727 },
-      { soz: 10.00, mat: 3.75,  tar: 4.75, cog: 1.00, egt: 17.75, mev: 2.50, oabt: 37.75, score: 71.00036, rank: 9982 }
-    ];
-
-    candidateDatabase.forEach(c => {
-      c.index = (0.09375 * (c.soz / 15)) + (0.09375 * (c.mat / 15)) + (0.0375 * (c.tar / 6)) + 
-                (0.0375 * (c.cog / 6)) + (0.1875 * (c.egt / 30)) + (0.05 * (c.mev / 8)) + (0.50 * (c.oabt / 50));
-    });
-
-    const sortedCandidates = [...candidateDatabase].sort((a, b) => b.index - a.index);
-
-    const subtestStats = {
-      sozel:    { max: 15, mu: 8.3,  sigma: 3.2 },
-      sayisal:  { max: 15, mu: 3.4,  sigma: 3.9 },
-      tarih:    { max: 6,  mu: 2.7,  sigma: 2.1 },
-      cografya: { max: 6,  mu: 2.2,  sigma: 1.7 },
-      egitim:   { max: 30, mu: 11.2, sigma: 6.3 },
-      mevzuat:  { max: 8,  mu: 2.5,  sigma: 2.4 },
-      oabt:     { max: 50, mu: 33.5, sigma: 9.2 }
-    };
-
-    const TOTAL_PDR_2026_CANDIDATES = 23236;
-    let currentInputMode = 'dy';
-    let chartInstance = null;
-    let radarChartInstance = null;
 
     // ==========================================
     // 🔐 GOOGLE AUTH & KULLANICI YÖNETİMİ
     // ==========================================
     async function loginWithGoogle() {
       if (!supabaseClient) {
-        alert("Lütfen önce Supabase URL ve ANON KEY alanlarını kontrol edin.");
+        alert("Lütfen Supabase bağlantı anahtarlarınızı kontrol edin.");
         return;
       }
 
       if (window.location.protocol === 'file:') {
-        alert("⚠️ Google ile Giriş yapabilmek için sayfayı 'file://' olarak değil, VS Code Live Server (http://localhost:5500) veya canlı web siteniz üzerinden açmalısınız.");
+        alert("⚠️ Google ile Giriş yapabilmek için sayfayı 'file://' olarak değil, VS Code Live Server veya canlı web siteniz üzerinden açmalısınız.");
         return;
       }
 
       try {
-        const redirectUrl = window.location.origin + window.location.pathname;
+        // Tam URL'yi yakala ve eski dosyalara gitmesini engelle
+        const redirectUrl = window.location.href.split('#')[0];
         const { error } = await supabaseClient.auth.signInWithOAuth({
           provider: 'google',
           options: { redirectTo: redirectUrl }
@@ -772,6 +684,7 @@
       currentUser = null;
       updateAuthUI();
       fetchLiveLeaderboard();
+      updateChatUI();
     }
 
     async function checkAuthSession() {
@@ -784,6 +697,7 @@
         const { data: { session } } = await supabaseClient.auth.getSession();
         currentUser = session?.user || null;
         updateAuthUI();
+        updateChatUI();
 
         if (currentUser) {
           await loadUserCloudData();
@@ -792,17 +706,20 @@
         }
 
         fetchLiveLeaderboard();
+        fetchChatMessages();
+        initChatRealtime();
 
         supabaseClient.auth.onAuthStateChange(async (_event, session) => {
           currentUser = session?.user || null;
           updateAuthUI();
+          updateChatUI();
           if (currentUser) {
             await loadUserCloudData();
           }
           fetchLiveLeaderboard();
         });
       } catch (err) {
-        console.warn("Auth kontrolü yerel modda çalışıyor:", err);
+        console.warn("Auth kontrolü yerel modda:", err);
         restoreLocalInputs();
       }
     }
@@ -826,6 +743,130 @@
       }
     }
 
+    function updateChatUI() {
+      const prompt = document.getElementById('chat-auth-prompt');
+      const form = document.getElementById('chat-form');
+      if (currentUser) {
+        prompt.classList.add('hidden');
+        form.classList.remove('hidden');
+      } else {
+        prompt.classList.remove('hidden');
+        form.classList.add('hidden');
+      }
+    }
+
+    // ==========================================
+    // 💬 CANLI SOHBET MOTORU (REALTIME WEBSOCKET)
+    // ==========================================
+    async function fetchChatMessages() {
+      if (!supabaseClient) return;
+      try {
+        const { data, error } = await supabaseClient
+          .from('messages')
+          .select('*')
+          .order('created_at', { ascending: true })
+          .limit(60);
+
+        if (error) throw error;
+        chatMessagesList = data || [];
+        renderChatMessages();
+      } catch (err) {
+        console.warn("Mesajlar çekilemedi:", err);
+      }
+    }
+
+    function initChatRealtime() {
+      if (!supabaseClient || isChatRealtimeSubscribed) return;
+
+      supabaseClient
+        .channel('public:messages')
+        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, payload => {
+          chatMessagesList.push(payload.new);
+          renderChatMessages();
+        })
+        .subscribe();
+
+      isChatRealtimeSubscribed = true;
+    }
+
+    async function handleSendChatMessage(e) {
+      e.preventDefault();
+      if (!supabaseClient || !currentUser) {
+        loginWithGoogle();
+        return;
+      }
+
+      const input = document.getElementById('chat-input');
+      const content = input.value.trim();
+      if (!content) return;
+
+      const userName = currentUser.user_metadata?.full_name || currentUser.email?.split('@')[0] || 'Aday';
+      const userAvatar = currentUser.user_metadata?.avatar_url || '';
+      
+      let rankBadge = '';
+      if (latestServerResult) {
+        rankBadge = `${latestServerResult.rank}. Sıra`;
+      }
+
+      input.value = '';
+      input.focus();
+
+      try {
+        const { error } = await supabaseClient.from('messages').insert([{
+          user_id: currentUser.id,
+          user_name: userName,
+          user_avatar: userAvatar,
+          user_rank_badge: rankBadge,
+          content: content
+        }]);
+
+        if (error) throw error;
+      } catch (err) {
+        alert("Mesaj gönderilemedi: " + err.message);
+      }
+    }
+
+    function renderChatMessages() {
+      const box = document.getElementById('chat-messages-box');
+      if (chatMessagesList.length === 0) {
+        box.innerHTML = `
+          <div class="text-center py-10 text-slate-500">
+            💬 Henüz sohbet odasında mesaj yok. İlk mesajı siz yazarak PDR adaylarıyla tanışın!
+          </div>
+        `;
+        return;
+      }
+
+      box.innerHTML = chatMessagesList.map(msg => {
+        const isMe = currentUser && msg.user_id === currentUser.id;
+        const time = new Date(msg.created_at).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+        const avatarSrc = msg.user_avatar || 'https://api.dicebear.com/7.x/bottts/svg?seed=' + msg.user_id;
+
+        return `
+          <div class="flex items-start gap-2.5 ${isMe ? 'flex-row-reverse' : ''}">
+            <img src="${avatarSrc}" alt="Avatar" class="w-7 h-7 rounded-full border border-slate-700 object-cover flex-shrink-0 mt-0.5">
+            <div class="max-w-[80%] sm:max-w-[70%]">
+              <div class="flex items-center gap-1.5 mb-0.5 ${isMe ? 'justify-end' : ''}">
+                <span class="font-bold text-[11px] text-slate-300">${msg.user_name}</span>
+                ${msg.user_rank_badge ? `<span class="px-1.5 py-0.2 rounded bg-indigo-950 border border-indigo-700 text-indigo-300 text-[9px] font-mono">${msg.user_rank_badge}</span>` : ''}
+                <span class="text-[9px] text-slate-500 font-mono">${time}</span>
+              </div>
+              <div class="p-2.5 rounded-2xl text-xs leading-relaxed break-words ${isMe ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-tr-none shadow-md' : 'bg-slate-950/80 border border-slate-800 text-slate-200 rounded-tl-none'}">
+                ${escapeHtml(msg.content)}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function escapeHtml(text) {
+      const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+      return text.replace(/[&<>"']/g, m => map[m]);
+    }
+
     // ==========================================
     // 💾 FORM GİRDİLERİNİ SAKLAMA & GERİ YÜKLEME
     // ==========================================
@@ -843,7 +884,7 @@
           console.warn("Yerel girdiler okunamadı:", e);
         }
       }
-      handleInputChange(false); // UI güncelle ama tekrar buluta gönderme
+      handleInputChange(false);
     }
 
     async function loadUserCloudData() {
@@ -928,8 +969,12 @@
         return;
       }
 
+      if (!latestServerResult) {
+        alert("Lütfen önce netlerinizi giriniz.");
+        return;
+      }
+
       const userNets = getUserNets();
-      const evaluation = evaluateUserDirectly(userNets);
       const isAnonymous = document.getElementById('anon-toggle')?.checked || false;
       const rawName = currentUser.user_metadata?.full_name || currentUser.email?.split('@')[0] || 'Aday';
       const displayName = isAnonymous ? anonymizeName(rawName) : rawName;
@@ -949,7 +994,7 @@
           avatar_url: avatarUrl,
           ags_net: totalAgs,
           oabt_net: userNets.oabt,
-          score: evaluation.score,
+          score: latestServerResult.score,
           raw_inputs: rawInputs,
           is_anonymous: isAnonymous,
           updated_at: new Date().toISOString()
@@ -1027,7 +1072,6 @@
         return;
       }
 
-      // Kendi sıramızı hesapla
       let myRank = null;
       if (currentUser) {
         const index = liveLeaderboardData.findIndex(item => item.user_id === currentUser.id);
@@ -1162,126 +1206,55 @@
         saveInputsLocally();
       }
 
-      calculateRanking(userNets);
+      clearTimeout(calcDebounceTimer);
+      calcDebounceTimer = setTimeout(() => {
+        calculateRankingViaServer(userNets);
+      }, 150);
     }
 
-    function computeZScore(net, stat) {
-      return (net - stat.mu) / stat.sigma;
+    // 🔒 GÜVENLİ SUNUCU TARAFLI HESAPLAMA ÇAĞRISI (SUPABASE RPC)
+    async function calculateRankingViaServer(userNets) {
+      if (!supabaseClient) return;
+
+      try {
+        const { data, error } = await supabaseClient.rpc('calculate_pdr_ranking', {
+          p_user_nets: userNets
+        });
+
+        if (error) throw error;
+        if (!data) return;
+
+        latestServerResult = data;
+        renderServerResults(data, userNets);
+
+      } catch (err) {
+        console.error("Sunucu hesaplama hatası:", err);
+      }
     }
 
-    function evaluateUserDirectly(userNets) {
-      for (let i = 0; i < candidateDatabase.length; i++) {
-        const c = candidateDatabase[i];
-        const diff = Math.abs(userNets.sozel - c.soz) + 
-                     Math.abs(userNets.sayisal - c.mat) + 
-                     Math.abs(userNets.tarih - c.tar) + 
-                     Math.abs(userNets.cografya - c.cog) + 
-                     Math.abs(userNets.egitim - c.egt) + 
-                     Math.abs(userNets.mevzuat - c.mev) + 
-                     Math.abs(userNets.oabt - c.oabt);
-        
-        if (diff < 0.05) {
-          return { score: c.score, rank: c.rank, isExact: true };
+    function renderServerResults(data, userNets) {
+      const exact2026Rank = data.rank;
+      const baseScore = data.score;
+
+      if (data.z_scores) {
+        for (let key in data.z_scores) {
+          updateSubtestCard(key, data.z_scores[key]);
         }
       }
 
-      const userIndex = (0.09375 * (userNets.sozel / 15)) + 
-                        (0.09375 * (userNets.sayisal / 15)) + 
-                        (0.0375 * (userNets.tarih / 6)) + 
-                        (0.0375 * (userNets.cografya / 6)) + 
-                        (0.1875 * (userNets.egitim / 30)) + 
-                        (0.05 * (userNets.mevzuat / 8)) + 
-                        (0.50 * (userNets.oabt / 50));
-
-      const topCand = sortedCandidates[0];
-      const botCand = sortedCandidates[sortedCandidates.length - 1];
-
-      if (userIndex >= topCand.index) {
-        const bonus = (userIndex - topCand.index) * 140;
-        return { score: Math.min(100, topCand.score + bonus), rank: 1, isExact: false };
+      if (data.nearest_5) {
+        renderSimilarCandidates(data.nearest_5);
       }
-
-      if (userIndex <= botCand.index) {
-        const ratio = (botCand.index - userIndex) / Math.max(0.01, botCand.index);
-        const projectedRank = Math.min(TOTAL_PDR_2026_CANDIDATES, Math.round(botCand.rank + ratio * 13254));
-        const projectedScore = Math.max(40, botCand.score - ratio * 30);
-        return { score: projectedScore, rank: projectedRank, isExact: false };
-      }
-
-      for (let i = 0; i < sortedCandidates.length - 1; i++) {
-        const high = sortedCandidates[i];
-        const low = sortedCandidates[i + 1];
-
-        if (userIndex <= high.index && userIndex >= low.index) {
-          const t = (userIndex - low.index) / (high.index - low.index);
-          const interpolatedRank = Math.round(low.rank + (1 - t) * (high.rank - low.rank));
-          const interpolatedScore = low.score + t * (high.score - low.score);
-          return { score: interpolatedScore, rank: Math.max(1, interpolatedRank), isExact: false };
-        }
-      }
-
-      return { score: 70.0, rank: 11000, isExact: false };
-    }
-
-    function findNearestCandidates(userNets) {
-      return candidateDatabase.map(cand => {
-        const dSoz = (userNets.sozel - cand.soz) * 1.0;
-        const dMat = (userNets.sayisal - cand.mat) * 1.0;
-        const dTar = (userNets.tarih - cand.tar) * 1.2;
-        const dCog = (userNets.cografya - cand.cog) * 1.2;
-        const dEgt = (userNets.egitim - cand.egt) * 0.8;
-        const dMev = (userNets.mevzuat - cand.mev) * 1.0;
-        const dOabt = (userNets.oabt - cand.oabt) * 2.8;
-
-        const dist = Math.sqrt(
-          dSoz*dSoz + dMat*dMat + dTar*dTar + dCog*dCog + dEgt*dEgt + dMev*dMev + dOabt*dOabt
-        );
-
-        return { ...cand, distance: dist };
-      }).sort((a, b) => a.distance - b.distance).slice(0, 5);
-    }
-
-    function calculateRanking(providedNets) {
-      const userNets = providedNets || getUserNets();
-
-      const zScores = {
-        sozel: computeZScore(userNets.sozel, subtestStats.sozel),
-        sayisal: computeZScore(userNets.sayisal, subtestStats.sayisal),
-        tarih: computeZScore(userNets.tarih, subtestStats.tarih),
-        cografya: computeZScore(userNets.cografya, subtestStats.cografya),
-        egitim: computeZScore(userNets.egitim, subtestStats.egitim),
-        mevzuat: computeZScore(userNets.mevzuat, subtestStats.mevzuat),
-        oabt: computeZScore(userNets.oabt, subtestStats.oabt)
-      };
-
-      updateSubtestCard('sozel', zScores.sozel);
-      updateSubtestCard('sayisal', zScores.sayisal);
-      updateSubtestCard('tarih', zScores.tarih);
-      updateSubtestCard('cografya', zScores.cografya);
-      updateSubtestCard('egitim', zScores.egitim);
-      updateSubtestCard('mevzuat', zScores.mevzuat);
-      updateSubtestCard('oabt', zScores.oabt);
-
-      const evaluation = evaluateUserDirectly(userNets);
-      const exact2026Rank = evaluation.rank;
-      const baseScore = evaluation.score;
-
-      const nearest5 = findNearestCandidates(userNets);
-      renderSimilarCandidates(nearest5);
 
       const min2027Rank = Math.max(1, Math.round(exact2026Rank * 0.95));
       const max2027Rank = Math.round(exact2026Rank * 1.05);
-
       const rankText = (exact2026Rank === 1) ? "1 - 1" : `${min2027Rank.toLocaleString('tr-TR')} - ${max2027Rank.toLocaleString('tr-TR')}`;
-      
+
       document.getElementById('result-rank-range').innerText = rankText;
-      document.getElementById('result-p2-score').innerText = baseScore.toFixed(5);
+      document.getElementById('result-p2-score').innerText = parseFloat(baseScore).toFixed(5);
       document.getElementById('result-2026-rank').innerText = `${exact2026Rank.toLocaleString('tr-TR')}. Sıra`;
-
       document.getElementById('sticky-rank-range').innerText = rankText;
-
-      const percentile = ((exact2026Rank / TOTAL_PDR_2026_CANDIDATES) * 100).toFixed(1);
-      document.getElementById('percentile-label').innerText = `İlk %${percentile}`;
+      document.getElementById('percentile-label').innerText = `İlk %${data.percentile}`;
 
       const statusBadge = document.getElementById('status-badge');
       if (exact2026Rank <= 450) {
@@ -1298,7 +1271,7 @@
         statusBadge.className = "text-xs font-bold px-3 py-0.5 rounded-full border bg-rose-500/20 border-rose-500/50 text-rose-300 shadow-sm";
       }
 
-      renderPrescription(userNets, zScores, exact2026Rank);
+      renderPrescription(userNets, data.z_scores, exact2026Rank);
       updateRadarChart(userNets);
       renderScenarioMatrix(userNets);
       runCustomSimulation();
@@ -1308,18 +1281,23 @@
       document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
       
       document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.className = "tab-btn p-3 rounded-2xl border transition-all text-left flex flex-col justify-between gap-1 shadow-md bg-slate-900/90 text-slate-300 border-slate-800 hover:border-slate-700";
+        btn.className = "tab-btn p-2.5 rounded-2xl border transition-all text-left flex flex-col justify-between gap-1 shadow-md bg-slate-900/90 text-slate-300 border-slate-800 hover:border-slate-700";
       });
 
       document.getElementById(tabId).classList.remove('hidden');
       
       const activeBtn = document.getElementById(`btn-${tabId}`);
       if (activeBtn) {
-        activeBtn.className = "tab-btn p-3 rounded-2xl border transition-all text-left flex flex-col justify-between gap-1 shadow-lg bg-gradient-to-br from-indigo-600 to-purple-600 text-white border-indigo-400 ring-2 ring-indigo-500/50";
+        activeBtn.className = "tab-btn p-2.5 rounded-2xl border transition-all text-left flex flex-col justify-between gap-1 shadow-lg bg-gradient-to-br from-indigo-600 to-purple-600 text-white border-indigo-400 ring-2 ring-indigo-500/50";
       }
 
       if (tabId === 'tab-overview' && radarChartInstance) radarChartInstance.resize();
       if (tabId === 'tab-leaderboard') fetchLiveLeaderboard();
+      if (tabId === 'tab-chat') {
+        fetchChatMessages();
+        const box = document.getElementById('chat-messages-box');
+        if (box) box.scrollTop = box.scrollHeight;
+      }
     }
 
     function renderPrescription(userNets, zScores, currentRank) {
@@ -1332,7 +1310,7 @@
         recs.push(`🌟 <b class="text-emerald-300">Harika ÖABT Gücü:</b> ÖABT netiniz (${userNets.oabt.toFixed(2)}) çok güçlü bir taban oluşturuyor.`);
       }
 
-      if (zScores.sayisal < 0.2) {
+      if (zScores && zScores.sayisal < 0.2) {
         recs.push(`📐 <b class="text-blue-300">Sayısal Fırsat Alanı:</b> Türkiye sayısal ortalaması (3.4) çok düşük olduğu için buradan yapacağınız her +1 doğru cevap, yüksek standart sapma çarpanıyla sizi yüzlerce adayın önüne geçirir.`);
       }
 
@@ -1434,7 +1412,7 @@
       if (!zElem || !statElem) return;
 
       const sign = z >= 0 ? '+' : '';
-      zElem.innerText = `${sign}${z.toFixed(2)} σ`;
+      zElem.innerText = `${sign}${parseFloat(z).toFixed(2)} σ`;
 
       if (z >= 1.0) {
         zElem.className = "font-black text-emerald-400 block text-xs";
@@ -1467,7 +1445,7 @@
             <div class="flex items-center gap-2">
               <span class="font-bold text-indigo-300">#${idx+1} Belge:</span>
               <span class="bg-indigo-950 border border-indigo-700/50 text-indigo-200 px-2 py-0.5 rounded-lg font-black text-xs font-mono">${cand.rank}. Sıra</span>
-              <span class="text-emerald-400 font-semibold font-mono">${cand.score.toFixed(5)} Puan</span>
+              <span class="text-emerald-400 font-semibold font-mono">${parseFloat(cand.score).toFixed(5)} Puan</span>
             </div>
             <div class="text-[10px] text-slate-400 mt-1">
               Sözel: <b class="text-slate-200">${cand.soz}</b> | Sayısal: <b class="text-slate-200">${cand.mat}</b> | Tarih: <b class="text-slate-200">${cand.tar}</b> | Coğ: <b class="text-slate-200">${cand.cog}</b> | Eğt: <b class="text-slate-200">${cand.egt}</b> | Mev: <b class="text-slate-200">${cand.mev}</b> | ÖABT: <b class="text-purple-300">${cand.oabt} Net</b>
@@ -1479,7 +1457,7 @@
       });
     }
 
-    function renderScenarioMatrix(userNets) {
+    async function renderScenarioMatrix(userNets) {
       const scenarios = [
         { name: "🔵 2026 Tabanı (Aynı Zorluk)", agsShift: 0, oabtShift: 0, tag: "bg-indigo-900/40 text-indigo-300" },
         { name: "🟢 2027 AGS -2 Net (Zor AGS)", agsShift: -2, oabtShift: 0, tag: "bg-emerald-950 text-emerald-300" },
@@ -1494,21 +1472,15 @@
       const tbody = document.getElementById('scenario-matrix-body');
       tbody.innerHTML = '';
 
-      scenarios.forEach(sc => {
-        const shiftedNets = {
-          sozel: Math.max(0, userNets.sozel - (sc.agsShift * 0.1875)),
-          sayisal: Math.max(0, userNets.sayisal - (sc.agsShift * 0.1875)),
-          tarih: Math.max(0, userNets.tarih - (sc.agsShift * 0.075)),
-          cografya: Math.max(0, userNets.cografya - (sc.agsShift * 0.075)),
-          egitim: Math.max(0, userNets.egitim - (sc.agsShift * 0.375)),
-          mevzuat: Math.max(0, userNets.mevzuat - (sc.agsShift * 0.10)),
-          oabt: Math.max(0, userNets.oabt - sc.oabtShift)
-        };
-
-        const res = evaluateUserDirectly(shiftedNets);
-
+      for (let sc of scenarios) {
         const agsLabel = sc.agsShift === 0 ? "Aynı" : (sc.agsShift < 0 ? `${Math.abs(sc.agsShift)} Net Zor` : `+${sc.agsShift} Net Kolay`);
         const oabtLabel = sc.oabtShift === 0 ? "Aynı" : (sc.oabtShift > 0 ? `+${sc.oabtShift} Net Kolay` : `${Math.abs(sc.oabtShift)} Net Zor`);
+
+        const diffRank = Math.round(sc.agsShift * 280 - sc.oabtShift * 380);
+        const currentRank = latestServerResult ? latestServerResult.rank : 1000;
+        const projectedRank = Math.max(1, Math.min(23236, currentRank + diffRank));
+        const currentScore = latestServerResult ? latestServerResult.score : 80;
+        const projectedScore = Math.min(100, Math.max(40, currentScore - (diffRank * 0.002)));
 
         const tr = document.createElement('tr');
         tr.className = "hover:bg-slate-800/40 transition-colors";
@@ -1516,36 +1488,28 @@
           <td class="py-2 px-2.5 font-medium"><span class="px-2 py-0.5 rounded-lg text-[10px] ${sc.tag}">${sc.name}</span></td>
           <td class="py-2 px-2.5">${agsLabel}</td>
           <td class="py-2 px-2.5">${oabtLabel}</td>
-          <td class="py-2 px-2.5 font-bold text-emerald-400 font-mono">${res.score.toFixed(3)}</td>
-          <td class="py-2 px-2.5 font-black text-right text-indigo-300 font-mono">${res.rank.toLocaleString('tr-TR')}. Sıra</td>
+          <td class="py-2 px-2.5 font-bold text-emerald-400 font-mono">${projectedScore.toFixed(3)}</td>
+          <td class="py-2 px-2.5 font-black text-right text-indigo-300 font-mono">${projectedRank.toLocaleString('tr-TR')}. Sıra</td>
         `;
         tbody.appendChild(tr);
-      });
+      }
     }
 
     function runCustomSimulation() {
-      const userNets = getUserNets();
-
       const agsShift = parseInt(document.getElementById('slider-ags').value) || 0;
       const oabtShift = parseInt(document.getElementById('slider-oabt').value) || 0;
 
       document.getElementById('slider-ags-val').innerText = agsShift === 0 ? "0 Net (Aynı)" : (agsShift > 0 ? `+${agsShift} Net (Kolay)` : `${agsShift} Net (Zor)`);
       document.getElementById('slider-oabt-val').innerText = oabtShift === 0 ? "0 Net (Aynı)" : (oabtShift > 0 ? `+${oabtShift} Net (Kolay)` : `${oabtShift} Net (Zor)`);
 
-      const shiftedNets = {
-        sozel: Math.max(0, userNets.sozel - (agsShift * 0.1875)),
-        sayisal: Math.max(0, userNets.sayisal - (agsShift * 0.1875)),
-        tarih: Math.max(0, userNets.tarih - (agsShift * 0.075)),
-        cografya: Math.max(0, userNets.cografya - (agsShift * 0.075)),
-        egitim: Math.max(0, userNets.egitim - (agsShift * 0.375)),
-        mevzuat: Math.max(0, userNets.mevzuat - (agsShift * 0.10)),
-        oabt: Math.max(0, userNets.oabt - oabtShift)
-      };
+      if (!latestServerResult) return;
 
-      const res = evaluateUserDirectly(shiftedNets);
+      const diffRank = Math.round(agsShift * 280 - oabtShift * 380);
+      const simRank = Math.max(1, Math.min(23236, latestServerResult.rank + diffRank));
+      const simScore = Math.min(100, Math.max(40, latestServerResult.score - (diffRank * 0.002)));
 
-      document.getElementById('custom-sim-rank').innerText = `${res.rank.toLocaleString('tr-TR')}. Sıra`;
-      document.getElementById('custom-sim-score').innerText = `P2-10: ${res.score.toFixed(3)}`;
+      document.getElementById('custom-sim-rank').innerText = `${simRank.toLocaleString('tr-TR')}. Sıra`;
+      document.getElementById('custom-sim-score').innerText = `P2-10: ${simScore.toFixed(3)}`;
 
       let desc = "Standart 2026 sınav zorluğu baz alınıyor.";
       if (agsShift < 0 && oabtShift <= 0) {
@@ -1558,7 +1522,7 @@
       document.getElementById('custom-sim-desc').innerText = desc;
     }
 
-    // SAYFA AÇILDIĞINDA OTURUM VE NETLERİ YÜKLE
+    // SAYFA AÇILDIĞINDA ÇALIŞTIR
     window.onload = function() {
       checkAuthSession();
     };
