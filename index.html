@@ -1,20 +1,21 @@
 <!DOCTYPE html>
+
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Pdrkampus.online | 2027 AGS PDR Sıralama, Simülasyon & Soru Havuzu</title>
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="https://i.hizliresim.com/ztqymblw.png">
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Chart.js CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- Supabase JS SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Pdrkampus.online | 2027 AGS PDR Sıralama, Simülasyon &amp; Soru Havuzu</title>
+<!-- Favicon -->
+<link href="https://i.hizliresim.com/ztqymblw.png" rel="icon" type="image/png"/>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Supabase JS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
     body { font-family: 'Plus Jakarta Sans', sans-serif; }
     .bg-mesh {
       background-color: #060913;
@@ -31,807 +32,1297 @@
     .custom-scrollbar::-webkit-scrollbar { height: 4px; width: 4px; }
     .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 9999px; }
   </style>
-</head>
-<body class="bg-mesh min-h-screen text-slate-100 flex flex-col justify-between antialiased selection:bg-indigo-500 selection:text-white">
+<style id="rk-replit-theme">
+/* =========================================================
+   PDRKAMPÜS — REPLIT INSPIRED UI OVERRIDE
+   Calculation / Supabase logic is intentionally untouched.
+   ========================================================= */
+:root{
+  --rk-bg:#f5f2ea;
+  --rk-fg:#242b3f;
+  --rk-card:#fbfaf6;
+  --rk-border:#ded9ce;
+  --rk-muted:#747886;
+  --rk-navy:#252b40;
+  --rk-navy-2:#30364d;
+  --rk-teal:#2e806f;
+  --rk-coral:#e88a68;
+  --rk-yellow:#f4c95d;
+  --rk-danger:#c95b55;
+  --rk-radius:14px;
+  --rk-shadow:0 8px 24px rgba(36,43,63,.045);
+}
+html{scroll-behavior:smooth}
+body.rk-app-body{
+  margin:0!important;
+  min-height:100dvh;
+  display:block!important;
+  background:var(--rk-bg)!important;
+  color:var(--rk-fg)!important;
+  font-family:'DM Sans','Plus Jakarta Sans',sans-serif!important;
+  -webkit-font-smoothing:antialiased;
+}
+.rk-app-body *{box-sizing:border-box}
+.rk-app-body button,.rk-app-body input,.rk-app-body textarea,.rk-app-body select{font-family:inherit}
+.rk-app-body .bg-mesh{background:transparent!important}
+.rk-sidebar{
+  width:252px; position:fixed; inset:0 auto 0 0; z-index:100;
+  display:flex; flex-direction:column; padding:25px 16px 18px;
+  background:var(--rk-navy); color:#f7f3e9;
+}
+.rk-brand{display:flex;align-items:center;gap:11px;padding:3px 10px 31px}
+.rk-brand-mark{
+  width:34px;height:34px;border-radius:11px;background:var(--rk-yellow);
+  color:var(--rk-fg);display:grid;place-items:center;font-family:'Syne',sans-serif;
+  font-size:17px;font-weight:800;transform:rotate(-7deg)
+}
+.rk-brand-name{font-family:'Syne',sans-serif;font-weight:800;letter-spacing:-.04em;font-size:19px}
+.rk-brand-name em{color:var(--rk-coral);font-style:normal}
+.rk-sidebar-label{color:#969aaa;font-family:'Space Mono',monospace;letter-spacing:.12em;font-size:9px;text-transform:uppercase;padding:0 13px;margin:12px 0 9px}
+.rk-nav{display:grid;gap:3px}
+.rk-nav-button{
+  appearance:none;width:100%;border:0;color:#aeb3c1;background:transparent;border-radius:10px;
+  padding:11px 12px;display:flex;align-items:center;gap:11px;text-align:left;cursor:pointer;
+  transition:color .2s,background .2s,transform .2s;font-size:13px
+}
+.rk-nav-button:hover{color:#f7f3e9;background:#353b52;transform:translateX(2px)}
+.rk-nav-button.active{color:#f7f3e9;background:var(--rk-teal);box-shadow:inset 3px 0 var(--rk-yellow)}
+.rk-nav-icon{width:17px;display:inline-grid;place-items:center;font-size:17px;line-height:1}
+.rk-nav-count{margin-left:auto;color:var(--rk-yellow);font:10px 'Space Mono',monospace}
+.rk-sidebar-footer{margin-top:auto;border-top:1px solid #3d4358;padding:19px 9px 0}
+.rk-candidate-mini{display:flex;gap:10px;align-items:center}
+.rk-avatar{width:31px;height:31px;border-radius:50%;display:grid;place-items:center;flex:0 0 auto;font-weight:700;font-size:11px;background:var(--rk-coral);color:var(--rk-fg)}
+.rk-candidate-copy strong{display:block;font-size:12px}.rk-candidate-copy span{display:block;color:#969aaa;font-size:10px;margin-top:2px}
+.rk-settings{margin-left:auto;background:transparent;border:0;color:#969aaa;padding:5px;cursor:pointer}
+.rk-topbar{
+  margin-left:252px;height:82px;display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid var(--rk-border);padding:0 40px;background:var(--rk-bg)
+}
+.rk-topbar-left,.rk-topbar-actions{display:flex;align-items:center;gap:10px}
+.rk-breadcrumb{color:var(--rk-muted);font-size:12px;display:flex;align-items:center;gap:8px}
+.rk-breadcrumb strong{color:var(--rk-fg);font-weight:600}.rk-chevron{opacity:.65}
+.rk-icon-button{
+  height:36px;width:36px;border:1px solid var(--rk-border);background:var(--rk-card);border-radius:10px;
+  color:var(--rk-muted);display:grid;place-items:center;cursor:pointer;transition:transform .2s,border .2s,color .2s
+}
+.rk-icon-button:hover{color:var(--rk-teal);border-color:var(--rk-teal);transform:translateY(-2px)}
+.rk-mobile-menu{display:none}
+.rk-topbar #auth-header-container{display:flex;align-items:center;gap:9px}
+.rk-topbar #btn-login{
+  background:var(--rk-card)!important;color:var(--rk-fg)!important;border:1px solid var(--rk-border)!important;
+  border-radius:10px!important;box-shadow:none!important;padding:8px 12px!important
+}
+.rk-topbar #btn-login:hover{border-color:var(--rk-teal)!important;background:#fff!important}
+.rk-topbar #user-profile-badge{background:var(--rk-card)!important;border:1px solid var(--rk-border)!important;border-radius:10px!important;color:var(--rk-fg)!important}
+.rk-main{margin-left:252px;min-width:0;padding:0 40px 54px}
+.rk-main>.rk-intro,.rk-main>.rk-mode-switch,.rk-main>.rk-dashboard-grid{max-width:1260px;margin-left:auto;margin-right:auto}
+.rk-intro{display:flex;justify-content:space-between;gap:25px;align-items:flex-end;margin-bottom:22px;padding-top:0}
+.rk-eyebrow{color:var(--rk-teal);text-transform:uppercase;letter-spacing:.14em;font:700 10px 'Space Mono',monospace}
+.rk-intro h1{font-family:'Syne',sans-serif!important;font-size:clamp(29px,3.2vw,44px)!important;letter-spacing:-.055em;line-height:1.05;margin:7px 0 0!important;color:var(--rk-fg)!important}
+.rk-intro p{color:var(--rk-muted);font-size:14px;margin-top:12px}
+.rk-date-pill{background:var(--rk-card);border:1px solid var(--rk-border);padding:9px 13px;border-radius:9px;font:10px 'Space Mono',monospace;white-space:nowrap;color:var(--rk-muted)}
+.rk-mode-switch{
+  display:flex!important;justify-content:flex-start!important;padding:3px!important;border:1px solid var(--rk-border)!important;
+  border-radius:10px!important;background:var(--rk-card)!important;width:max-content!important;margin-bottom:17px!important;
+}
+.rk-mode-switch button{
+  border:0!important;background:transparent!important;padding:8px 12px!important;border-radius:7px!important;
+  color:var(--rk-muted)!important;font-size:11px!important;cursor:pointer!important;box-shadow:none!important
+}
+.rk-mode-switch #btn-mode-dy{background:var(--rk-muted)!important;color:white!important}
+.rk-dashboard-grid{display:grid!important;grid-template-columns:minmax(0,1.38fr) minmax(285px,.62fr)!important;gap:17px!important}
+.rk-input-column,.rk-results-column{display:flex;flex-direction:column;gap:17px}
+.rk-main .bg-slate-900\/80,.rk-main .bg-slate-900\/90,.rk-main .bg-slate-950\/50,.rk-main .bg-slate-950\/60,
+.rk-main .bg-slate-950\/70,.rk-main .bg-slate-950\/80,.rk-main .bg-slate-950\/90,
+.rk-main .bg-purple-950\/25,.rk-main .bg-gradient-to-br{
+  background:var(--rk-card)!important;color:var(--rk-fg)!important
+}
+.rk-main .border-slate-800\/80,.rk-main .border-slate-800\/60,.rk-main .border-slate-800,
+.rk-main .border-slate-700\/80,.rk-main .border-indigo-500\/40,.rk-main .border-indigo-500\/30,
+.rk-main .border-purple-800\/40,.rk-main .border-teal-500\/40,.rk-main .border-amber-500\/40{
+  border-color:var(--rk-border)!important
+}
+.rk-main .text-white{color:var(--rk-fg)!important}
+.rk-main .text-slate-200,.rk-main .text-slate-300{color:#3e4558!important}
+.rk-main .text-slate-400,.rk-main .text-slate-500{color:var(--rk-muted)!important}
+.rk-main .text-indigo-300,.rk-main .text-indigo-400{color:var(--rk-teal)!important}
+.rk-main .text-purple-300,.rk-main .text-purple-400{color:var(--rk-coral)!important}
+.rk-main .text-emerald-300,.rk-main .text-emerald-400{color:var(--rk-teal)!important}
+.rk-main .text-amber-400{color:#b57a19!important}
+.rk-main .shadow-xl,.rk-main .shadow-2xl,.rk-main .shadow-lg,.rk-main .shadow-md{box-shadow:var(--rk-shadow)!important}
+.rk-input-column>div,.rk-results-column>div{border-radius:var(--rk-radius)!important}
+.rk-input-column input,.rk-input-column select,.rk-input-column textarea,.rk-results-column input,.rk-results-column select,.rk-results-column textarea{
+  background:#f7f5ef!important;color:var(--rk-fg)!important;border-color:var(--rk-border)!important;border-radius:8px!important
+}
+.rk-input-column input:focus,.rk-results-column input:focus,.rk-results-column textarea:focus,.rk-results-column select:focus{border-color:var(--rk-teal)!important;box-shadow:0 0 0 3px rgba(46,128,111,.12)}
+.rk-main button.bg-indigo-600,.rk-main button.bg-gradient-to-r,.rk-main .bg-gradient-to-r.from-emerald-600{
+  border-radius:9px!important
+}
+.rk-main .bg-indigo-600,.rk-main .bg-gradient-to-r.from-indigo-600{background:var(--rk-teal)!important}
+.rk-main .bg-gradient-to-r.from-teal-600{background:var(--rk-teal)!important}
+.rk-main .bg-gradient-to-r.from-amber-500{background:var(--rk-coral)!important}
+.rk-main .bg-emerald-500{background:var(--rk-teal)!important}
+.rk-main .accent-indigo-500{accent-color:var(--rk-teal)!important}
+.rk-main .accent-purple-500{accent-color:var(--rk-coral)!important}
+.rk-main .accent-teal-500{accent-color:var(--rk-teal)!important}
+.rk-main .rounded-3xl{border-radius:var(--rk-radius)!important}
+.rk-main table thead tr{background:#eeeae1!important;color:var(--rk-muted)!important}
+.rk-main table td,.rk-main table th{border-color:var(--rk-border)!important}
+.rk-main .tab-content{width:100%}
+.rk-main .tab-content .bg-slate-900\/80,.rk-main .tab-content .bg-slate-900\/90{box-shadow:var(--rk-shadow)}
+/* Hero/result cards use navy like the reference design */
+.rk-results-column>#tab-overview{display:flex;flex-direction:column;gap:17px}
+.rk-results-column>#tab-overview:before{content:none!important;display:none!important}
+/* Keep the real result card visually prominent */
+#result-rank-range{color:var(--rk-yellow)!important}
+#result-p2-score{color:var(--rk-teal)!important}
+#status-badge{border-color:var(--rk-border)!important;background:#eeeae1!important;color:var(--rk-fg)!important}
+#live-platform-rank{color:var(--rk-teal)!important}
+#btn-publish-live{background:var(--rk-teal)!important;box-shadow:none!important}
+#btn-publish-live:hover{background:#286f60!important}
+.rk-main .hover\:bg-slate-800\/40:hover{background:#f0ede5!important}
+.rk-main .bg-indigo-950\/60,.rk-main .bg-indigo-950\/40,.rk-main .bg-indigo-950\/80{background:#eef2ed!important}
+.rk-main .bg-purple-950\/80,.rk-main .bg-purple-950\/20{background:#f7ece7!important}
+.rk-main .bg-amber-950\/80{background:#f7eee7!important}
+.rk-main .bg-emerald-950\/80{background:#eaf2ef!important}
+.rk-main .bg-teal-950{background:#e8f2ef!important}
+.rk-main .bg-slate-800{background:#e9e6de!important;color:var(--rk-fg)!important}
+.rk-main .text-rose-400{color:var(--rk-danger)!important}
+.rk-main .text-emerald-400{color:var(--rk-teal)!important}
+.rk-main .text-purple-200,.rk-main .text-purple-300{color:var(--rk-coral)!important}
+/* Existing 7-tab buttons are hidden; sidebar is the source of navigation */
+.rk-main>.rk-dashboard-grid>.rk-results-column>.grid.grid-cols-2,
+.rk-results-column>.grid.grid-cols-2,.rk-results-column>.grid{ }
+.rk-mobile-menu{display:none}
+.rk-toast{
+  position:fixed;right:22px;bottom:22px;z-index:500;padding:11px 14px;background:var(--rk-navy);color:#fff;
+  border-radius:9px;font-size:12px;box-shadow:0 15px 35px rgba(0,0,0,.18);animation:rk-in .18s ease
+}
+@keyframes rk-in{from{transform:translateY(8px);opacity:0}to{transform:translateY(0);opacity:1}}
+@media(max-width:1000px){
+  .rk-sidebar{width:220px}.rk-topbar,.rk-main{margin-left:220px}.rk-main{padding-left:24px;padding-right:24px}
+  .rk-dashboard-grid{grid-template-columns:1fr!important}
+}
+@media(max-width:680px){
+  .rk-sidebar{display:flex;transform:translateX(-105%);transition:transform .22s ease;box-shadow:12px 0 35px rgba(36,43,63,.18)}
+  .rk-sidebar.rk-open{transform:translateX(0)}
+  .rk-topbar,.rk-main{margin-left:0}
+  .rk-topbar{height:64px;padding:0 15px;margin-bottom:0}
+  .rk-main{padding:0 15px 35px}
+  .rk-mobile-menu{display:grid}
+  .rk-intro{display:block;padding-top:25px;margin-bottom:22px}
+  .rk-date-pill{display:inline-block;margin-top:17px}
+  .rk-mode-switch{display:none!important}
+  .rk-mode-switch button{display:none!important}
+  .rk-dashboard-grid{grid-template-columns:1fr!important}
+  #auth-header-container #btn-login span:first-of-type{display:none}
+  .rk-topbar .rk-topbar-actions{gap:5px}
+}
+</style>
+<script>
+function rkNavigate(tabId){
+  const target=document.getElementById(tabId);
+  if(!target){ console.warn('PDRkampus: sekme bulunamadı',tabId); return; }
+  if(typeof switchTab === 'function') switchTab(tabId);
+  document.querySelectorAll('.rk-nav-button').forEach(b=>b.classList.toggle('active',b.dataset.tab===tabId));
+  const labels={'tab-overview':'Genel Bakış','tab-leaderboard':'Canlı Sıralama','tab-simulator':'Senaryo Simülatörü','tab-matches':'Eşleşen Sonuçlar'};
+  const el=document.getElementById('rk-current-section'); if(el) el.textContent=labels[tabId]||'Genel Bakış';
+  target.classList.remove('hidden');
+  requestAnimationFrame(()=>target.scrollIntoView({behavior:'smooth',block:'start'}));
+  const side=document.getElementById('rk-sidebar'); if(side && window.innerWidth<=680){ side.classList.remove('rk-open'); document.getElementById('rk-sidebar-overlay')?.classList.remove('rk-visible'); document.body.classList.remove('rk-menu-open'); const mb=document.getElementById('rk-mobile-menu'); if(mb){mb.setAttribute('aria-expanded','false');mb.setAttribute('aria-label','Menüyü aç');const ic=mb.querySelector('span');if(ic)ic.textContent='☰';} }
+}
+function rkToast(msg){
+  const old=document.querySelector('.rk-toast'); if(old) old.remove();
+  const el=document.createElement('div'); el.className='rk-toast'; el.textContent=msg; document.body.appendChild(el);
+  setTimeout(()=>el.remove(),2600);
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  const btn=document.getElementById('rk-mobile-menu');
+  const closeBtn=document.getElementById('rk-sidebar-close');
+  const overlay=document.getElementById('rk-sidebar-overlay');
+  const side=document.getElementById('rk-sidebar');
+  const setMenu=(open)=>{
+    if(!side)return;
+    side.classList.toggle('rk-open',open);
+    if(overlay) overlay.classList.toggle('rk-visible',open);
+    document.body.classList.toggle('rk-menu-open',open && window.innerWidth<=680);
+    if(btn){
+      btn.setAttribute('aria-expanded',String(open));
+      btn.setAttribute('aria-label',open?'Menüyü kapat':'Menüyü aç');
+      const icon=btn.querySelector('span'); if(icon) icon.textContent=open?'×':'☰';
+    }
+  };
+  if(btn) btn.addEventListener('click',()=>setMenu(!side?.classList.contains('rk-open')));
+  if(closeBtn) closeBtn.addEventListener('click',()=>setMenu(false));
+  if(overlay) overlay.addEventListener('click',()=>setMenu(false));
+  document.addEventListener('keydown',(e)=>{if(e.key==='Escape') setMenu(false);});
+  // Canlı ligi arka planda önceden yükle; menüye tıklanınca bekleme olmasın.
+  setTimeout(() => { if (typeof fetchLiveLeaderboard === 'function') fetchLiveLeaderboard(); }, 250);
+});
+</script>
+<style id="rk-layout-v2">
+/* PDRKAMPÜS LAYOUT V2 — spacious desktop workspace */
+.rk-main{padding:34px 48px 70px!important;max-width:none!important}
+.rk-intro{max-width:1440px!important;margin:0 auto 28px!important;align-items:center!important}
+.rk-workspace{max-width:1440px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1.08fr) minmax(380px,.92fr);gap:24px;align-items:start}
+.rk-calc-panel,.rk-result-panel{min-width:0}
+.rk-calc-panel{display:flex;flex-direction:column;gap:18px}
+.rk-calc-panel>div{padding:22px!important;border-radius:18px!important}
+.rk-calc-panel>div:first-child{background:#fbfaf6!important;border:1px solid #ded9ce!important}
+.rk-calc-panel>div:first-child .space-y-2{display:grid;grid-template-columns:1fr 1fr;gap:10px!important}
+.rk-calc-panel>div:first-child .space-y-2>div{min-height:76px;padding:14px!important;border-radius:13px!important}
+.rk-calc-panel>div:first-child .space-y-2>div>div:first-child{width:55%!important}
+.rk-calc-panel>div:first-child .space-y-2>div>div:last-child{width:45%!important}
+.rk-calc-panel input{height:38px!important;font-size:13px!important}
+.rk-calc-panel>div:nth-child(2){padding:22px!important}
+.rk-calc-panel #btn-publish-live{min-height:52px!important;font-size:13px!important;border-radius:13px!important}
+.rk-result-panel{position:sticky;top:104px;display:flex;flex-direction:column;gap:18px}
+.rk-result-panel>div{border-radius:18px!important;padding:25px!important}
+.rk-result-panel #result-rank-range{font-size:clamp(42px,5vw,66px)!important;line-height:1!important;margin:18px 0!important}
+.rk-result-panel .grid.grid-cols-3{gap:14px!important}
+.rk-content-stage{max-width:1440px;margin:30px auto 0;min-width:0}
+.rk-content-stage>.tab-content{width:100%!important}
+.rk-content-stage>.tab-content:not(.hidden){display:flex!important;min-height:300px}
+.rk-content-stage .tab-content>div{border-radius:18px!important;padding:24px!important}
+.rk-content-stage .tab-content>div:not([class*="space-y"]){ }
+.rk-stat-strip{max-width:1440px;margin:24px auto 0;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.rk-stat-card{background:#fbfaf6;border:1px solid #ded9ce;border-radius:15px;padding:15px 18px;display:flex;align-items:center;justify-content:space-between;box-shadow:var(--rk-shadow)}
+.rk-stat-card span{font:10px 'Space Mono',monospace;text-transform:uppercase;color:#747886;letter-spacing:.08em}
+.rk-stat-card strong{font:700 19px 'Syne',sans-serif;color:#242b3f}
+.rk-stat-card.stat-p2 strong{color:#2e806f}.rk-stat-card.stat-oabt strong{color:#e88a68}.rk-stat-card.stat-rank strong{color:#b57a19}
+.rk-content-stage .tab-content .h-52{height:280px!important}
+.rk-content-stage #tab-leaderboard>div:nth-child(2){min-height:500px}
+.rk-content-stage #tab-matches>div{min-height:460px}
+.rk-sidebar{width:252px!important}
+.rk-topbar,.rk-main{margin-left:252px!important}
+@media(max-width:680px){.rk-topbar,.rk-main{margin-left:0!important}.rk-main{padding:22px 15px 45px!important}.rk-workspace{display:flex;flex-direction:column}.rk-result-panel{width:100%}.rk-stat-strip{grid-template-columns:1fr}.rk-calc-panel>div{padding:16px!important}.rk-calc-panel>div:first-child .space-y-2>div{min-height:70px}.rk-content-stage{margin-top:20px}.rk-content-stage .tab-content>div{padding:17px!important}.rk-intro h1{font-size:32px!important}}
+</style>
+<style id="rk-layout-v3">
+/* V3 — stable full-width tabs / no sticky result movement */
+html,body{overflow-x:hidden!important}
+.rk-main,.rk-main *{box-sizing:border-box}
+.rk-main{min-width:0!important}
+.rk-workspace{grid-template-columns:minmax(0,1fr) minmax(360px,420px)!important;align-items:start!important}
+.rk-result-panel{position:static!important;top:auto!important;min-width:0!important}
+.rk-result-panel>div{width:100%!important;min-width:0!important}
+.rk-result-panel #result-rank-range{font-size:clamp(38px,4vw,58px)!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+.rk-content-stage{width:100%!important;max-width:1440px!important;min-width:0!important;overflow:visible!important}
+.rk-content-stage>.tab-content{width:100%!important;max-width:100%!important;min-width:0!important;display:none!important}
+.rk-content-stage>.tab-content:not(.hidden){display:flex!important;flex-direction:column!important;gap:20px!important}
+.rk-content-stage>.tab-content>div{width:100%!important;max-width:100%!important;min-width:0!important;overflow:hidden!important}
+.rk-content-stage .overflow-x-auto{max-width:100%!important;overflow-x:auto!important}
+.rk-content-stage table{width:100%!important;min-width:640px}
+.rk-content-stage img,.rk-content-stage canvas{max-width:100%!important}
+.rk-content-stage input,.rk-content-stage select,.rk-content-stage textarea{max-width:100%!important;min-width:0!important}
+.rk-content-stage .grid{min-width:0!important}
+.rk-content-stage .grid>*{min-width:0!important}
+.rk-content-stage #tab-leaderboard #leaderboard-list-container>div{min-width:0!important;max-width:100%!important}
+.rk-content-stage #tab-simulator>div{overflow:hidden!important}
+.rk-content-stage #tab-matches>div{min-height:420px!important}
+.rk-content-stage .font-mono{overflow-wrap:anywhere}
+.rk-nav-button{flex-shrink:0!important}
+@media(max-width:1100px){
+ .rk-workspace{grid-template-columns:1fr!important}
+ .rk-result-panel{position:static!important}
+}
+@media(max-width:680px){
+ .rk-main{padding:22px 16px 45px!important}
+ .rk-workspace{display:flex!important;flex-direction:column!important;gap:18px!important}
+ .rk-calc-panel,.rk-result-panel{width:100%!important}
+ .rk-result-panel #result-rank-range{font-size:36px!important}
+ .rk-content-stage>.tab-content:not(.hidden){gap:14px!important}
+ .rk-content-stage>.tab-content>div{padding:18px!important}
+ .rk-content-stage table{min-width:600px}
+}
+</style>
+<style>
+/* V4 — gerçek viewport genişliği + taşma/üst üste binme düzeltmesi */
+html,body{width:100%!important;max-width:100%!important;overflow-x:hidden!important}
+body.rk-app-body{position:relative!important;overflow-x:hidden!important}
+.rk-sidebar{width:252px!important;left:0!important;right:auto!important}
+.rk-topbar{width:calc(100% - 252px)!important;margin-left:252px!important;box-sizing:border-box!important}
+.rk-main{width:calc(100% - 252px)!important;margin-left:252px!important;padding:34px 40px 70px!important;box-sizing:border-box!important;max-width:none!important;overflow:visible!important}
+.rk-intro,.rk-mode-switch,.rk-workspace,.rk-stat-strip,.rk-content-stage{width:100%!important;max-width:1440px!important;box-sizing:border-box!important}
+.rk-intro{margin-left:auto!important;margin-right:auto!important}
+.rk-mode-switch{margin-left:auto!important;margin-right:auto!important}
+.rk-workspace{margin-left:auto!important;margin-right:auto!important;display:grid!important;grid-template-columns:minmax(0,1.12fr) minmax(360px,.88fr)!important;gap:28px!important;align-items:start!important}
+.rk-calc-panel,.rk-result-panel{width:100%!important;min-width:0!important;max-width:100%!important}
+.rk-calc-panel>div,.rk-result-panel>div{width:100%!important;max-width:100%!important;min-width:0!important;overflow:hidden!important}
+.rk-calc-panel>div:first-child .space-y-2{width:100%!important;min-width:0!important;display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important}
+.rk-calc-panel>div:first-child .space-y-2>div{width:100%!important;min-width:0!important;max-width:100%!important;overflow:hidden!important}
+.rk-calc-panel>div:first-child .space-y-2>div>div:first-child{width:48%!important;min-width:0!important}
+.rk-calc-panel>div:first-child .space-y-2>div>div:last-child{width:52%!important;min-width:0!important}
+.rk-calc-panel .dy-group{min-width:0!important}
+.rk-calc-panel .dy-group input{flex:0 1 44px!important;width:44px!important;min-width:0!important}
+.rk-calc-panel .dy-group .net-group input{width:70px!important}
+.rk-result-panel{position:static!important;top:auto!important}
+.rk-content-stage{margin-left:auto!important;margin-right:auto!important;overflow:visible!important}
+.rk-content-stage>.tab-content{width:100%!important;max-width:100%!important;min-width:0!important}
+.rk-content-stage>.tab-content>div{width:100%!important;max-width:100%!important;min-width:0!important;overflow:hidden!important}
+.rk-content-stage .overflow-x-auto{max-width:100%!important;overflow-x:auto!important}
+.rk-content-stage table{min-width:640px}
+.rk-stat-strip{margin-left:auto!important;margin-right:auto!important}
+/* 2027 sıra kartındaki büyük sayı hiçbir zaman dışarı taşmasın */
+.rk-result-panel #result-rank-range{display:block!important;max-width:100%!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;font-size:clamp(36px,4.5vw,60px)!important}
+/* Dar masaüstü / tablet: iki ana paneli kesin olarak alt alta al */
+@media (max-width:1250px){
+  .rk-workspace{grid-template-columns:1fr!important;gap:20px!important}
+  .rk-result-panel{order:2!important}
+  .rk-calc-panel{order:1!important}
+  .rk-result-panel>div{width:100%!important}
+}
+@media (max-width:900px){
+  .rk-sidebar{width:220px!important}
+  .rk-topbar{width:calc(100% - 220px)!important;margin-left:220px!important}
+  .rk-main{width:calc(100% - 220px)!important;margin-left:220px!important;padding-left:24px!important;padding-right:24px!important}
+}
+@media (max-width:680px){
+  .rk-sidebar{width:252px!important}
+  .rk-topbar{width:100%!important;margin-left:0!important}
+  .rk-main{width:100%!important;margin-left:0!important;padding:22px 16px 45px!important}
+  .rk-workspace{display:flex!important;flex-direction:column!important;gap:18px!important}
+  .rk-calc-panel,.rk-result-panel{width:100%!important}
+  .rk-calc-panel>div:first-child .space-y-2{grid-template-columns:1fr!important}
+  .rk-calc-panel>div:first-child .space-y-2>div{min-height:70px!important}
+  .rk-stat-strip{grid-template-columns:1fr!important}
+}
+</style>
+<style id="rk-home-scroll-v6">
+/* V6 — all campus sections visible on one home page */
+html{scroll-behavior:smooth;scroll-padding-top:96px}
+.rk-content-stage>.tab-content,
+.rk-content-stage>.tab-content.hidden{
+  display:flex!important;
+  visibility:visible!important;
+  opacity:1!important;
+  width:100%!important;
+  min-height:300px!important;
+  margin:0 0 24px!important;
+  scroll-margin-top:96px;
+}
+.rk-content-stage>.tab-content.hidden{display:flex!important}
+.rk-content-stage>.tab-content>div{width:100%;min-width:0}
 
-  <!-- 🌟 ÜST NAVBAR & KALICI LOGO ALANI -->
-  <header class="w-full bg-slate-950/85 backdrop-blur-xl border-b border-slate-800/80 sticky top-0 z-50 shadow-xl">
-    <div class="max-w-7xl mx-auto px-4 py-2 sm:px-6 lg:px-8 flex items-center justify-between gap-3">
-      
-      <!-- Marka & Belirgin Logo -->
-      <div class="flex items-center flex-shrink-0">
-        <a href="#" class="flex items-center gap-2.5 transition-transform hover:scale-[1.02]">
-          <img src="https://i.hizliresim.com/ztqymblw.png" onerror="this.onerror=null; this.src='https://i.hizliresim.com/ztqymblw.jpg';" alt="Pdrkampus Logo" class="h-11 sm:h-14 md:h-16 w-auto object-contain drop-shadow-lg filter">
-          <span class="text-xl sm:text-2xl font-black tracking-tight text-white hidden sm:flex items-center">
-            Pdrkampus<span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400">.online</span>
-          </span>
-        </a>
-      </div>
+/* Net giriş alanları: siyah/koyu Tailwind zemini temaya uygun açık yüzeye çevir */
+.rk-calc-panel input[type="number"],
+.rk-calc-panel input[type="text"],
+.rk-calc-panel input.bg-slate-900,
+.rk-calc-panel input.bg-slate-950,
+.rk-calc-panel input[class*="bg-slate-900"],
+.rk-calc-panel input[class*="bg-slate-950"]{
+  background:#f7f5ef!important;
+  color:#242b3f!important;
+  border:1px solid #cfc8bb!important;
+  box-shadow:inset 0 1px 2px rgba(36,43,63,.04)!important;
+}
+.rk-calc-panel input[type="number"]:focus,
+.rk-calc-panel input[type="text"]:focus{
+  background:#fffdf8!important;
+  border-color:#2e806f!important;
+  outline:none!important;
+  box-shadow:0 0 0 3px rgba(46,128,111,.10)!important;
+}
+/* Doğru / yanlış kutularının koyu görünümünü kaldır */
+.rk-calc-panel .text-emerald-400{color:#2e806f!important}
+.rk-calc-panel .text-rose-400{color:#c95b55!important}
+.rk-calc-panel .text-indigo-300{color:#2e806f!important}
 
-      <!-- Sağ Profil / Google Giriş Buton Alanı -->
-      <div class="flex items-center gap-2 flex-shrink-0" id="auth-header-container">
-        <button onclick="loginWithGoogle()" id="btn-login" class="bg-slate-900 hover:bg-slate-800 text-white border border-slate-700/80 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-2xl text-xs font-bold transition-all flex items-center gap-2 shadow-sm active:scale-95">
-          <svg class="w-4 h-4" viewBox="0 0 24 24">
-            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
-            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
-          </svg>
-          <span class="hidden sm:inline">Google ile Giriş Yap</span>
-          <span class="sm:hidden">Giriş Yap</span>
-        </button>
+/* Footer — ana temayla aynı krem/teal görünüm */
+.rk-main + footer,
+footer.w-full.bg-slate-950{
+  margin-left:252px!important;
+  width:calc(100% - 252px)!important;
+  margin-top:20px!important;
+  padding:30px 48px 24px!important;
+  background:#252b40!important;
+  color:#d7d9df!important;
+  border-top:1px solid #3b4257!important;
+}
+footer.w-full.bg-slate-950 .max-w-7xl{max-width:1440px!important}
+footer.w-full.bg-slate-950 .border-slate-800\/60{border-color:#3b4257!important}
+footer.w-full.bg-slate-950 .text-white{color:#f7f3e9!important}
+footer.w-full.bg-slate-950 .text-indigo-400{color:#f4c95d!important}
+footer.w-full.bg-slate-950 .text-slate-400{color:#b8bdc9!important}
+footer.w-full.bg-slate-950 .text-slate-500,
+footer.w-full.bg-slate-950 .text-slate-600{color:#858b9b!important}
 
-        <div id="user-profile-badge" class="hidden flex items-center gap-2 bg-slate-900/90 border border-indigo-500/40 px-3 py-1.5 rounded-2xl shadow-md">
-          <img id="user-avatar" src="" alt="Avatar" class="w-6 h-6 rounded-full border border-indigo-400 object-cover">
-          <span id="user-name" class="text-xs font-bold text-slate-200 hidden sm:inline truncate max-w-[120px]">Kullanıcı</span>
-          <button onclick="logoutUser()" title="Çıkış Yap" class="text-slate-400 hover:text-rose-400 text-xs ml-1 font-bold">✕</button>
-        </div>
-      </div>
+@media(max-width:680px){
+  .rk-content-stage>.tab-content,
+  .rk-content-stage>.tab-content.hidden{margin-bottom:18px!important;scroll-margin-top:76px}
+  .rk-main + footer,
+  footer.w-full.bg-slate-950{margin-left:0!important;width:100%!important;padding:25px 18px 20px!important}
+}
+</style>
+<style id="rk-polish-v7">
+/* V7 — mobil menü kapatma + krem tema uyumu */
+.rk-sidebar-close{
+  display:none;
+  position:absolute;top:16px;right:14px;width:36px;height:36px;border:1px solid rgba(247,243,233,.14);
+  border-radius:10px;background:rgba(255,255,255,.06);color:#f7f3e9;font-size:27px;line-height:1;
+  align-items:center;justify-content:center;cursor:pointer;transition:background .2s,transform .2s,border-color .2s;
+}
+.rk-sidebar-close:hover{background:rgba(255,255,255,.12);border-color:rgba(247,243,233,.3);transform:rotate(4deg)}
+.rk-sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(36,43,63,.34);backdrop-filter:blur(2px);z-index:90;opacity:0;transition:opacity .22s ease}
+.rk-sidebar-overlay.rk-visible{display:block;opacity:1}
+/* Net girişleri: koyu/siyah yüzeyleri açık PDRkampüs temasına çevir */
+.rk-calc-panel input,
+.rk-calc-panel select,
+.rk-calc-panel textarea{
+  background:#fbfaf6!important;
+  color:#252b40!important;
+  border-color:#d9d4c8!important;
+  box-shadow:inset 0 1px 1px rgba(36,43,63,.03)!important;
+}
+.rk-calc-panel input::placeholder,.rk-calc-panel textarea::placeholder{color:#9a9ca5!important}
+.rk-calc-panel input:focus,.rk-calc-panel select:focus,.rk-calc-panel textarea:focus{
+  border-color:#2e806f!important;
+  box-shadow:0 0 0 3px rgba(46,128,111,.10)!important;
+}
+.rk-calc-panel .bg-slate-950,
+.rk-calc-panel .bg-slate-950\/50,
+.rk-calc-panel .bg-slate-900\/80,
+.rk-calc-panel .bg-purple-950\/25{
+  background:#fbfaf6!important;
+  color:#252b40!important;
+}
+.rk-calc-panel .border-slate-800\/60,
+.rk-calc-panel .border-slate-800\/80,
+.rk-calc-panel .border-purple-800\/40{border-color:#ddd8cc!important}
+.rk-calc-panel .text-slate-200{color:#3a4052!important}
+.rk-calc-panel .text-slate-300,.rk-calc-panel .text-slate-400{color:#777b86!important}
+.rk-calc-panel .text-indigo-300,.rk-calc-panel .text-purple-300{color:#2e806f!important}
+.rk-calc-panel .text-purple-200{color:#2e806f!important}
+.rk-calc-panel .bg-indigo-950\/80,.rk-calc-panel .bg-purple-900\/60{background:#e8f2ef!important;border-color:#b7d8cf!important;color:#2e806f!important}
+/* Footer: header ile aynı krem yüzey */
+.rk-main + footer,
+footer.w-full.bg-slate-950{
+  background:#f5f1e8!important;
+  color:#70747f!important;
+  border-top:1px solid #ded9ce!important;
+  box-shadow:0 -8px 30px rgba(36,43,63,.035)!important;
+}
+footer.w-full.bg-slate-950 .border-slate-800\/60{border-color:#ded9ce!important}
+footer.w-full.bg-slate-950 .text-white{color:#252b40!important}
+footer.w-full.bg-slate-950 .text-indigo-400{color:#2e806f!important}
+footer.w-full.bg-slate-950 .text-slate-400{color:#777b86!important}
+footer.w-full.bg-slate-950 .text-slate-500,
+footer.w-full.bg-slate-950 .text-slate-600{color:#9a9ca5!important}
+footer.w-full.bg-slate-950 .text-slate-600{color:#9a9ca5!important}
+@media(max-width:680px){
+  .rk-sidebar-close{display:flex}
+  .rk-sidebar{z-index:110!important}
+  .rk-mobile-menu{z-index:120}
+  .rk-mobile-menu span{font-size:19px;line-height:1}
+  .rk-sidebar.rk-open + .rk-sidebar-overlay{display:block}
+  .rk-sidebar-overlay{z-index:100}
+  body.rk-menu-open{overflow:hidden!important}
+  footer.w-full.bg-slate-950{padding:25px 18px 20px!important}
+}
+</style>
+<style id="rk-polish-v8">
+/* V8 — simülatör okunabilirliği + mobil menüde tek kapatma ikonu */
+/* Mobilde yalnızca header'daki ☰ / × butonu kullanılır. Sidebar içindeki ikinci X gizlenir. */
+.rk-sidebar-close{display:none!important}
 
-    </div>
-  </header>
+/* Senaryo Simülatörü: açık PDRkampüs yüzeyi ve yüksek kontrast */
+#tab-simulator .bg-slate-900\/80,
+#tab-simulator .bg-slate-950\/70,
+#tab-simulator .bg-slate-950\/90,
+#tab-simulator .bg-slate-950,
+#tab-simulator .bg-purple-950\/80,
+#tab-simulator .bg-indigo-950\/80{
+  background:#fbfaf6!important;
+  color:#252b40!important;
+}
+#tab-simulator .border-indigo-500\/30,
+#tab-simulator .border-indigo-700\/40,
+#tab-simulator .border-slate-800,
+#tab-simulator .border-slate-800\/60,
+#tab-simulator .border-slate-800\/80{
+  border-color:#ded9ce!important;
+}
+#tab-simulator .border-b{border-color:#ded9ce!important}
+#tab-simulator .text-white,
+#tab-simulator .text-slate-200,
+#tab-simulator .text-slate-300{color:#303648!important}
+#tab-simulator .text-slate-400,
+#tab-simulator .text-slate-500{color:#777b86!important}
+#tab-simulator .text-indigo-300,
+#tab-simulator .text-indigo-400,
+#tab-simulator .text-purple-400,
+#tab-simulator .text-purple-300,
+#tab-simulator .text-emerald-400{color:#2e806f!important}
+#tab-simulator .bg-gradient-to-r{
+  background:#e8f2ef!important;
+  border-color:#b7d8cf!important;
+}
+#tab-simulator table{color:#3a4052!important}
+#tab-simulator thead tr{background:#f0ede5!important;color:#626773!important}
+#tab-simulator tbody{color:#555b68!important}
+#tab-simulator tbody tr{border-color:#e1ddd3!important}
+#tab-simulator input[type="range"]{accent-color:#2e806f!important}
+#tab-simulator .custom-scrollbar{background:transparent!important}
 
-  <!-- ANA İÇERİK ALANI -->
-  <main class="flex-grow p-3 sm:p-5 lg:p-6 max-w-7xl mx-auto w-full">
+/* Simülatör başlıkları ve değerleri daha okunaklı */
+#tab-simulator h3{color:#2e806f!important}
+#tab-simulator label,#tab-simulator span{
+  text-shadow:none!important;
+}
 
-    <div class="text-center my-3 sm:my-4">
-      <h1 class="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-white">
-        2027 AGS PDR <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400">Sıralama, Simülasyon & Soru Havuzu</span>
-      </h1>
-      <p class="text-slate-400 text-xs sm:text-sm mt-1 max-w-xl mx-auto">
-        Netlerinizi girin, zorluk senaryolarını test edin, çözemediğiniz soruları paylaşın veya <b>Online TG Denemesine</b> katılın.
-      </p>
-    </div>
+@media(max-width:680px){
+  /* Header butonu tek kapatma kontrolüdür; sidebar X tamamen gizlidir. */
+  .rk-sidebar-close{display:none!important}
+  .rk-mobile-menu{display:grid!important;position:relative;z-index:120!important}
+  .rk-mobile-menu span{display:block;font-size:20px;line-height:1}
+}
+</style>
+<style>
+/* V9: fixed/sticky header + sidebar-only close button */
+.rk-topbar{
+  position:sticky !important;
+  top:0 !important;
+  z-index:1000 !important;
+}
+.rk-main{
+  position:relative;
+}
+.rk-sidebar{
+  z-index:1100 !important;
+}
+@media (max-width: 900px){
+  .rk-topbar{
+    position:sticky !important;
+    top:0 !important;
+  }
+  .rk-sidebar{
+    z-index:1200 !important;
+  }
+  /* Header should never render a second close/X control */
+  .rk-topbar .rk-menu-close,
+  .rk-topbar [aria-label="Close menu"],
+  .rk-topbar [data-menu-close]{
+    display:none !important;
+  }
+}
+</style><style>
+/* V11: genuinely fixed header; cancel legacy margin-left so it aligns correctly */
+.rk-topbar{
+  position:fixed !important;
+  top:0 !important;
+  left:252px !important;
+  right:0 !important;
+  width:auto !important;
+  margin-left:0 !important;
+  z-index:2000 !important;
+}
+.rk-main{
+  padding-top:82px !important;
+}
+@media (max-width: 900px){
+  .rk-topbar{
+    left:0 !important;
+    right:0 !important;
+    width:100% !important;
+    margin-left:0 !important;
+  }
+  .rk-main{
+    padding-top:72px !important;
+  }
+}
+</style><style>
+.rk-footer{
+  background:#f6f2e8 !important;
+  color:#4b5060 !important;
+  border-top:1px solid #ddd8cc !important;
+  min-height:88px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  padding:24px 32px !important;
+  font-size:15px !important;
+  letter-spacing:.02em !important;
+}
+.rk-footer a{
+  color:#347f73 !important;
+  text-decoration:none !important;
+  font-weight:700 !important;
+}
+</style><style>
+/* V13: cleaner season/brand block */
+.rk-sidebar-season{
+  margin-top:auto !important;
+  padding:26px 14px 22px !important;
+  border-top:1px solid rgba(255,255,255,.14) !important;
+}
+.rk-season-label{
+  font-family:"Space Mono",monospace !important;
+  font-size:12px !important;
+  letter-spacing:.12em !important;
+  text-transform:uppercase !important;
+  color:rgba(255,255,255,.52) !important;
+  margin-bottom:7px !important;
+}
+.rk-season-name{
+  font-family:"Syne","DM Sans",sans-serif !important;
+  font-size:18px !important;
+  font-weight:700 !important;
+  letter-spacing:-.02em !important;
+  color:#f6f1e7 !important;
+}
+@media(max-width:900px){
+  .rk-sidebar-season{
+    padding-bottom:18px !important;
+  }
+}
+</style><style>
+/* V15 — mobile bottom live/rank bar */
+@media (max-width:900px){
+  .rk-mobile-bottom,
+  .mobile-bottom-bar,
+  .rk-bottom-bar,
+  [class*="mobile"][class*="bottom"]{
+    background:#f6f1e7 !important;
+    border-top:1px solid #ddd6c9 !important;
+    box-shadow:0 -8px 24px rgba(39,48,71,.10) !important;
+    color:#273047 !important;
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+  }
+  .rk-mobile-bottom *,
+  .mobile-bottom-bar *,
+  .rk-bottom-bar *{
+    color:#273047 !important;
+  }
+  .rk-mobile-bottom .live,
+  .mobile-bottom-bar .live,
+  .rk-bottom-bar .live{
+    color:#2f897b !important;
+  }
+  .rk-mobile-bottom .rank,
+  .mobile-bottom-bar .rank,
+  .rk-bottom-bar .rank{
+    color:#d39b20 !important;
+  }
+}
+</style><style>
+</style><style>
+/* V18 — radar chart visibility/fixed sizing */
+#radarChart{
+  display:block !important;
+  width:100% !important;
+  height:100% !important;
+  min-height:190px !important;
+}
+#radarChart + *{max-width:100% !important;}
+#tab-overview .h-52.relative{
+  min-height:208px !important;
+  height:208px !important;
+  width:100% !important;
+  overflow:visible !important;
+}
+#tab-overview .h-52.relative canvas{
+  min-width:0 !important;
+  max-width:100% !important;
+}
+</style><style>
+/* V19 — dashboard-first visual system */
+:root{
+  --rk-cream:#f6f1e7;
+  --rk-paper:#fffdf8;
+  --rk-ink:#273047;
+  --rk-muted:#707887;
+  --rk-line:#e4ddd0;
+  --rk-teal:#2f897b;
+  --rk-coral:#e77865;
+  --rk-yellow:#e2b84b;
+}
 
-    <!-- 🎛️ GİRİŞ MODU SEÇİCİ -->
-    <div class="flex justify-center mb-4">
-      <div class="bg-slate-950/80 p-1 rounded-2xl border border-slate-800/80 shadow-lg flex items-center gap-1">
-        <button id="btn-mode-dy" onclick="setInputMode('dy')" class="px-4 py-1.5 rounded-xl text-xs font-bold bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md transition-all">
-          ✍️ Doğru / Yanlış Modu
-        </button>
-        <button id="btn-mode-net" onclick="setInputMode('net')" class="px-4 py-1.5 rounded-xl text-xs font-semibold text-slate-400 hover:text-slate-200 transition-all">
-          ⚡ Doğrudan Net Modu
-        </button>
-      </div>
-    </div>
+/* Main canvas */
+body{
+  background:var(--rk-cream) !important;
+  color:var(--rk-ink) !important;
+}
+.rk-main{
+  background:var(--rk-cream) !important;
+}
+.rk-content-stage{
+  background:transparent !important;
+  max-width:1440px !important;
+}
 
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
-      
-      <!-- SOL KOLON: FORM GİRİŞİ (5 Kolon) -->
-      <div class="lg:col-span-5 flex flex-col gap-4">
-        
-        <!-- MEB-AGS Kartı -->
-        <div class="bg-slate-900/80 backdrop-blur-xl border border-slate-800/80 rounded-3xl p-4 shadow-xl">
-          <div class="flex justify-between items-center mb-3 pb-2 border-b border-slate-800/80">
-            <h2 class="text-xs font-bold text-indigo-300 flex items-center gap-1.5">
-              <span>📚 MEB-AGS Testleri (80 Soru - %50)</span>
-            </h2>
-            <span class="text-[11px] text-indigo-300 bg-indigo-950/80 border border-indigo-700/50 px-2.5 py-0.5 rounded-lg font-bold font-mono" id="total-ags-net-badge">0.00 Net</span>
-          </div>
-          
-          <div class="space-y-2 text-xs">
-            <!-- Sözel -->
-            <div class="bg-slate-950/50 hover:bg-slate-950/80 p-2.5 rounded-2xl border border-slate-800/60 flex items-center justify-between gap-2 transition-colors">
-              <div class="w-1/2">
-                <span class="font-bold text-slate-200 block text-xs">Sözel Yetenek</span>
-                <span class="text-[10px] text-slate-400">15 Soru (Ort: 8.3)</span>
-              </div>
-              <div class="flex items-center gap-1.5 w-1/2 justify-end">
-                <div class="dy-group flex items-center gap-1">
-                  <input type="number" id="sozel-d" min="0" max="15" placeholder="D" class="w-11 bg-slate-900 border border-slate-700/80 rounded-xl p-1.5 text-center text-xs text-emerald-400 font-bold focus:border-indigo-500 outline-none" oninput="handleInputChange()">
-                  <input type="number" id="sozel-y" min="0" max="15" placeholder="Y" class="w-11 bg-slate-900 border border-slate-700/80 rounded-xl p-1.5 text-center text-xs text-rose-400 font-bold focus:border-indigo-500 outline-none" oninput="handleInputChange()">
-                </div>
-                <div class="net-group hidden">
-                  <input type="number" id="sozel-net" step="0.25" min="-3.75" max="15" placeholder="Net" class="w-20 bg-slate-900 border border-slate-700/80 rounded-xl p-1.5 text-center text-xs text-indigo-300 font-bold focus:border-indigo-500 outline-none" oninput="handleInputChange()">
-                </div>
-                <span class="text-xs font-extrabold text-slate-200 w-9 text-right font-mono" id="net-sozel">0.0</span>
-              </div>
-            </div>
+/* Dashboard spacing and hierarchy */
+.rk-workspace{
+  gap:22px !important;
+  margin-bottom:24px !important;
+}
+.rk-calc-panel,
+.rk-result-panel{
+  background:var(--rk-paper) !important;
+  border:1px solid var(--rk-line) !important;
+  border-radius:20px !important;
+  box-shadow:0 10px 28px rgba(39,48,71,.055) !important;
+}
+.rk-calc-panel{
+  padding:24px !important;
+}
+.rk-result-panel{
+  padding:24px !important;
+}
 
-            <!-- Sayısal -->
-            <div class="bg-slate-950/50 hover:bg-slate-950/80 p-2.5 rounded-2xl border border-slate-800/60 flex items-center justify-between gap-2 transition-colors">
-              <div class="w-1/2">
-                <span class="font-bold text-slate-200 block text-xs">Sayısal Yetenek</span>
-                <span class="text-[10px] text-slate-400">15 Soru (Ort: 3.4)</span>
-              </div>
-              <div class="flex items-center gap-1.5 w-1/2 justify-end">
-                <div class="dy-group flex items-center gap-1">
-                  <input type="number" id="sayisal-d" min="0" max="15" placeholder="D" class="w-11 bg-slate-900 border border-slate-700/80 rounded-xl p-1.5 text-center text-xs text-emerald-400 font-bold focus:border-indigo-500 outline-none" oninput="handleInputChange()">
-                  <input type="number" id="sayisal-y" min="0" max="15" placeholder="Y" class="w-11 bg-slate-900 border border-slate-700/80 rounded-xl p-1.5 text-center text-xs text-rose-400 font-bold focus:border-indigo-500 outline-none" oninput="handleInputChange()">
-                </div>
-                <div class="net-group hidden">
-                  <input type="number" id="sayisal-net" step="0.25" min="-3.75" max="15" placeholder="Net" class="w-20 bg-slate-900 border border-slate-700/80 rounded-xl p-1.5 text-center text-xs text-indigo-300 font-bold focus:border-indigo-500 outline-none" oninput="handleInputChange()">
-                </div>
-                <span class="text-xs font-extrabold text-slate-200 w-9 text-right font-mono" id="net-sayisal">0.0</span>
-              </div>
-            </div>
+/* Make the result side feel like a dashboard KPI area */
+#result-rank-range{
+  font-family:"Syne","DM Sans",sans-serif !important;
+  letter-spacing:-.04em !important;
+}
+#result-p2-score,
+#result-2026-rank,
+#percentile-label{
+  font-family:"Space Mono",monospace !important;
+}
+.rk-stat-strip{
+  display:grid !important;
+  grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+  gap:12px !important;
+  margin:18px 0 24px !important;
+}
+.rk-stat-strip > *{
+  background:var(--rk-paper) !important;
+  border:1px solid var(--rk-line) !important;
+  border-radius:16px !important;
+  padding:15px 16px !important;
+  min-width:0 !important;
+}
 
-            <!-- Tarih -->
-            <div class="bg-slate-950/50 hover:bg-slate-950/80 p-2.5 rounded-2xl border border-slate-800/60 flex items-center justify-between gap-2 transition-colors">
-              <div class="w-1/2">
-                <span class="font-bold text-slate-200 block text-xs">Tarih</span>
-                <span class="text-[10px] text-slate-400">6 Soru (Ort: 2.7)</span>
-              </div>
-              <div class="flex items-center gap-1.5 w-1/2 justify-end">
-                <div class="dy-group flex items-center gap-1">
-                  <input type="number" id="tarih-d" min="0" max="6" placeholder="D" class="w-11 bg-slate-900 border border-slate-700/80 rounded-xl p-1.5 text-center text-xs text-emerald-400 font-bold focus:border-indigo-500 outline-none" oninput="handleInputChange()">
-                  <input type="number" id="tarih-y" min="0" max="6" placeholder="Y" class="w-11 bg-slate-900 border border-slate-700/80 rounded-xl p-1.5 text-center text-xs text-rose-400 font-bold focus:border-indigo-500 outline-none" oninput="handleInputChange()">
-                </div>
-                <div class="net-group hidden">
-                  <input type="number" id="tarih-net" step="0.25" min="-1.5" max="6" placeholder="Net" class="w-20 bg-slate-900 border border-slate-700/80 rounded-xl p-1.5 text-center text-xs text-indigo-300 font-bold focus:border-indigo-500 outline-none" oninput="handleInputChange()">
-                </div>
-                <span class="text-xs font-extrabold text-slate-200 w-9 text-right font-mono" id="net-tarih">0.0</span>
-              </div>
-            </div>
+/* Section headers */
+.rk-content-stage > .tab-content{
+  margin-bottom:24px !important;
+}
+.rk-content-stage > .tab-content > h2,
+.rk-content-stage > .tab-content > .section-title{
+  margin-bottom:16px !important;
+}
 
-            <!-- Coğrafya -->
-            <div class="bg-slate-950/50 hover:bg-slate-950/80 p-2.5 rounded-2xl border border-slate-800/60 flex items-center justify-between gap-2 transition-colors">
-              <div class="w-1/2">
-                <span class="font-bold text-slate-200 block text-xs">Türkiye Coğrafyası</span>
-                <span class="text-[10px] text-slate-400">6 Soru (Ort: 2.2)</span>
-              </div>
-              <div class="flex items-center gap-1.5 w-1/2 justify-end">
-                <div class="dy-group flex items-center gap-1">
-                  <input type="number" id="cografya-d" min="0" max="6" placeholder="D" class="w-11 bg-slate-900 border border-slate-700/80 rounded-xl p-1.5 text-center text-xs text-emerald-400 font-bold focus:border-indigo-500 outline-none" oninput="handleInputChange()">
-                  <input type="number" id="cografya-y" min="0" max="6" placeholder="Y" class="w-11 bg-slate-900 border border-slate-700/80 rounded-xl p-1.5 text-center text-xs text-rose-400 font-bold focus:border-indigo-500 outline-none" oninput="handleInputChange()">
-                </div>
-                <div class="net-group hidden">
-                  <input type="number" id="cografya-net" step="0.25" min="-1.5" max="6" placeholder="Net" class="w-20 bg-slate-900 border border-slate-700/80 rounded-xl p-1.5 text-center text-xs text-indigo-300 font-bold focus:border-indigo-500 outline-none" oninput="handleInputChange()">
-                </div>
-                <span class="text-xs font-extrabold text-slate-200 w-9 text-right font-mono" id="net-cografya">0.0</span>
-              </div>
-            </div>
+/* Cards: softer, cleaner dashboard blocks */
+.rk-content-stage .card,
+.rk-content-stage .rk-card{
+  border:1px solid var(--rk-line) !important;
+  border-radius:18px !important;
+  background:var(--rk-paper) !important;
+  box-shadow:0 8px 24px rgba(39,48,71,.045) !important;
+}
+.rk-content-stage .card:hover,
+.rk-content-stage .rk-card:hover{
+  box-shadow:0 12px 30px rgba(39,48,71,.075) !important;
+  transform:translateY(-1px);
+  transition:.18s ease;
+}
 
-            <!-- Eğitim Bilimleri -->
-            <div class="bg-slate-950/50 hover:bg-slate-950/80 p-2.5 rounded-2xl border border-slate-800/60 flex items-center justify-between gap-2 transition-colors">
-              <div class="w-1/2">
-                <span class="font-bold text-slate-200 block text-xs">Eğitim Bilimleri & TMES</span>
-                <span class="text-[10px] text-slate-400">30 Soru (Ort: 11.2)</span>
-              </div>
-              <div class="flex items-center gap-1.5 w-1/2 justify-end">
-                <div class="dy-group flex items-center gap-1">
-                  <input type="number" id="egitim-d" min="0" max="30" placeholder="D" class="w-11 bg-slate-900 border border-slate-700/80 rounded-xl p-1.5 text-center text-xs text-emerald-400 font-bold focus:border-indigo-500 outline-none" oninput="handleInputChange()">
-                  <input type="number" id="egitim-y" min="0" max="30" placeholder="Y" class="w-11 bg-slate-900 border border-slate-700/80 rounded-xl p-1.5 text-center text-xs text-rose-400 font-bold focus:border-indigo-500 outline-none" oninput="handleInputChange()">
-                </div>
-                <div class="net-group hidden">
-                  <input type="number" id="egitim-net" step="0.25" min="-7.5" max="30" placeholder="Net" class="w-20 bg-slate-900 border border-slate-700/80 rounded-xl p-1.5 text-center text-xs text-indigo-300 font-bold focus:border-indigo-500 outline-none" oninput="handleInputChange()">
-                </div>
-                <span class="text-xs font-extrabold text-slate-200 w-9 text-right font-mono" id="net-egitim">0.0</span>
-              </div>
-            </div>
+/* Overview dashboard grid */
+#tab-overview{
+  display:block;
+}
+#tab-overview > .grid,
+#tab-overview .grid{
+  gap:16px !important;
+}
+#tab-overview .h-52.relative{
+  background:var(--rk-paper) !important;
+  border:1px solid var(--rk-line) !important;
+  border-radius:18px !important;
+  padding:12px !important;
+}
 
-            <!-- Mevzuat -->
-            <div class="bg-slate-950/50 hover:bg-slate-950/80 p-2.5 rounded-2xl border border-slate-800/60 flex items-center justify-between gap-2 transition-colors">
-              <div class="w-1/2">
-                <span class="font-bold text-slate-200 block text-xs">Mevzuat (ÖMK 7528)</span>
-                <span class="text-[10px] text-slate-400">8 Soru (Ort: 2.5)</span>
-              </div>
-              <div class="flex items-center gap-1.5 w-1/2 justify-end">
-                <div class="dy-group flex items-center gap-1">
-                  <input type="number" id="mevzuat-d" min="0" max="8" placeholder="D" class="w-11 bg-slate-900 border border-slate-700/80 rounded-xl p-1.5 text-center text-xs text-emerald-400 font-bold focus:border-indigo-500 outline-none" oninput="handleInputChange()">
-                  <input type="number" id="mevzuat-y" min="0" max="8" placeholder="Y" class="w-11 bg-slate-900 border border-slate-700/80 rounded-xl p-1.5 text-center text-xs text-rose-400 font-bold focus:border-indigo-500 outline-none" oninput="handleInputChange()">
-                </div>
-                <div class="net-group hidden">
-                  <input type="number" id="mevzuat-net" step="0.25" min="-2.0" max="8" placeholder="Net" class="w-20 bg-slate-900 border border-slate-700/80 rounded-xl p-1.5 text-center text-xs text-indigo-300 font-bold focus:border-indigo-500 outline-none" oninput="handleInputChange()">
-                </div>
-                <span class="text-xs font-extrabold text-slate-200 w-9 text-right font-mono" id="net-mevzuat">0.0</span>
-              </div>
-            </div>
+/* Inputs */
+.rk-calc-panel input,
+.rk-calc-panel select,
+.rk-calc-panel textarea{
+  background:#fffaf2 !important;
+  color:var(--rk-ink) !important;
+  border:1px solid #dcd4c6 !important;
+  border-radius:12px !important;
+}
+.rk-calc-panel input:focus,
+.rk-calc-panel select:focus,
+.rk-calc-panel textarea:focus{
+  outline:none !important;
+  border-color:var(--rk-teal) !important;
+  box-shadow:0 0 0 3px rgba(47,137,123,.11) !important;
+}
 
-          </div>
-        </div>
+/* KPI / badges */
+.rk-main .bg-teal-50,
+.rk-main [class*="bg-teal-50"]{
+  background:#e9f5f1 !important;
+}
+.rk-main .bg-yellow-50,
+.rk-main [class*="bg-yellow-50"]{
+  background:#fbf4dc !important;
+}
+.rk-main .bg-red-50,
+.rk-main [class*="bg-red-50"]{
+  background:#fcece8 !important;
+}
 
-        <!-- ÖABT Rehberlik Kartı -->
-        <div class="bg-purple-950/25 backdrop-blur-xl border border-purple-800/40 rounded-3xl p-4 shadow-xl">
-          <div class="flex justify-between items-center mb-2.5 pb-2 border-b border-purple-800/40">
-            <h2 class="text-xs font-bold text-purple-300 flex items-center gap-1.5">
-              <span>🎯 ÖABT Rehberlik / PDR (%50)</span>
-            </h2>
-            <span class="text-[11px] text-purple-300 bg-purple-900/60 border border-purple-600/40 px-2.5 py-0.5 rounded-lg font-bold font-mono" id="net-oabt">0.00 Net</span>
-          </div>
-          
-          <div class="dy-group grid grid-cols-2 gap-2 text-xs">
-            <div>
-              <label class="block text-[10px] font-semibold text-slate-400 mb-1">Doğru Sayısı (Max 50)</label>
-              <input type="number" id="oabt-d" min="0" max="50" placeholder="0" class="w-full bg-slate-950 border border-slate-700/80 rounded-2xl px-3 py-2 text-sm text-emerald-400 font-bold focus:border-purple-500 outline-none" oninput="handleInputChange()">
-            </div>
-            <div>
-              <label class="block text-[10px] font-semibold text-slate-400 mb-1">Yanlış Sayısı (Max 50)</label>
-              <input type="number" id="oabt-y" min="0" max="50" placeholder="0" class="w-full bg-slate-950 border border-slate-700/80 rounded-2xl px-3 py-2 text-sm text-rose-400 font-bold focus:border-purple-500 outline-none" oninput="handleInputChange()">
-            </div>
-          </div>
+/* Tables */
+.rk-content-stage table{
+  border-collapse:separate !important;
+  border-spacing:0 !important;
+  overflow:hidden !important;
+  border:1px solid var(--rk-line) !important;
+  border-radius:14px !important;
+}
+.rk-content-stage th{
+  background:#f1eadf !important;
+  color:var(--rk-ink) !important;
+  font-weight:700 !important;
+}
+.rk-content-stage td{
+  background:var(--rk-paper) !important;
+}
 
-          <div class="net-group hidden text-xs">
-            <label class="block text-[10px] font-semibold text-slate-400 mb-1">ÖABT Netiniz (Max 50)</label>
-            <input type="number" id="oabt-net" step="0.25" min="-12.5" max="50" placeholder="0 - 50 Net" class="w-full bg-slate-950 border border-slate-700/80 rounded-2xl px-3 py-2 text-sm text-purple-300 font-bold focus:border-purple-500 outline-none" oninput="handleInputChange()">
-          </div>
-        </div>
+/* Simulator gets a dashboard panel instead of a flat section */
+#tab-simulator{
+  background:transparent !important;
+}
+#tab-simulator .card,
+#tab-simulator .rk-card{
+  min-height:0 !important;
+}
 
-        <!-- 🚀 CANLI SIRALAMAYA GÖNDER / GÜNCELLE BUTONU -->
-        <button onclick="publishToLiveLeaderboard()" id="btn-publish-live" class="w-full py-3.5 px-4 rounded-2xl font-black text-white bg-gradient-to-r from-emerald-600 via-teal-600 to-indigo-600 hover:from-emerald-500 hover:to-indigo-500 shadow-xl shadow-emerald-950/40 transition-all duration-200 active:scale-[0.99] text-xs sm:text-sm tracking-wide flex items-center justify-center gap-2">
-          <span>🏆 Canlı Sıralamaya Kaydet & Güncelle</span>
-        </button>
-
-      </div>
-
-      <!-- SAĞ KOLON: 7 ANA MODÜL NAVİGATÖRÜ (7 Kolon) -->
-      <div class="lg:col-span-7 flex flex-col gap-4">
-        
-        <!-- Ana Sıralama Kartı (Hero Card) -->
-        <div class="bg-gradient-to-br from-indigo-950/90 via-slate-900 to-slate-950 border border-indigo-500/40 rounded-3xl p-4 sm:p-5 shadow-2xl relative overflow-hidden">
-          <div class="flex flex-wrap justify-between items-start gap-2 mb-1">
-            <span class="text-[11px] font-bold text-indigo-400 uppercase tracking-wider">Tahmini 2027 PDR Başarı Sırası</span>
-            <span class="text-xs font-bold px-3 py-0.5 rounded-full border shadow-sm" id="status-badge">Netlerinizi Girin</span>
-          </div>
-          
-          <div class="text-3xl sm:text-4xl lg:text-5xl font-black text-white my-2 tracking-tight" id="result-rank-range">
+/* Mobile dashboard */
+@media(max-width:900px){
+  .rk-workspace{
+    gap:14px !important;
+  }
+  .rk-calc-panel,
+  .rk-result-panel{
+    padding:18px !important;
+    border-radius:16px !important;
+  }
+  .rk-stat-strip{
+    grid-template-columns:1fr !important;
+  }
+  .rk-content-stage > .tab-content{
+    margin-bottom:18px !important;
+  }
+}
+</style><style>
+/* V20 — live dashboard synchronization */
+.rk-live-updated{
+  animation:rkLivePulse .35s ease-out;
+}
+@keyframes rkLivePulse{
+  0%{transform:scale(.985);opacity:.72}
+  100%{transform:scale(1);opacity:1}
+}
+</style><style>.net-group{display:none!important}</style></head>
+<body class="rk-app-body">
+<aside class="rk-sidebar" id="rk-sidebar">
+<div class="rk-brand">
+<div class="rk-brand-mark">P</div>
+<div class="rk-brand-name">PDR<span>kampüs</span></div>
+</div>
+<div class="rk-sidebar-label">Kampüs</div>
+<nav aria-label="Ana menü" class="rk-nav">
+<button class="rk-nav-button active" data-tab="tab-overview" onclick="rkNavigate('tab-overview')" type="button">
+<span class="rk-nav-icon">⌂</span><span>Genel Bakış</span>
+</button>
+<button class="rk-nav-button" data-tab="tab-leaderboard" onclick="rkNavigate('tab-leaderboard')" type="button">
+<span class="rk-nav-icon">♛</span><span>Canlı Sıralama</span>
+</button>
+<button class="rk-nav-button" data-tab="tab-simulator" onclick="rkNavigate('tab-simulator')" type="button">
+<span class="rk-nav-icon">◒</span><span>Senaryo Simülatörü</span>
+</button>
+<button class="rk-nav-button" data-tab="tab-matches" onclick="rkNavigate('tab-matches')" type="button">
+<span class="rk-nav-icon">⇄</span><span>Eşleşen Sonuçlar</span>
+</button>
+</nav>
+<div class="rk-sidebar-footer rk-sidebar-season"><div class="rk-season-label">2026 / 27</div><div class="rk-season-name">PDRkampüs</div></div>
+</aside>
+<div aria-hidden="true" class="rk-sidebar-overlay" id="rk-sidebar-overlay"></div>
+<!-- 🌟 ÜST NAVBAR & KALICI LOGO ALANI -->
+<header class="rk-topbar">
+<div class="rk-topbar-left">
+<button aria-expanded="false" aria-label="Menüyü aç" class="rk-icon-button rk-mobile-menu" id="rk-mobile-menu" type="button"><span>☰</span></button>
+<div class="rk-breadcrumb"><span>PDRkampüs</span><span class="rk-chevron">›</span><strong id="rk-current-section">Genel Bakış</strong></div>
+</div>
+<div class="rk-topbar-actions">
+<div class="flex items-center gap-2 flex-shrink-0" id="auth-header-container">
+<button class="bg-slate-900 hover:bg-slate-800 text-white border border-slate-700/80 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-2xl text-xs font-bold transition-all flex items-center gap-2 shadow-sm active:scale-95" id="btn-login" onclick="loginWithGoogle()">
+<svg class="w-4 h-4" viewbox="0 0 24 24">
+<path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+<path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+<path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"></path>
+<path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"></path>
+</svg>
+<span class="hidden sm:inline">Google ile Giriş Yap</span>
+<span class="sm:hidden">Giriş Yap</span>
+</button>
+<div class="hidden flex items-center gap-2 bg-slate-900/90 border border-indigo-500/40 px-3 py-1.5 rounded-2xl shadow-md" id="user-profile-badge">
+<img alt="Avatar" class="w-6 h-6 rounded-full border border-indigo-400 object-cover" id="user-avatar" src=""/>
+<span class="text-xs font-bold text-slate-200 hidden sm:inline truncate max-w-[120px]" id="user-name">Kullanıcı</span>
+<button class="text-slate-400 hover:text-rose-400 text-xs ml-1 font-bold" onclick="logoutUser()" title="Çıkış Yap">✕</button>
+</div>
+</div>
+</div></header>
+<!-- ANA İÇERİK ALANI -->
+<main class="rk-main">
+<div class="rk-intro">
+<div>
+<div class="rk-eyebrow">PDRKAMPÜS · 2027 HAZIRLIK</div>
+<h1>Bugün de masada mısın?</h1>
+<p>Netlerini güncelle, tahmini sıralamanı gör ve çalışma rotanı tek ekrandan yönet.</p>
+</div>
+<div class="rk-date-pill">SON GÜNCELLEME · ŞİMDİ</div>
+</div>
+<section class="rk-workspace"><div class="rk-calc-panel">
+<!-- MEB-AGS Kartı -->
+<div class="bg-slate-900/80 backdrop-blur-xl border border-slate-800/80 rounded-3xl p-4 shadow-xl">
+<div class="flex justify-between items-center mb-3 pb-2 border-b border-slate-800/80">
+<h2 class="text-xs font-bold text-indigo-300 flex items-center gap-1.5">
+<span>📚 MEB-AGS Testleri (80 Soru - %50)</span>
+</h2>
+<span class="text-[11px] text-indigo-300 bg-indigo-950/80 border border-indigo-700/50 px-2.5 py-0.5 rounded-lg font-bold font-mono" id="total-ags-net-badge">0.00 Net</span>
+</div>
+<div class="space-y-2 text-xs">
+<!-- Sözel -->
+<div class="bg-slate-950/50 hover:bg-slate-950/80 p-2.5 rounded-2xl border border-slate-800/60 flex items-center justify-between gap-2 transition-colors">
+<div class="w-1/2">
+<span class="font-bold text-slate-200 block text-xs">Sözel Yetenek</span>
+<span class="text-[10px] text-slate-400">15 Soru (Ort: 8.3)</span>
+</div>
+<div class="flex items-center gap-1.5 w-1/2 justify-end">
+<div class="dy-group flex items-center gap-1">
+<input class="w-11 bg-slate-900 border border-slate-700/80 rounded-xl p-1.5 text-center text-xs text-emerald-400 font-bold focus:border-indigo-500 outline-none" id="sozel-d" max="15" min="0" oninput="handleInputChange()" placeholder="D" type="number"/>
+<input class="w-11 bg-slate-900 border border-slate-700/80 rounded-xl p-1.5 text-center text-xs text-rose-400 font-bold focus:border-indigo-500 outline-none" id="sozel-y" max="15" min="0" oninput="handleInputChange()" placeholder="Y" type="number"/>
+</div>
+<div class="net-group hidden">
+<input class="w-20 bg-slate-900 border border-slate-700/80 rounded-xl p-1.5 text-center text-xs text-indigo-300 font-bold focus:border-indigo-500 outline-none" id="sozel-net" max="15" min="-3.75" oninput="handleInputChange()" placeholder="Net" step="0.25" type="number"/>
+</div>
+<span class="text-xs font-extrabold text-slate-200 w-9 text-right font-mono" id="net-sozel">0.0</span>
+</div>
+</div>
+<!-- Sayısal -->
+<div class="bg-slate-950/50 hover:bg-slate-950/80 p-2.5 rounded-2xl border border-slate-800/60 flex items-center justify-between gap-2 transition-colors">
+<div class="w-1/2">
+<span class="font-bold text-slate-200 block text-xs">Sayısal Yetenek</span>
+<span class="text-[10px] text-slate-400">15 Soru (Ort: 3.4)</span>
+</div>
+<div class="flex items-center gap-1.5 w-1/2 justify-end">
+<div class="dy-group flex items-center gap-1">
+<input class="w-11 bg-slate-900 border border-slate-700/80 rounded-xl p-1.5 text-center text-xs text-emerald-400 font-bold focus:border-indigo-500 outline-none" id="sayisal-d" max="15" min="0" oninput="handleInputChange()" placeholder="D" type="number"/>
+<input class="w-11 bg-slate-900 border border-slate-700/80 rounded-xl p-1.5 text-center text-xs text-rose-400 font-bold focus:border-indigo-500 outline-none" id="sayisal-y" max="15" min="0" oninput="handleInputChange()" placeholder="Y" type="number"/>
+</div>
+<div class="net-group hidden">
+<input class="w-20 bg-slate-900 border border-slate-700/80 rounded-xl p-1.5 text-center text-xs text-indigo-300 font-bold focus:border-indigo-500 outline-none" id="sayisal-net" max="15" min="-3.75" oninput="handleInputChange()" placeholder="Net" step="0.25" type="number"/>
+</div>
+<span class="text-xs font-extrabold text-slate-200 w-9 text-right font-mono" id="net-sayisal">0.0</span>
+</div>
+</div>
+<!-- Tarih -->
+<div class="bg-slate-950/50 hover:bg-slate-950/80 p-2.5 rounded-2xl border border-slate-800/60 flex items-center justify-between gap-2 transition-colors">
+<div class="w-1/2">
+<span class="font-bold text-slate-200 block text-xs">Tarih</span>
+<span class="text-[10px] text-slate-400">6 Soru (Ort: 2.7)</span>
+</div>
+<div class="flex items-center gap-1.5 w-1/2 justify-end">
+<div class="dy-group flex items-center gap-1">
+<input class="w-11 bg-slate-900 border border-slate-700/80 rounded-xl p-1.5 text-center text-xs text-emerald-400 font-bold focus:border-indigo-500 outline-none" id="tarih-d" max="6" min="0" oninput="handleInputChange()" placeholder="D" type="number"/>
+<input class="w-11 bg-slate-900 border border-slate-700/80 rounded-xl p-1.5 text-center text-xs text-rose-400 font-bold focus:border-indigo-500 outline-none" id="tarih-y" max="6" min="0" oninput="handleInputChange()" placeholder="Y" type="number"/>
+</div>
+<div class="net-group hidden">
+<input class="w-20 bg-slate-900 border border-slate-700/80 rounded-xl p-1.5 text-center text-xs text-indigo-300 font-bold focus:border-indigo-500 outline-none" id="tarih-net" max="6" min="-1.5" oninput="handleInputChange()" placeholder="Net" step="0.25" type="number"/>
+</div>
+<span class="text-xs font-extrabold text-slate-200 w-9 text-right font-mono" id="net-tarih">0.0</span>
+</div>
+</div>
+<!-- Coğrafya -->
+<div class="bg-slate-950/50 hover:bg-slate-950/80 p-2.5 rounded-2xl border border-slate-800/60 flex items-center justify-between gap-2 transition-colors">
+<div class="w-1/2">
+<span class="font-bold text-slate-200 block text-xs">Türkiye Coğrafyası</span>
+<span class="text-[10px] text-slate-400">6 Soru (Ort: 2.2)</span>
+</div>
+<div class="flex items-center gap-1.5 w-1/2 justify-end">
+<div class="dy-group flex items-center gap-1">
+<input class="w-11 bg-slate-900 border border-slate-700/80 rounded-xl p-1.5 text-center text-xs text-emerald-400 font-bold focus:border-indigo-500 outline-none" id="cografya-d" max="6" min="0" oninput="handleInputChange()" placeholder="D" type="number"/>
+<input class="w-11 bg-slate-900 border border-slate-700/80 rounded-xl p-1.5 text-center text-xs text-rose-400 font-bold focus:border-indigo-500 outline-none" id="cografya-y" max="6" min="0" oninput="handleInputChange()" placeholder="Y" type="number"/>
+</div>
+<div class="net-group hidden">
+<input class="w-20 bg-slate-900 border border-slate-700/80 rounded-xl p-1.5 text-center text-xs text-indigo-300 font-bold focus:border-indigo-500 outline-none" id="cografya-net" max="6" min="-1.5" oninput="handleInputChange()" placeholder="Net" step="0.25" type="number"/>
+</div>
+<span class="text-xs font-extrabold text-slate-200 w-9 text-right font-mono" id="net-cografya">0.0</span>
+</div>
+</div>
+<!-- Eğitim Bilimleri -->
+<div class="bg-slate-950/50 hover:bg-slate-950/80 p-2.5 rounded-2xl border border-slate-800/60 flex items-center justify-between gap-2 transition-colors">
+<div class="w-1/2">
+<span class="font-bold text-slate-200 block text-xs">Eğitim Bilimleri &amp; TMES</span>
+<span class="text-[10px] text-slate-400">30 Soru (Ort: 11.2)</span>
+</div>
+<div class="flex items-center gap-1.5 w-1/2 justify-end">
+<div class="dy-group flex items-center gap-1">
+<input class="w-11 bg-slate-900 border border-slate-700/80 rounded-xl p-1.5 text-center text-xs text-emerald-400 font-bold focus:border-indigo-500 outline-none" id="egitim-d" max="30" min="0" oninput="handleInputChange()" placeholder="D" type="number"/>
+<input class="w-11 bg-slate-900 border border-slate-700/80 rounded-xl p-1.5 text-center text-xs text-rose-400 font-bold focus:border-indigo-500 outline-none" id="egitim-y" max="30" min="0" oninput="handleInputChange()" placeholder="Y" type="number"/>
+</div>
+<div class="net-group hidden">
+<input class="w-20 bg-slate-900 border border-slate-700/80 rounded-xl p-1.5 text-center text-xs text-indigo-300 font-bold focus:border-indigo-500 outline-none" id="egitim-net" max="30" min="-7.5" oninput="handleInputChange()" placeholder="Net" step="0.25" type="number"/>
+</div>
+<span class="text-xs font-extrabold text-slate-200 w-9 text-right font-mono" id="net-egitim">0.0</span>
+</div>
+</div>
+<!-- Mevzuat -->
+<div class="bg-slate-950/50 hover:bg-slate-950/80 p-2.5 rounded-2xl border border-slate-800/60 flex items-center justify-between gap-2 transition-colors">
+<div class="w-1/2">
+<span class="font-bold text-slate-200 block text-xs">Mevzuat (ÖMK 7528)</span>
+<span class="text-[10px] text-slate-400">8 Soru (Ort: 2.5)</span>
+</div>
+<div class="flex items-center gap-1.5 w-1/2 justify-end">
+<div class="dy-group flex items-center gap-1">
+<input class="w-11 bg-slate-900 border border-slate-700/80 rounded-xl p-1.5 text-center text-xs text-emerald-400 font-bold focus:border-indigo-500 outline-none" id="mevzuat-d" max="8" min="0" oninput="handleInputChange()" placeholder="D" type="number"/>
+<input class="w-11 bg-slate-900 border border-slate-700/80 rounded-xl p-1.5 text-center text-xs text-rose-400 font-bold focus:border-indigo-500 outline-none" id="mevzuat-y" max="8" min="0" oninput="handleInputChange()" placeholder="Y" type="number"/>
+</div>
+<div class="net-group hidden">
+<input class="w-20 bg-slate-900 border border-slate-700/80 rounded-xl p-1.5 text-center text-xs text-indigo-300 font-bold focus:border-indigo-500 outline-none" id="mevzuat-net" max="8" min="-2.0" oninput="handleInputChange()" placeholder="Net" step="0.25" type="number"/>
+</div>
+<span class="text-xs font-extrabold text-slate-200 w-9 text-right font-mono" id="net-mevzuat">0.0</span>
+</div>
+</div>
+</div>
+</div>
+<!-- ÖABT Rehberlik Kartı -->
+<div class="bg-purple-950/25 backdrop-blur-xl border border-purple-800/40 rounded-3xl p-4 shadow-xl">
+<div class="flex justify-between items-center mb-2.5 pb-2 border-b border-purple-800/40">
+<h2 class="text-xs font-bold text-purple-300 flex items-center gap-1.5">
+<span>🎯 ÖABT Rehberlik / PDR (%50)</span>
+</h2>
+<span class="text-[11px] text-purple-300 bg-purple-900/60 border border-purple-600/40 px-2.5 py-0.5 rounded-lg font-bold font-mono" id="net-oabt">0.00 Net</span>
+</div>
+<div class="dy-group grid grid-cols-2 gap-2 text-xs">
+<div>
+<label class="block text-[10px] font-semibold text-slate-400 mb-1">Doğru Sayısı (Max 50)</label>
+<input class="w-full bg-slate-950 border border-slate-700/80 rounded-2xl px-3 py-2 text-sm text-emerald-400 font-bold focus:border-purple-500 outline-none" id="oabt-d" max="50" min="0" oninput="handleInputChange()" placeholder="0" type="number"/>
+</div>
+<div>
+<label class="block text-[10px] font-semibold text-slate-400 mb-1">Yanlış Sayısı (Max 50)</label>
+<input class="w-full bg-slate-950 border border-slate-700/80 rounded-2xl px-3 py-2 text-sm text-rose-400 font-bold focus:border-purple-500 outline-none" id="oabt-y" max="50" min="0" oninput="handleInputChange()" placeholder="0" type="number"/>
+</div>
+</div>
+<div class="net-group hidden text-xs">
+<label class="block text-[10px] font-semibold text-slate-400 mb-1">ÖABT Netiniz (Max 50)</label>
+<input class="w-full bg-slate-950 border border-slate-700/80 rounded-2xl px-3 py-2 text-sm text-purple-300 font-bold focus:border-purple-500 outline-none" id="oabt-net" max="50" min="-12.5" oninput="handleInputChange()" placeholder="0 - 50 Net" step="0.25" type="number"/>
+</div>
+</div>
+<!-- 🚀 CANLI SIRALAMAYA GÖNDER / GÜNCELLE BUTONU -->
+<button class="w-full py-3.5 px-4 rounded-2xl font-black text-white bg-gradient-to-r from-emerald-600 via-teal-600 to-indigo-600 hover:from-emerald-500 hover:to-indigo-500 shadow-xl shadow-emerald-950/40 transition-all duration-200 active:scale-[0.99] text-xs sm:text-sm tracking-wide flex items-center justify-center gap-2" id="btn-publish-live" onclick="publishToLiveLeaderboard()">
+<span>🏆 Canlı Sıralamaya Kaydet &amp; Güncelle</span>
+</button>
+</div><div class="rk-result-panel"><div class="bg-gradient-to-br from-indigo-950/90 via-slate-900 to-slate-950 border border-indigo-500/40 rounded-3xl p-4 sm:p-5 shadow-2xl relative overflow-hidden">
+<div class="flex flex-wrap justify-between items-start gap-2 mb-1">
+<span class="text-[11px] font-bold text-indigo-400 uppercase tracking-wider">Tahmini 2027 PDR Başarı Sırası</span>
+<span class="text-xs font-bold px-3 py-0.5 rounded-full border shadow-sm" id="status-badge">Netlerinizi Girin</span>
+</div>
+<div class="text-3xl sm:text-4xl lg:text-5xl font-black text-white my-2 tracking-tight" id="result-rank-range">
             -- - --
           </div>
-          
-          <!-- Canlı Platform Sırası Bilgi Şeridi -->
-          <div class="bg-indigo-950/60 border border-indigo-700/40 rounded-2xl p-2.5 mb-2 flex items-center justify-between text-xs">
-            <span class="text-indigo-300 flex items-center gap-1.5 font-medium">
-              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+<!-- Canlı Platform Sırası Bilgi Şeridi -->
+<div class="bg-indigo-950/60 border border-indigo-700/40 rounded-2xl p-2.5 mb-2 flex items-center justify-between text-xs">
+<span class="text-indigo-300 flex items-center gap-1.5 font-medium">
+<span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
               Pdrkampus Canlı Sıranız:
             </span>
-            <span class="font-black text-emerald-400 font-mono text-sm" id="live-platform-rank">Giriş Yapılmadı</span>
-          </div>
-          
-          <div class="grid grid-cols-3 gap-2 border-t border-slate-800/80 pt-3 mt-2 text-xs">
-            <div>
-              <span class="text-slate-400 block text-[10px]">Gerçek P2-10:</span>
-              <span class="font-black text-emerald-400 text-sm sm:text-base font-mono" id="result-p2-score">--</span>
-            </div>
-            <div>
-              <span class="text-slate-400 block text-[10px]">2026 Eşleşen Sıra:</span>
-              <span class="font-bold text-indigo-300 text-sm sm:text-base font-mono" id="result-2026-rank">--</span>
-            </div>
-            <div>
-              <span class="text-slate-400 block text-[10px]">Yüzdelik Dilim:</span>
-              <span class="font-bold text-purple-300 text-sm sm:text-base font-mono" id="percentile-label">%--</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- 🚀 7 ANA MODÜL NAVİGATÖRÜ (EKSİKSİZ TABLAR) -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2">
-          
-          <button onclick="switchTab('tab-overview')" id="btn-tab-overview" class="tab-btn p-2 rounded-2xl border transition-all text-left flex flex-col justify-between gap-1 shadow-lg bg-gradient-to-br from-indigo-600 to-purple-600 text-white border-indigo-400 ring-2 ring-indigo-500/50">
-            <div class="flex items-center justify-between">
-              <span class="text-base">📊</span>
-              <span class="text-[8px] px-1 py-0.5 rounded bg-white/20 font-extrabold uppercase">Rapor</span>
-            </div>
-            <div>
-              <div class="font-extrabold text-[11px]">Analiz</div>
-              <div class="text-[9px] text-indigo-200">Reçete & Radar</div>
-            </div>
-          </button>
-
-          <button onclick="switchTab('tab-leaderboard')" id="btn-tab-leaderboard" class="tab-btn p-2 rounded-2xl border transition-all text-left flex flex-col justify-between gap-1 shadow-md bg-slate-900/90 text-slate-300 border-slate-800 hover:border-slate-700">
-            <div class="flex items-center justify-between">
-              <span class="text-base">🏆</span>
-              <span class="text-[8px] px-1 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 font-extrabold flex items-center gap-0.5">
-                <span class="w-1 h-1 rounded-full bg-emerald-400 animate-ping"></span> LİG
-              </span>
-            </div>
-            <div>
-              <div class="font-extrabold text-[11px] text-white">Canlı Sıra</div>
-              <div class="text-[9px] text-slate-400">PDR Ligi</div>
-            </div>
-          </button>
-
-          <button onclick="switchTab('tab-simulator')" id="btn-tab-simulator" class="tab-btn p-2 rounded-2xl border transition-all text-left flex flex-col justify-between gap-1 shadow-md bg-slate-900/90 text-slate-300 border-slate-800 hover:border-slate-700">
-            <div class="flex items-center justify-between">
-              <span class="text-base">🎛️</span>
-              <span class="text-[8px] px-1 py-0.5 rounded bg-purple-950 border border-purple-800/60 font-extrabold text-purple-300">TEST</span>
-            </div>
-            <div>
-              <div class="font-extrabold text-[11px] text-white">Simülatör</div>
-              <div class="text-[9px] text-slate-400">Zorluk & Matris</div>
-            </div>
-          </button>
-
-          <!-- 💡 YENİ MODÜL: 5. ÖZELLİK (SORU HAVUZU) -->
-          <button onclick="switchTab('tab-questions')" id="btn-tab-questions" class="tab-btn p-2 rounded-2xl border transition-all text-left flex flex-col justify-between gap-1 shadow-md bg-slate-900/90 text-slate-300 border-slate-800 hover:border-slate-700">
-            <div class="flex items-center justify-between">
-              <span class="text-base">💡</span>
-              <span class="text-[8px] px-1 py-0.5 rounded bg-teal-500/20 text-teal-400 border border-teal-500/40 font-extrabold">SORU</span>
-            </div>
-            <div>
-              <div class="font-extrabold text-[11px] text-white">Soru Sor</div>
-              <div class="text-[9px] text-slate-400">Yardımlaşma</div>
-            </div>
-          </button>
-
-          <button onclick="switchTab('tab-chat')" id="btn-tab-chat" class="tab-btn p-2 rounded-2xl border transition-all text-left flex flex-col justify-between gap-1 shadow-md bg-slate-900/90 text-slate-300 border-slate-800 hover:border-slate-700">
-            <div class="flex items-center justify-between">
-              <span class="text-base">💬</span>
-              <span class="text-[8px] px-1 py-0.5 rounded bg-indigo-500/20 text-indigo-400 border border-indigo-500/40 font-extrabold">ODA</span>
-            </div>
-            <div>
-              <div class="font-extrabold text-[11px] text-white">Sohbet</div>
-              <div class="text-[9px] text-slate-400">PDR Odası</div>
-            </div>
-          </button>
-
-          <button onclick="switchTab('tab-matches')" id="btn-tab-matches" class="tab-btn p-2 rounded-2xl border transition-all text-left flex flex-col justify-between gap-1 shadow-md bg-slate-900/90 text-slate-300 border-slate-800 hover:border-slate-700">
-            <div class="flex items-center justify-between">
-              <span class="text-base">🎯</span>
-              <span class="text-[8px] px-1 py-0.5 rounded bg-slate-800 font-extrabold text-slate-400">ÖSYM</span>
-            </div>
-            <div>
-              <div class="font-extrabold text-[11px] text-white">5 Belge</div>
-              <div class="text-[9px] text-slate-400">Eşleşmeler</div>
-            </div>
-          </button>
-
-          <button onclick="switchTab('tab-exam')" id="btn-tab-exam" class="tab-btn p-2 rounded-2xl border transition-all text-left flex flex-col justify-between gap-1 shadow-md bg-slate-900/90 text-slate-300 border-slate-800 hover:border-slate-700">
-            <div class="flex items-center justify-between">
-              <span class="text-base">📝</span>
-              <span class="text-[8px] px-1 py-0.5 rounded bg-amber-500/20 text-amber-400 border border-amber-500/40 font-extrabold">ONLINE</span>
-            </div>
-            <div>
-              <div class="font-extrabold text-[11px] text-white">TG Deneme</div>
-              <div class="text-[9px] text-slate-400">50 Soru / 75 Dk</div>
-            </div>
-          </button>
-
-        </div>
-
-        <!-- 📑 SEKME 1: ANALİZ & KOÇLUK & RADAR -->
-        <div id="tab-overview" class="tab-content flex flex-col gap-4">
-          <div class="bg-slate-900/80 border border-emerald-500/30 rounded-3xl p-4 shadow-xl">
-            <div class="flex items-center justify-between mb-2.5 pb-2 border-b border-slate-800">
-              <h3 class="text-xs font-bold text-emerald-300 uppercase tracking-wider flex items-center gap-1.5">
-                <span>🩺 Akıllı Koçluk & Net Reçetesi</span>
-              </h3>
-              <span class="text-[9px] text-emerald-400 bg-emerald-950/80 border border-emerald-800/60 px-2 py-0.5 rounded-md font-semibold">Tavsiyeler</span>
-            </div>
-            <div id="prescription-content" class="space-y-2 text-xs text-slate-300 leading-relaxed">
-              <div class="text-slate-500 italic text-[11px]">Netlerinizi girdikten sonra sistem zayıf ve güçlü yönlerinizi tarayarak size özel nokta atışı çalışma tavsiyeleri üretecektir.</div>
-            </div>
-          </div>
-
-          <div class="bg-slate-900/80 border border-slate-800/80 rounded-3xl p-4 shadow-xl">
-            <div class="flex justify-between items-center mb-2 pb-1.5 border-b border-slate-800">
-              <h4 class="text-xs font-bold text-slate-200 uppercase tracking-wider">🕸️ Başarı Profili Radar Grafiği</h4>
-              <span class="text-[10px] text-indigo-400">Siz vs TR 2026</span>
-            </div>
-            <div class="h-52 relative flex items-center justify-center">
-              <canvas id="radarChart"></canvas>
-            </div>
-          </div>
-
-          <div class="bg-slate-900/80 border border-slate-800/80 rounded-3xl p-4 shadow-xl">
-            <h3 class="text-xs font-bold text-slate-200 uppercase tracking-wider mb-2.5 flex items-center justify-between">
-              <span>📊 7 Ders Standart Sapma ($Z$-Skoru)</span>
-              <span class="text-[10px] text-indigo-400 font-normal">TR Ortalamasına Göre</span>
-            </h3>
-            
-            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs" id="subtest-cards-container">
-              <div class="p-2.5 bg-slate-950/60 border border-slate-800 rounded-2xl">
-                <span class="text-slate-400 block text-[10px]">Sözel (Ort: 8.3)</span>
-                <span class="font-bold text-slate-200 block text-xs" id="z-sozel">--</span>
-                <span class="text-[9px] text-slate-500" id="stat-sozel">Bekleniyor</span>
-              </div>
-              <div class="p-2.5 bg-slate-950/60 border border-slate-800 rounded-2xl">
-                <span class="text-slate-400 block text-[10px]">Sayısal (Ort: 3.4)</span>
-                <span class="font-bold text-slate-200 block text-xs" id="z-sayisal">--</span>
-                <span class="text-[9px] text-slate-500" id="stat-sayisal">Bekleniyor</span>
-              </div>
-              <div class="p-2.5 bg-slate-950/60 border border-slate-800 rounded-2xl">
-                <span class="text-slate-400 block text-[10px]">Tarih (Ort: 2.7)</span>
-                <span class="font-bold text-slate-200 block text-xs" id="z-tarih">--</span>
-                <span class="text-[9px] text-slate-500" id="stat-tarih">Bekleniyor</span>
-              </div>
-              <div class="p-2.5 bg-slate-950/60 border border-slate-800 rounded-2xl">
-                <span class="text-slate-400 block text-[10px]">Coğrafya (Ort: 2.2)</span>
-                <span class="font-bold text-slate-200 block text-xs" id="z-cografya">--</span>
-                <span class="text-[9px] text-slate-500" id="stat-cografya">Bekleniyor</span>
-              </div>
-              <div class="p-2.5 bg-slate-950/60 border border-slate-800 rounded-2xl">
-                <span class="text-slate-400 block text-[10px]">Eğitim Bil. (Ort: 11.2)</span>
-                <span class="font-bold text-slate-200 block text-xs" id="z-egitim">--</span>
-                <span class="text-[9px] text-slate-500" id="stat-egitim">Bekleniyor</span>
-              </div>
-              <div class="p-2.5 bg-purple-950/20 border border-purple-900/40 rounded-2xl">
-                <span class="text-purple-300 block text-[10px] font-semibold">ÖABT PDR (Ort: 33.5)</span>
-                <span class="font-bold text-purple-200 block text-xs" id="z-oabt">--</span>
-                <span class="text-[9px] text-purple-400" id="stat-oabt">Bekleniyor</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- 📑 SEKME 2: CANLI SIRALAMA LİGİ -->
-        <div id="tab-leaderboard" class="tab-content hidden flex flex-col gap-3">
-          <div class="bg-slate-900/90 border border-indigo-500/40 rounded-3xl p-4 shadow-xl flex flex-wrap items-center justify-between gap-3 text-xs">
-            <div>
-              <h3 class="font-extrabold text-white text-sm flex items-center gap-1.5">
-                <span>🏆 Pdrkampus Canlı Ligi</span>
-              </h3>
-              <p class="text-[11px] text-slate-400">Google ile kaydedilen gerçek adaylar arasındaki anlık yarışma tablosu:</p>
-            </div>
-            
-            <div class="flex items-center gap-3">
-              <label class="flex items-center gap-1.5 text-[11px] text-slate-300 cursor-pointer select-none">
-                <input type="checkbox" id="anon-toggle" onchange="toggleAnonymousMode()" class="rounded accent-indigo-500">
-                <span>İsmimi Gizle</span>
-              </label>
-              <button onclick="fetchLiveLeaderboard()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-2.5 py-1 rounded-xl text-xs font-bold transition-all flex items-center gap-1 shadow">
+<span class="font-black text-emerald-400 font-mono text-sm" id="live-platform-rank">Giriş Yapılmadı</span>
+</div>
+<div class="grid grid-cols-3 gap-2 border-t border-slate-800/80 pt-3 mt-2 text-xs">
+<div>
+<span class="text-slate-400 block text-[10px]">Gerçek P2-10:</span>
+<span class="font-black text-emerald-400 text-sm sm:text-base font-mono" id="result-p2-score">--</span>
+</div>
+<div>
+<span class="text-slate-400 block text-[10px]">2026 Eşleşen Sıra:</span>
+<span class="font-bold text-indigo-300 text-sm sm:text-base font-mono" id="result-2026-rank">--</span>
+</div>
+<div>
+<span class="text-slate-400 block text-[10px]">Yüzdelik Dilim:</span>
+<span class="font-bold text-purple-300 text-sm sm:text-base font-mono" id="percentile-label">%--</span>
+</div>
+</div>
+</div></div></section>
+<div class="rk-stat-strip"><div class="rk-stat-card stat-p2"><span>P2-10</span><strong id="rk-p2">--</strong></div><div class="rk-stat-card stat-rank"><span>Tahmini Sıra</span><strong id="rk-rank">-- - --</strong></div><div class="rk-stat-card stat-oabt"><span>ÖABT Net</span><strong id="rk-oabt">0.00</strong></div></div><section class="rk-content-stage"><div class="tab-content flex flex-col gap-4" id="tab-overview">
+<div class="bg-slate-900/80 border border-emerald-500/30 rounded-3xl p-4 shadow-xl">
+<div class="flex items-center justify-between mb-2.5 pb-2 border-b border-slate-800">
+<h3 class="text-xs font-bold text-emerald-300 uppercase tracking-wider flex items-center gap-1.5">
+<span>🩺 Akıllı Koçluk &amp; Net Reçetesi</span>
+</h3>
+<span class="text-[9px] text-emerald-400 bg-emerald-950/80 border border-emerald-800/60 px-2 py-0.5 rounded-md font-semibold">Tavsiyeler</span>
+</div>
+<div class="space-y-2 text-xs text-slate-300 leading-relaxed" id="prescription-content">
+<div class="text-slate-500 italic text-[11px]">Netlerinizi girdikten sonra sistem zayıf ve güçlü yönlerinizi tarayarak size özel nokta atışı çalışma tavsiyeleri üretecektir.</div>
+</div>
+</div>
+<div class="bg-slate-900/80 border border-slate-800/80 rounded-3xl p-4 shadow-xl">
+<div class="flex justify-between items-center mb-2 pb-1.5 border-b border-slate-800">
+<h4 class="text-xs font-bold text-slate-200 uppercase tracking-wider">🕸️ Başarı Profili Radar Grafiği</h4>
+<span class="text-[10px] text-indigo-400">Siz vs TR 2026</span>
+</div>
+<div class="h-52 relative flex items-center justify-center">
+<canvas id="radarChart"></canvas>
+</div>
+</div>
+<div class="bg-slate-900/80 border border-slate-800/80 rounded-3xl p-4 shadow-xl">
+<h3 class="text-xs font-bold text-slate-200 uppercase tracking-wider mb-2.5 flex items-center justify-between">
+<span>📊 7 Ders Standart Sapma ($Z$-Skoru)</span>
+<span class="text-[10px] text-indigo-400 font-normal">TR Ortalamasına Göre</span>
+</h3>
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs" id="subtest-cards-container">
+<div class="p-2.5 bg-slate-950/60 border border-slate-800 rounded-2xl">
+<span class="text-slate-400 block text-[10px]">Sözel (Ort: 8.3)</span>
+<span class="font-bold text-slate-200 block text-xs" id="z-sozel">--</span>
+<span class="text-[9px] text-slate-500" id="stat-sozel">Bekleniyor</span>
+</div>
+<div class="p-2.5 bg-slate-950/60 border border-slate-800 rounded-2xl">
+<span class="text-slate-400 block text-[10px]">Sayısal (Ort: 3.4)</span>
+<span class="font-bold text-slate-200 block text-xs" id="z-sayisal">--</span>
+<span class="text-[9px] text-slate-500" id="stat-sayisal">Bekleniyor</span>
+</div>
+<div class="p-2.5 bg-slate-950/60 border border-slate-800 rounded-2xl">
+<span class="text-slate-400 block text-[10px]">Tarih (Ort: 2.7)</span>
+<span class="font-bold text-slate-200 block text-xs" id="z-tarih">--</span>
+<span class="text-[9px] text-slate-500" id="stat-tarih">Bekleniyor</span>
+</div>
+<div class="p-2.5 bg-slate-950/60 border border-slate-800 rounded-2xl">
+<span class="text-slate-400 block text-[10px]">Coğrafya (Ort: 2.2)</span>
+<span class="font-bold text-slate-200 block text-xs" id="z-cografya">--</span>
+<span class="text-[9px] text-slate-500" id="stat-cografya">Bekleniyor</span>
+</div>
+<div class="p-2.5 bg-slate-950/60 border border-slate-800 rounded-2xl">
+<span class="text-slate-400 block text-[10px]">Eğitim Bil. (Ort: 11.2)</span>
+<span class="font-bold text-slate-200 block text-xs" id="z-egitim">--</span>
+<span class="text-[9px] text-slate-500" id="stat-egitim">Bekleniyor</span>
+</div>
+<div class="p-2.5 bg-purple-950/20 border border-purple-900/40 rounded-2xl">
+<span class="text-purple-300 block text-[10px] font-semibold">ÖABT PDR (Ort: 33.5)</span>
+<span class="font-bold text-purple-200 block text-xs" id="z-oabt">--</span>
+<span class="text-[9px] text-purple-400" id="stat-oabt">Bekleniyor</span>
+</div>
+</div>
+</div>
+</div><div class="tab-content flex flex-col gap-3" id="tab-leaderboard">
+<div class="bg-slate-900/90 border border-indigo-500/40 rounded-3xl p-4 shadow-xl flex flex-wrap items-center justify-between gap-3 text-xs">
+<div>
+<h3 class="font-extrabold text-white text-sm flex items-center gap-1.5">
+<span>🏆 Pdrkampus Canlı Ligi</span>
+</h3>
+<p class="text-[11px] text-slate-400">Google ile kaydedilen gerçek adaylar arasındaki anlık yarışma tablosu:</p>
+</div>
+<div class="flex items-center gap-3">
+<label class="flex items-center gap-1.5 text-[11px] text-slate-300 cursor-pointer select-none">
+<input class="rounded accent-indigo-500" id="anon-toggle" onchange="toggleAnonymousMode()" type="checkbox"/>
+<span>İsmimi Gizle</span>
+</label>
+<button class="bg-indigo-600 hover:bg-indigo-500 text-white px-2.5 py-1 rounded-xl text-xs font-bold transition-all flex items-center gap-1 shadow" onclick="fetchLiveLeaderboard()">
                 🔄 Yenile
               </button>
-            </div>
-          </div>
-
-          <div class="bg-slate-900/80 border border-slate-800/80 rounded-3xl p-4 shadow-xl">
-            <div id="leaderboard-list-container" class="space-y-2 text-xs">
-              <div class="text-center py-6 text-slate-500">Canlı sıralama yükleniyor...</div>
-            </div>
-          </div>
+</div>
+</div>
+<div class="bg-slate-900/80 border border-slate-800/80 rounded-3xl p-4 shadow-xl">
+<div class="space-y-2 text-xs" id="leaderboard-list-container">
+<div class="text-center py-6 text-slate-500">Canlı sıralama yükleniyor...</div>
+</div>
+</div>
+</div><div class="tab-content flex flex-col gap-4" id="tab-simulator">
+<div class="bg-slate-900/80 border border-indigo-500/30 rounded-3xl p-4 shadow-xl">
+<div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-800">
+<h3 class="text-xs font-bold text-indigo-300 uppercase tracking-wider">🎛️ 2027 Sınav Zorluğu Simülatörü</h3>
+<span class="text-[10px] text-slate-400">Oransal Kaydırıcı</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+<div class="bg-slate-950/70 p-3 rounded-2xl border border-slate-800">
+<div class="flex justify-between items-center mb-1.5">
+<span class="text-slate-300 font-medium text-[11px]">AGS Zorluk Değişimi:</span>
+<span class="font-bold text-indigo-400 text-xs" id="slider-ags-val">0 Net</span>
+</div>
+<input class="w-full accent-indigo-500 cursor-pointer" id="slider-ags" max="5" min="-5" oninput="runCustomSimulation()" step="1" type="range" value="0"/>
+<div class="flex justify-between text-[9px] text-slate-500 mt-1">
+<span>-5 Net (Çok Zor)</span>
+<span>0 (Aynı)</span>
+<span>+5 Net (Çok Kolay)</span>
+</div>
+</div>
+<div class="bg-slate-950/70 p-3 rounded-2xl border border-slate-800">
+<div class="flex justify-between items-center mb-1.5">
+<span class="text-slate-300 font-medium text-[11px]">ÖABT Zorluk Değişimi:</span>
+<span class="font-bold text-purple-400 text-xs" id="slider-oabt-val">0 Net</span>
+</div>
+<input class="w-full accent-purple-500 cursor-pointer" id="slider-oabt" max="5" min="-5" oninput="runCustomSimulation()" step="1" type="range" value="0"/>
+<div class="flex justify-between text-[9px] text-slate-500 mt-1">
+<span>-5 Net (Çok Zor)</span>
+<span>0 (Aynı)</span>
+<span>+5 Net (Çok Kolay)</span>
+</div>
+</div>
+</div>
+<div class="mt-3 bg-gradient-to-r from-indigo-950/80 to-purple-950/80 border border-indigo-700/40 rounded-2xl p-3 flex items-center justify-between text-xs">
+<div>
+<span class="text-slate-300 font-medium block text-[11px]">Seçilen Senaryo Sıranız:</span>
+<span class="text-[10px] text-slate-400" id="custom-sim-desc">Standart zorluk varsayılıyor.</span>
+</div>
+<div class="text-right">
+<span class="text-lg sm:text-xl font-black text-emerald-400 font-mono" id="custom-sim-rank">--. Sıra</span>
+<span class="block text-[9px] text-indigo-300 font-semibold" id="custom-sim-score">P2-10: --</span>
+</div>
+</div>
+</div>
+<div class="bg-slate-900/80 border border-slate-800/80 rounded-3xl p-4 shadow-xl">
+<h3 class="text-xs font-bold text-slate-200 uppercase tracking-wider mb-2">🔮 2027 Senaryo Matrisi (Oransal Çan Eğrisi)</h3>
+<div class="overflow-x-auto custom-scrollbar">
+<table class="w-full text-left text-xs border-collapse">
+<thead>
+<tr class="bg-slate-950/90 text-slate-400 border-b border-slate-800 text-[11px]">
+<th class="py-2 px-2.5">Senaryo</th>
+<th class="py-2 px-2.5">AGS Ort.</th>
+<th class="py-2 px-2.5">ÖABT Ort.</th>
+<th class="py-2 px-2.5">Puan</th>
+<th class="py-2 px-2.5 text-right">Olası Sıra</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-800/60 text-slate-300 text-[11px]" id="scenario-matrix-body">
+<tr><td class="py-3 text-center text-slate-500" colspan="5">Netlerinizi giriniz.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div><div class="tab-content flex flex-col gap-3" id="tab-matches">
+<div class="bg-slate-900/80 border border-slate-800/80 rounded-3xl p-4 shadow-xl">
+<h3 class="text-xs font-bold text-slate-200 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+<span>🎯 En Yakın 5 Gerçek Sonuç Belgesi</span>
+</h3>
+<p class="text-[11px] text-slate-400 mb-3">Resmi veritabanındaki 118 sonuç belgesi arasından profilinize en yakın 5 aday:</p>
+<div class="space-y-2" id="similar-candidates-list">
+<div class="text-center py-4 text-xs text-slate-500">Netlerinizi girdikten sonra eşleşen 5 gerçek aday burada listelenecektir.</div>
+</div>
+</div>
+</div></section></main>
+<!-- 📱 MOBİL İÇİN YAPIŞKAN ALT BİLGİ PİLİ -->
+<!-- 🌟 FOOTER -->
+<footer class="w-full bg-slate-950 border-t border-slate-800/80 mt-10 pt-8 pb-6 text-xs text-slate-400">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-800/60 text-[11px]">
+<div class="flex items-center gap-2.5">
+<img alt="Pdrkampus Logo" class="h-8 sm:h-9 w-auto object-contain" onerror="this.onerror=null; this.src='https://i.hizliresim.com/ztqymblw.jpg';" src="https://i.hizliresim.com/ztqymblw.png"/>
+<span class="font-extrabold text-white">Pdrkampus<span class="text-indigo-400">.online</span></span>
+<span class="text-slate-600">•</span>
+<span class="text-slate-400">PDR Adayları İçin Canlı Topluluk &amp; Simülasyon Platformu</span>
+</div>
+<div class="text-[10px] text-slate-500">
+          2026 MEB-AGS &amp; ÖABT Resmi İstatistikleri Entegre
         </div>
-
-        <!-- 📑 SEKME 3: SİMÜLASYON & SENARYO MATRİSİ (DÜZELTİLMİŞ ORANSAL ÇAN EĞRİSİ MOTORU) -->
-        <div id="tab-simulator" class="tab-content hidden flex flex-col gap-4">
-          <div class="bg-slate-900/80 border border-indigo-500/30 rounded-3xl p-4 shadow-xl">
-            <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-800">
-              <h3 class="text-xs font-bold text-indigo-300 uppercase tracking-wider">🎛️ 2027 Sınav Zorluğu Simülatörü</h3>
-              <span class="text-[10px] text-slate-400">Oransal Kaydırıcı</span>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
-              <div class="bg-slate-950/70 p-3 rounded-2xl border border-slate-800">
-                <div class="flex justify-between items-center mb-1.5">
-                  <span class="text-slate-300 font-medium text-[11px]">AGS Zorluk Değişimi:</span>
-                  <span class="font-bold text-indigo-400 text-xs" id="slider-ags-val">0 Net</span>
-                </div>
-                <input type="range" id="slider-ags" min="-5" max="5" value="0" step="1" class="w-full accent-indigo-500 cursor-pointer" oninput="runCustomSimulation()">
-                <div class="flex justify-between text-[9px] text-slate-500 mt-1">
-                  <span>-5 Net (Çok Zor)</span>
-                  <span>0 (Aynı)</span>
-                  <span>+5 Net (Çok Kolay)</span>
-                </div>
-              </div>
-
-              <div class="bg-slate-950/70 p-3 rounded-2xl border border-slate-800">
-                <div class="flex justify-between items-center mb-1.5">
-                  <span class="text-slate-300 font-medium text-[11px]">ÖABT Zorluk Değişimi:</span>
-                  <span class="font-bold text-purple-400 text-xs" id="slider-oabt-val">0 Net</span>
-                </div>
-                <input type="range" id="slider-oabt" min="-5" max="5" value="0" step="1" class="w-full accent-purple-500 cursor-pointer" oninput="runCustomSimulation()">
-                <div class="flex justify-between text-[9px] text-slate-500 mt-1">
-                  <span>-5 Net (Çok Zor)</span>
-                  <span>0 (Aynı)</span>
-                  <span>+5 Net (Çok Kolay)</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="mt-3 bg-gradient-to-r from-indigo-950/80 to-purple-950/80 border border-indigo-700/40 rounded-2xl p-3 flex items-center justify-between text-xs">
-              <div>
-                <span class="text-slate-300 font-medium block text-[11px]">Seçilen Senaryo Sıranız:</span>
-                <span class="text-[10px] text-slate-400" id="custom-sim-desc">Standart zorluk varsayılıyor.</span>
-              </div>
-              <div class="text-right">
-                <span class="text-lg sm:text-xl font-black text-emerald-400 font-mono" id="custom-sim-rank">--. Sıra</span>
-                <span class="block text-[9px] text-indigo-300 font-semibold" id="custom-sim-score">P2-10: --</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="bg-slate-900/80 border border-slate-800/80 rounded-3xl p-4 shadow-xl">
-            <h3 class="text-xs font-bold text-slate-200 uppercase tracking-wider mb-2">🔮 2027 Senaryo Matrisi (Oransal Çan Eğrisi)</h3>
-            <div class="overflow-x-auto custom-scrollbar">
-              <table class="w-full text-left text-xs border-collapse">
-                <thead>
-                  <tr class="bg-slate-950/90 text-slate-400 border-b border-slate-800 text-[11px]">
-                    <th class="py-2 px-2.5">Senaryo</th>
-                    <th class="py-2 px-2.5">AGS Ort.</th>
-                    <th class="py-2 px-2.5">ÖABT Ort.</th>
-                    <th class="py-2 px-2.5">Puan</th>
-                    <th class="py-2 px-2.5 text-right">Olası Sıra</th>
-                  </tr>
-                </thead>
-                <tbody id="scenario-matrix-body" class="divide-y divide-slate-800/60 text-slate-300 text-[11px]">
-                  <tr><td colspan="5" class="py-3 text-center text-slate-500">Netlerinizi giriniz.</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <!-- 💡 SEKME 4: 5. ÖZELLİK - "ÇÖZEMEDİĞİN SORUYU PAYLAŞ" PANOSU -->
-        <div id="tab-questions" class="tab-content hidden flex flex-col gap-4">
-          
-          <!-- Soru Sorma Formu -->
-          <div class="bg-slate-900/90 border border-teal-500/40 rounded-3xl p-4 sm:p-5 shadow-xl space-y-3">
-            <div class="flex items-center justify-between pb-2 border-b border-slate-800">
-              <div class="flex items-center gap-2">
-                <span class="text-lg">💡</span>
-                <div>
-                  <h3 class="font-extrabold text-white text-xs sm:text-sm">Çözemediğin Soruyu PDR Camiasına Sor</h3>
-                  <p class="text-[10px] text-slate-400">Denemelerde takıldığınız şüpheli veya zor ÖABT/AGS sorularını paylaşın, birlikte çözelim.</p>
-                </div>
-              </div>
-              <span class="text-[10px] px-2 py-0.5 rounded bg-teal-950 border border-teal-700/60 text-teal-300 font-bold">Yardımlaşma</span>
-            </div>
-
-            <form onsubmit="handlePostNewQuestion(event)" class="space-y-2.5 text-xs">
-              <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                <div>
-                  <label class="block text-[10px] text-slate-400 mb-1 font-semibold">Ders / Alan Seçin:</label>
-                  <select id="post-q-category" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-2.5 py-1.5 text-slate-200 outline-none focus:border-teal-500 text-xs">
-                    <option value="ÖABT Danışma Kuramları">ÖABT Danışma Kuramları</option>
-                    <option value="ÖABT Bireyle Psikolojik Danışma">ÖABT Bireyle Danışma</option>
-                    <option value="ÖABT Mesleki Rehberlik">ÖABT Mesleki Rehberlik</option>
-                    <option value="ÖABT Grupla Danışma & Test">ÖABT Grupla & Test Dışı</option>
-                    <option value="MEB-AGS Eğitim Bilimleri">MEB-AGS Eğitim Bilimleri</option>
-                    <option value="Mevzuat (ÖMK 7528)">Mevzuat (ÖMK 7528)</option>
-                    <option value="Genel Yetenek (Mat/Türkçe)">Genel Yetenek</option>
-                  </select>
-                </div>
-                <div class="sm:col-span-2">
-                  <label class="block text-[10px] text-slate-400 mb-1 font-semibold">Soru Başlığı / Kaynak Adı (Örn: TG-3 Deneme 42. Soru):</label>
-                  <input type="text" id="post-q-title" required placeholder="Örn: Adler Üstünlük Çabası Çeldirici Soru" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-1.5 text-slate-200 outline-none focus:border-teal-500 text-xs">
-                </div>
-              </div>
-
-              <div>
-                <label class="block text-[10px] text-slate-400 mb-1 font-semibold">Soru Metni, Şıklar ve Takıldığınız Nokta:</label>
-                <textarea id="post-q-content" required rows="3" placeholder="Sorunun metnini veya şıklarını buraya yazın. Neden B ve C arasında kaldığınızı belirtin..." class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-slate-200 outline-none focus:border-teal-500 text-xs"></textarea>
-              </div>
-
-              <div class="flex flex-wrap items-center justify-between gap-2 pt-1">
-                <label class="flex items-center gap-1.5 text-[11px] text-slate-400 hover:text-slate-200 cursor-pointer select-none">
-                  <input type="checkbox" id="post-q-anon" class="rounded accent-teal-500">
-                  <span>🎭 İsmimi Gizle (Anonim Sor)</span>
-                </label>
-                <button type="submit" class="bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-500 hover:to-emerald-500 text-white px-4 py-2 rounded-xl text-xs font-bold transition-all shadow-md active:scale-95 flex items-center gap-1.5">
-                  <span>🚀 Soruyu Paylaş</span>
-                </button>
-              </div>
-            </form>
-          </div>
-
-          <!-- Sorular Akışı -->
-          <div class="space-y-3" id="community-questions-feed">
-            <!-- Dinamik olarak render edilir -->
-          </div>
-
-        </div>
-
-        <!-- 📑 SEKME 5: CANLI SOHBET ODASI -->
-        <div id="tab-chat" class="tab-content hidden flex flex-col gap-3">
-          <div class="bg-slate-900/80 border border-indigo-500/40 rounded-3xl p-4 shadow-xl flex flex-col h-[520px] justify-between">
-            
-            <div class="flex items-center justify-between pb-2.5 border-b border-slate-800">
-              <div class="flex items-center gap-2">
-                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                <h3 class="font-extrabold text-white text-xs sm:text-sm">PDR Adayları Canlı Sohbet Odası</h3>
-              </div>
-              <span class="text-[10px] text-slate-400">Anlık İletişim 💬</span>
-            </div>
-
-            <div id="chat-messages-box" class="flex-grow overflow-y-auto custom-scrollbar my-3 space-y-2.5 pr-1 text-xs">
-              <div class="text-center py-8 text-slate-500">Mesajlar yükleniyor...</div>
-            </div>
-
-            <div class="pt-2 border-t border-slate-800/80">
-              <div id="chat-auth-prompt" class="hidden text-center py-2 text-xs bg-slate-950/80 rounded-2xl border border-slate-800">
-                <span class="text-slate-400">Sohbete katılmak için </span>
-                <button onclick="loginWithGoogle()" class="text-indigo-400 hover:text-indigo-300 font-bold underline ml-1">Google ile Giriş Yapın</button>
-              </div>
-
-              <form id="chat-form" onsubmit="handleSendChatMessage(event)" class="space-y-2">
-                <div class="flex items-center justify-between px-1">
-                  <label class="flex items-center gap-1.5 text-[11px] text-slate-400 hover:text-slate-200 cursor-pointer select-none">
-                    <input type="checkbox" id="chat-anon-toggle" class="rounded accent-indigo-500">
-                    <span>🎭 İsmimi Gizle (Anonim Gönder)</span>
-                  </label>
-                  <span class="text-[10px] text-slate-500">Maks. 300 Karakter</span>
-                </div>
-                
-                <div class="flex gap-2">
-                  <input type="text" id="chat-input" maxlength="300" placeholder="PDR adaylarıyla bir şey paylaşın..." class="flex-grow bg-slate-950 border border-slate-700/80 rounded-2xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:border-indigo-500 outline-none">
-                  <button type="submit" id="btn-send-chat" class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white px-4 py-2 rounded-2xl text-xs font-bold transition-all shadow-md active:scale-95 flex items-center gap-1.5 flex-shrink-0">
-                    <span>Gönder</span> 🚀
-                  </button>
-                </div>
-              </form>
-            </div>
-
-          </div>
-        </div>
-
-        <!-- 📑 SEKME 6: GERÇEK 5 SONUÇ BELGESİ -->
-        <div id="tab-matches" class="tab-content hidden flex flex-col gap-3">
-          <div class="bg-slate-900/80 border border-slate-800/80 rounded-3xl p-4 shadow-xl">
-            <h3 class="text-xs font-bold text-slate-200 uppercase tracking-wider mb-1 flex items-center gap-1.5">
-              <span>🎯 En Yakın 5 Gerçek Sonuç Belgesi</span>
-            </h3>
-            <p class="text-[11px] text-slate-400 mb-3">Resmi veritabanındaki 118 sonuç belgesi arasından profilinize en yakın 5 aday:</p>
-
-            <div class="space-y-2" id="similar-candidates-list">
-              <div class="text-center py-4 text-xs text-slate-500">Netlerinizi girdikten sonra eşleşen 5 gerçek aday burada listelenecektir.</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- 📑 SEKME 7: ONLINE TG DENEME MODÜLÜ -->
-        <div id="tab-exam" class="tab-content hidden flex flex-col gap-4">
-          
-          <div id="exam-lobby-view" class="bg-slate-900/90 border border-amber-500/40 rounded-3xl p-5 sm:p-6 shadow-2xl flex flex-col gap-4">
-            <div class="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-slate-800">
-              <div>
-                <span class="text-[10px] font-extrabold text-amber-400 bg-amber-950/80 border border-amber-700/60 px-2.5 py-0.5 rounded-md uppercase tracking-wider">Online TG Denemesi</span>
-                <h3 class="text-base sm:text-lg font-black text-white mt-1" id="exam-lobby-title">1. Türkiye Geneli ÖABT PDR Deneme Sınavı</h3>
-              </div>
-              <span class="text-xs font-bold text-purple-300 bg-purple-950/80 border border-purple-700/50 px-3 py-1 rounded-xl font-mono">50 Soru • 75 Dakika</span>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-              <div class="p-3 bg-slate-950/60 border border-slate-800 rounded-2xl">
-                <span class="text-slate-400 block text-[10px]">Format:</span>
-                <span class="font-bold text-slate-200">50 Soru (ÖABT PDR)</span>
-              </div>
-              <div class="p-3 bg-slate-950/60 border border-slate-800 rounded-2xl">
-                <span class="text-slate-400 block text-[10px]">Kural:</span>
-                <span class="font-bold text-emerald-400">4 Yanlış 1 Doğruyu Götürür</span>
-              </div>
-              <div class="p-3 bg-slate-950/60 border border-slate-800 rounded-2xl">
-                <span class="text-slate-400 block text-[10px]">Cevap Anahtarı:</span>
-                <span class="font-bold text-indigo-300">Sınav Sonu Detaylı İnceleme</span>
-              </div>
-            </div>
-
-            <div class="p-3.5 rounded-2xl bg-indigo-950/40 border border-indigo-800/40 text-xs text-slate-300 space-y-1">
-              <div class="font-bold text-indigo-200 flex items-center gap-1.5">
-                <span>📌</span> Sınav Yönergesi:
-              </div>
-              <ul class="list-disc list-inside space-y-0.5 text-slate-400 text-[11px] pl-1">
-                <li>Sınava başladığınızda 75 dakikalık geri sayım başlar.</li>
-                <li>Sorular arasında serbestçe geçiş yapabilir, optik formdan dilediğiniz soruya atlayabilirsiniz.</li>
-                <li>Sınav bitiminde tüm soruların doğru cevaplarını ve kendi işaretlediğiniz şıkları soru soru görebilirsiniz.</li>
-              </ul>
-            </div>
-
-            <button onclick="startExamSession()" class="w-full py-4 rounded-2xl font-black text-sm text-white bg-gradient-to-r from-amber-500 via-orange-500 to-indigo-600 hover:from-amber-400 hover:to-indigo-500 shadow-xl shadow-amber-950/40 transition-all active:scale-[0.99] flex items-center justify-center gap-2">
-              <span>🚀 Sınava Şimdi Başla</span>
-            </button>
-          </div>
-
-          <div id="exam-runner-view" class="bg-slate-900/95 border border-indigo-500/40 rounded-3xl p-4 sm:p-5 shadow-2xl flex flex-col gap-4 hidden">
-            <div class="flex items-center justify-between pb-3 border-b border-slate-800">
-              <div>
-                <span class="text-[10px] text-slate-400 block" id="exam-category-label">ÖABT Rehberlik</span>
-                <h4 class="text-xs sm:text-sm font-bold text-white flex items-center gap-1.5">
-                  <span id="current-q-number">Soru 1</span> / <span id="total-q-number">50</span>
-                </h4>
-              </div>
-              <div class="flex items-center gap-2">
-                <div class="px-3.5 py-1.5 rounded-xl bg-slate-950 border border-slate-700 text-xs sm:text-sm font-black font-mono tracking-widest text-emerald-400" id="exam-timer-display">
-                  75:00
-                </div>
-                <button onclick="promptFinishExam()" class="px-3 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold transition-all shadow">
-                  Sınavı Bitir
-                </button>
-              </div>
-            </div>
-
-            <div class="bg-slate-950/80 p-2.5 rounded-2xl border border-slate-800 flex flex-wrap gap-1.5 max-h-24 overflow-y-auto custom-scrollbar" id="exam-optical-grid">
-            </div>
-
-            <div class="p-4 rounded-2xl bg-slate-950/60 border border-slate-800/80 min-h-[140px] flex flex-col justify-between text-xs sm:text-sm leading-relaxed text-slate-200">
-              <div id="exam-question-text">Soru metni yükleniyor...</div>
-            </div>
-
-            <div class="space-y-2 text-xs sm:text-sm" id="exam-options-container">
-            </div>
-
-            <div class="flex items-center justify-between pt-2 border-t border-slate-800">
-              <button onclick="prevExamQuestion()" id="btn-prev-q" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs transition-colors flex items-center gap-1">
-                <span>◀ Önceki</span>
-              </button>
-              <button onclick="clearCurrentAnswer()" class="text-[11px] text-slate-500 hover:text-rose-400 font-semibold underline">
-                Cevabı Temizle
-              </button>
-              <button onclick="nextExamQuestion()" id="btn-next-q" class="px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs transition-colors flex items-center gap-1 shadow">
-                <span>Sonraki ▶</span>
-              </button>
-            </div>
-          </div>
-
-          <div id="exam-result-view" class="bg-slate-900/90 border border-emerald-500/40 rounded-3xl p-5 sm:p-6 shadow-2xl flex flex-col gap-4 hidden">
-            <div class="flex items-center justify-between pb-3 border-b border-slate-800">
-              <div class="flex items-center gap-2">
-                <span class="text-xl">🎉</span>
-                <div>
-                  <h3 class="font-extrabold text-white text-sm sm:text-base">Deneme Sınavı Tamamlandı!</h3>
-                  <span class="text-[10px] text-slate-400">Deneme sonuç karneniz ve soru analizi aşağıdadır:</span>
-                </div>
-              </div>
-              <span class="px-2.5 py-1 rounded-xl bg-purple-950 border border-purple-700/60 text-purple-300 font-black text-xs font-mono" id="exam-result-score-badge">-- Başarı</span>
-            </div>
-
-            <div class="grid grid-cols-4 gap-2 text-center text-xs">
-              <div class="p-2.5 bg-slate-950/60 border border-slate-800 rounded-2xl">
-                <span class="text-slate-400 block text-[10px]">Doğru</span>
-                <span class="font-black text-emerald-400 text-sm sm:text-base font-mono" id="res-correct-count">0</span>
-              </div>
-              <div class="p-2.5 bg-slate-950/60 border border-slate-800 rounded-2xl">
-                <span class="text-slate-400 block text-[10px]">Yanlış</span>
-                <span class="font-black text-rose-400 text-sm sm:text-base font-mono" id="res-incorrect-count">0</span>
-              </div>
-              <div class="p-2.5 bg-slate-950/60 border border-slate-800 rounded-2xl">
-                <span class="text-slate-400 block text-[10px]">Boş</span>
-                <span class="font-black text-slate-400 text-sm sm:text-base font-mono" id="res-empty-count">0</span>
-              </div>
-              <div class="p-2.5 bg-slate-950/60 border border-slate-800 rounded-2xl">
-                <span class="text-slate-400 block text-[10px]">ÖABT Net</span>
-                <span class="font-black text-indigo-300 text-sm sm:text-base font-mono" id="res-net-count">0.00</span>
-              </div>
-            </div>
-
-            <div class="bg-slate-950/80 border border-slate-800 rounded-2xl p-4">
-              <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-800">
-                <h4 class="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
-                  <span>📋 Soru Cevap & İşaretleme Analizi</span>
-                </h4>
-                <span class="text-[10px] text-slate-400">Doğru, Yanlış ve İşaretleriniz</span>
-              </div>
-
-              <div id="exam-review-questions-list" class="space-y-4 max-h-96 overflow-y-auto custom-scrollbar pr-1">
-              </div>
-            </div>
-
-            <div class="pt-2">
-              <button onclick="resetExamToLobby()" class="w-full py-3 px-4 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs transition-colors">
-                ← Sınav Lobisine Dön
-              </button>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </main>
-
-  <!-- 📱 MOBİL İÇİN YAPIŞKAN ALT BİLGİ PİLİ -->
-  <div id="mobile-sticky-bar" class="md:hidden fixed bottom-3 left-3 right-3 z-40 bg-slate-950/90 backdrop-blur-2xl border border-indigo-500/40 p-3 rounded-2xl shadow-2xl flex items-center justify-between text-xs">
-    <div>
-      <span class="text-[9px] font-medium text-slate-400 block">2027 Tahmini:</span>
-      <span class="font-black text-emerald-400 text-sm font-mono tracking-tight" id="sticky-rank-range">-- - --</span>
-    </div>
-    <div class="text-right">
-      <span class="text-[9px] font-medium text-slate-400 block">Canlı Lig:</span>
-      <span class="font-bold text-indigo-300 text-xs font-mono" id="sticky-live-rank">Giriş Yok</span>
-    </div>
-  </div>
-
-  <!-- 🌟 FOOTER -->
-  <footer class="w-full bg-slate-950 border-t border-slate-800/80 mt-10 pt-8 pb-6 text-xs text-slate-400">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-800/60 text-[11px]">
-        <div class="flex items-center gap-2.5">
-          <img src="https://i.hizliresim.com/ztqymblw.png" onerror="this.onerror=null; this.src='https://i.hizliresim.com/ztqymblw.jpg';" alt="Pdrkampus Logo" class="h-8 sm:h-9 w-auto object-contain">
-          <span class="font-extrabold text-white">Pdrkampus<span class="text-indigo-400">.online</span></span>
-          <span class="text-slate-600">•</span>
-          <span class="text-slate-400">PDR Adayları İçin Canlı Topluluk & Simülasyon Platformu</span>
-        </div>
-        <div class="text-[10px] text-slate-500">
-          2026 MEB-AGS & ÖABT Resmi İstatistikleri Entegre
-        </div>
-      </div>
-      <div class="pt-4 text-center text-[10px] text-slate-600">
+</div>
+<div class="pt-4 text-center text-[10px] text-slate-600">
         © 2026 - 2027 Pdrkampus.online. Bu simülatör bilgilendirme amaçlıdır; resmi sınav sonuç belgesi yerine geçmez.
       </div>
-    </div>
-  </footer>
-
-  <script>
+</div>
+</footer>
+<script>
     // ==========================================
     // 🔑 SUPABASE BULUT AYARLARI
     // ==========================================
@@ -845,7 +1336,7 @@
     let liveLeaderboardData = [];
     let chatMessagesList = [];
     let isChatRealtimeSubscribed = false;
-    let currentInputMode = 'dy';
+    const currentInputMode = 'dy';
     let radarChartInstance = null;
     let latestServerResult = null;
     let calcDebounceTimer = null;
@@ -1634,10 +2125,6 @@
 
     function applyInputsToDOM(inputs) {
       if (!inputs) return;
-      if (inputs.mode && inputs.mode !== currentInputMode) {
-        setInputMode(inputs.mode);
-      }
-
       for (let id in inputs) {
         if (id === 'mode') continue;
         const el = document.getElementById(id);
@@ -1732,8 +2219,9 @@
       try {
         const { data, error } = await supabaseClient
           .from('leaderboard')
-          .select('*')
-          .order('score', { ascending: false });
+          .select('user_id,full_name,avatar_url,score')
+          .order('score', { ascending: false })
+          .limit(150);
 
         if (error) throw error;
 
@@ -1766,7 +2254,7 @@
         if (index !== -1) {
           myRank = index + 1;
           document.getElementById('live-platform-rank').innerText = `#${myRank} / ${liveLeaderboardData.length} Aday`;
-          document.getElementById('sticky-live-rank').innerText = `#${myRank} / ${liveLeaderboardData.length}`;
+          const stickyLive = document.getElementById('sticky-live-rank'); if (stickyLive) stickyLive.innerText = `#${myRank} / ${liveLeaderboardData.length}`;
         }
       }
 
@@ -1810,53 +2298,16 @@
     // ==========================================
     // 🎛️ FORM & HESAPLAMA MOTORU
     // ==========================================
+    // Tek giriş yöntemi: Doğru/Yanlış girilir, net otomatik hesaplanır.
+    // Eski mod değiştirme fonksiyonu kayıtlı eski verilerle uyumluluk için pasif tutulur.
     function setInputMode(mode) {
-      currentInputMode = mode;
-      
-      const btnDy = document.getElementById('btn-mode-dy');
-      const btnNet = document.getElementById('btn-mode-net');
-      const dyGroups = document.querySelectorAll('.dy-group');
-      const netGroups = document.querySelectorAll('.net-group');
-
-      if (mode === 'dy') {
-        btnDy.className = "px-4 py-1.5 rounded-xl text-xs font-bold bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md transition-all";
-        btnNet.className = "px-4 py-1.5 rounded-xl text-xs font-semibold text-slate-400 hover:text-slate-200 transition-all";
-        dyGroups.forEach(el => el.classList.remove('hidden'));
-        netGroups.forEach(el => el.classList.add('hidden'));
-      } else {
-        btnNet.className = "px-4 py-1.5 rounded-xl text-xs font-bold bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md transition-all";
-        btnDy.className = "px-4 py-1.5 rounded-xl text-xs font-semibold text-slate-400 hover:text-slate-200 transition-all";
-        dyGroups.forEach(el => el.classList.add('hidden'));
-        netGroups.forEach(el => el.classList.remove('hidden'));
-        syncNetsToNetInputs();
-      }
+      // Artık kullanıcıya mod seçtirmiyoruz; hesaplama daima D/Y üzerinden yapılır.
+      document.querySelectorAll('.dy-group').forEach(el => el.classList.remove('hidden'));
+      document.querySelectorAll('.net-group').forEach(el => el.classList.add('hidden'));
       handleInputChange();
     }
 
-    function syncNetsToNetInputs() {
-      const keys = ['sozel', 'sayisal', 'tarih', 'cografya', 'egitim', 'mevzuat', 'oabt'];
-      keys.forEach(k => {
-        const d = parseFloat(document.getElementById(`${k}-d`).value) || 0;
-        const y = parseFloat(document.getElementById(`${k}-y`).value) || 0;
-        const net = Math.max(0, d - (y / 4));
-        const netInput = document.getElementById(`${k}-net`);
-        if (netInput && net > 0) netInput.value = net.toFixed(2);
-      });
-    }
-
     function getUserNets() {
-      if (currentInputMode === 'net') {
-        return {
-          sozel: Math.min(15, Math.max(0, parseFloat(document.getElementById('sozel-net').value) || 0)),
-          sayisal: Math.min(15, Math.max(0, parseFloat(document.getElementById('sayisal-net').value) || 0)),
-          tarih: Math.min(6, Math.max(0, parseFloat(document.getElementById('tarih-net').value) || 0)),
-          cografya: Math.min(6, Math.max(0, parseFloat(document.getElementById('cografya-net').value) || 0)),
-          egitim: Math.min(30, Math.max(0, parseFloat(document.getElementById('egitim-net').value) || 0)),
-          mevzuat: Math.min(8, Math.max(0, parseFloat(document.getElementById('mevzuat-net').value) || 0)),
-          oabt: Math.min(50, Math.max(0, parseFloat(document.getElementById('oabt-net').value) || 0))
-        };
-      }
-
       return {
         sozel: getNetFromDY('sozel-d', 'sozel-y', 15),
         sayisal: getNetFromDY('sayisal-d', 'sayisal-y', 15),
@@ -1900,23 +2351,85 @@
       }, 150);
     }
 
-    async function calculateRankingViaServer(userNets) {
-      if (!supabaseClient) return;
+    // 2026 P2 VERİ SETİ: yüklenen 2026agssiralama_P2_yuksekten_dusuge.xlsx dosyasındaki 120 adaydan kalibre edilmiştir.
+    const P2_RANKING_DATA = [{"rank":1,"score":89.90556,"sozel":13.75,"sayisal":11.75,"tarih":6.0,"cografya":5.0,"egitim":27.5,"mevzuat":8.0,"oabt":50.0},{"rank":3,"score":88.86279,"sozel":12.5,"sayisal":10.5,"tarih":6.0,"cografya":4.75,"egitim":28.75,"mevzuat":6.75,"oabt":50.0},{"rank":29,"score":87.44661,"sozel":13.75,"sayisal":8.75,"tarih":6.0,"cografya":6.0,"egitim":23.75,"mevzuat":8.0,"oabt":48.75},{"rank":118,"score":85.99929,"sozel":12.5,"sayisal":11.5,"tarih":6.0,"cografya":6.0,"egitim":21.25,"mevzuat":6.75,"oabt":47.5},{"rank":127,"score":85.86046,"sozel":13.75,"sayisal":12.75,"tarih":6.0,"cografya":4.75,"egitim":24.5,"mevzuat":8.0,"oabt":45.0},{"rank":153,"score":85.58467,"sozel":12.5,"sayisal":12.5,"tarih":6.0,"cografya":6.0,"egitim":21.5,"mevzuat":7.0,"oabt":46.25},{"rank":156,"score":85.55895,"sozel":13.75,"sayisal":7.75,"tarih":6.0,"cografya":6.0,"egitim":23.75,"mevzuat":5.5,"oabt":47.5},{"rank":282,"score":84.79395,"sozel":13.75,"sayisal":7.75,"tarih":4.75,"cografya":6.0,"egitim":29.0,"mevzuat":5.75,"oabt":45.25},{"rank":313,"score":84.62188,"sozel":12.5,"sayisal":13.0,"tarih":6.0,"cografya":4.75,"egitim":20.25,"mevzuat":5.75,"oabt":46.25},{"rank":321,"score":84.58446,"sozel":11.25,"sayisal":11.75,"tarih":6.0,"cografya":4.75,"egitim":23.75,"mevzuat":5.75,"oabt":46.25},{"rank":353,"score":84.48568,"sozel":10.0,"sayisal":13.75,"tarih":6.0,"cografya":4.75,"egitim":22.75,"mevzuat":5.75,"oabt":46.25},{"rank":389,"score":84.32235,"sozel":11.5,"sayisal":10.75,"tarih":6.0,"cografya":3.75,"egitim":25.75,"mevzuat":4.5,"oabt":46.5},{"rank":456,"score":84.05631,"sozel":11.25,"sayisal":7.75,"tarih":6.0,"cografya":6.0,"egitim":26.5,"mevzuat":7.0,"oabt":45.25},{"rank":608,"score":83.61083,"sozel":13.75,"sayisal":11.0,"tarih":6.0,"cografya":5.0,"egitim":24.5,"mevzuat":8.0,"oabt":42.5},{"rank":612,"score":83.5967,"sozel":12.5,"sayisal":12.75,"tarih":5.0,"cografya":5.0,"egitim":26.25,"mevzuat":4.5,"oabt":43.75},{"rank":669,"score":83.4759,"sozel":11.25,"sayisal":6.75,"tarih":4.75,"cografya":4.75,"egitim":23.75,"mevzuat":6.75,"oabt":47.5},{"rank":685,"score":83.43094,"sozel":9.25,"sayisal":10.75,"tarih":6.0,"cografya":4.75,"egitim":23.75,"mevzuat":5.75,"oabt":46.25},{"rank":735,"score":83.31852,"sozel":11.25,"sayisal":11.75,"tarih":6.0,"cografya":4.75,"egitim":22.5,"mevzuat":5.5,"oabt":45.0},{"rank":743,"score":83.30374,"sozel":10.25,"sayisal":10.25,"tarih":6.0,"cografya":4.75,"egitim":26.5,"mevzuat":7.0,"oabt":44.25},{"rank":758,"score":83.2733,"sozel":10.0,"sayisal":4.75,"tarih":6.0,"cografya":6.0,"egitim":30.0,"mevzuat":5.75,"oabt":45.5},{"rank":847,"score":83.11539,"sozel":13.75,"sayisal":15.0,"tarih":4.75,"cografya":3.75,"egitim":26.25,"mevzuat":6.75,"oabt":41.25},{"rank":849,"score":83.11269,"sozel":11.25,"sayisal":7.75,"tarih":6.0,"cografya":6.0,"egitim":26.25,"mevzuat":7.0,"oabt":44.0},{"rank":850,"score":83.11162,"sozel":10.0,"sayisal":4.75,"tarih":5.0,"cografya":6.0,"egitim":22.5,"mevzuat":5.5,"oabt":48.75},{"rank":877,"score":83.05477,"sozel":8.75,"sayisal":11.75,"tarih":6.0,"cografya":3.5,"egitim":21.25,"mevzuat":8.0,"oabt":46.25},{"rank":897,"score":83.02119,"sozel":9.5,"sayisal":12.75,"tarih":6.0,"cografya":4.75,"egitim":21.25,"mevzuat":7.0,"oabt":45.0},{"rank":914,"score":82.98457,"sozel":13.75,"sayisal":8.5,"tarih":6.0,"cografya":4.75,"egitim":25.25,"mevzuat":4.5,"oabt":44.0},{"rank":923,"score":82.9644,"sozel":12.5,"sayisal":7.25,"tarih":6.0,"cografya":4.75,"egitim":25.0,"mevzuat":5.5,"oabt":45.0},{"rank":934,"score":82.938,"sozel":12.5,"sayisal":9.75,"tarih":6.0,"cografya":4.75,"egitim":23.75,"mevzuat":6.75,"oabt":43.75},{"rank":946,"score":82.90296,"sozel":12.75,"sayisal":5.75,"tarih":6.0,"cografya":2.25,"egitim":20.5,"mevzuat":8.0,"oabt":47.5},{"rank":950,"score":82.89825,"sozel":13.75,"sayisal":7.5,"tarih":4.75,"cografya":5.0,"egitim":22.75,"mevzuat":7.0,"oabt":45.0},{"rank":986,"score":82.81809,"sozel":10.25,"sayisal":7.75,"tarih":6.0,"cografya":5.0,"egitim":26.75,"mevzuat":5.75,"oabt":45.0},{"rank":1006,"score":82.78557,"sozel":8.75,"sayisal":7.0,"tarih":6.0,"cografya":4.75,"egitim":23.75,"mevzuat":5.5,"oabt":47.5},{"rank":1009,"score":82.77905,"sozel":12.5,"sayisal":6.5,"tarih":6.0,"cografya":1.5,"egitim":24.0,"mevzuat":8.0,"oabt":46.25},{"rank":1020,"score":82.75524,"sozel":8.75,"sayisal":7.0,"tarih":6.0,"cografya":6.0,"egitim":25.75,"mevzuat":5.0,"oabt":46.25},{"rank":1042,"score":82.71316,"sozel":13.75,"sayisal":10.75,"tarih":6.0,"cografya":4.75,"egitim":23.0,"mevzuat":6.75,"oabt":42.5},{"rank":1071,"score":82.6657,"sozel":11.5,"sayisal":13.0,"tarih":6.0,"cografya":6.0,"egitim":23.75,"mevzuat":8.0,"oabt":41.25},{"rank":1114,"score":82.56988,"sozel":11.25,"sayisal":10.25,"tarih":6.0,"cografya":6.0,"egitim":25.25,"mevzuat":6.75,"oabt":42.5},{"rank":1121,"score":82.55589,"sozel":13.75,"sayisal":12.75,"tarih":4.75,"cografya":2.75,"egitim":22.75,"mevzuat":5.0,"oabt":44.0},{"rank":1138,"score":82.51752,"sozel":12.75,"sayisal":11.0,"tarih":4.75,"cografya":6.0,"egitim":23.0,"mevzuat":7.0,"oabt":42.75},{"rank":1206,"score":82.45691,"sozel":12.75,"sayisal":6.0,"tarih":7.75,"cografya":8.0,"egitim":22.75,"mevzuat":6.75,"oabt":43.0},{"rank":1200,"score":82.3826,"sozel":12.5,"sayisal":9.75,"tarih":4.75,"cografya":6.0,"egitim":21.75,"mevzuat":7.0,"oabt":43.75},{"rank":1273,"score":82.26397,"sozel":11.25,"sayisal":9.0,"tarih":5.0,"cografya":4.75,"egitim":25.25,"mevzuat":6.75,"oabt":44.0},{"rank":1308,"score":82.20313,"sozel":15.0,"sayisal":8.0,"tarih":3.5,"cografya":4.75,"egitim":23.75,"mevzuat":6.75,"oabt":43.75},{"rank":1339,"score":82.15481,"sozel":12.75,"sayisal":6.0,"tarih":6.0,"cografya":3.75,"egitim":28.75,"mevzuat":6.75,"oabt":43.0},{"rank":1348,"score":82.12892,"sozel":12.5,"sayisal":12.75,"tarih":4.0,"cografya":3.5,"egitim":21.5,"mevzuat":6.75,"oabt":44.0},{"rank":1450,"score":81.94084,"sozel":12.5,"sayisal":11.75,"tarih":5.0,"cografya":4.75,"egitim":20.5,"mevzuat":8.0,"oabt":42.75},{"rank":1493,"score":81.86974,"sozel":10.0,"sayisal":12.75,"tarih":5.0,"cografya":1.75,"egitim":22.75,"mevzuat":3.25,"oabt":46.25},{"rank":1507,"score":81.84083,"sozel":12.5,"sayisal":13.75,"tarih":2.5,"cografya":3.5,"egitim":20.75,"mevzuat":4.5,"oabt":45.25},{"rank":1513,"score":81.83406,"sozel":12.5,"sayisal":4.5,"tarih":6.0,"cografya":6.0,"egitim":23.75,"mevzuat":6.75,"oabt":44.0},{"rank":1519,"score":81.8308,"sozel":15.0,"sayisal":4.75,"tarih":6.0,"cografya":4.0,"egitim":23.0,"mevzuat":5.5,"oabt":44.25},{"rank":1525,"score":81.82073,"sozel":12.5,"sayisal":7.0,"tarih":4.75,"cografya":3.75,"egitim":25.0,"mevzuat":4.5,"oabt":45.25},{"rank":1571,"score":81.75592,"sozel":10.0,"sayisal":10.5,"tarih":5.0,"cografya":6.0,"egitim":20.0,"mevzuat":5.5,"oabt":45.0},{"rank":1656,"score":81.61486,"sozel":13.75,"sayisal":9.75,"tarih":6.0,"cografya":4.0,"egitim":21.75,"mevzuat":5.5,"oabt":42.75},{"rank":1712,"score":81.53171,"sozel":11.25,"sayisal":4.25,"tarih":6.0,"cografya":4.75,"egitim":24.0,"mevzuat":6.75,"oabt":45.0},{"rank":1794,"score":81.41308,"sozel":11.5,"sayisal":7.5,"tarih":5.0,"cografya":3.5,"egitim":24.0,"mevzuat":4.75,"oabt":45.25},{"rank":1822,"score":81.36472,"sozel":11.25,"sayisal":4.25,"tarih":6.0,"cografya":4.75,"egitim":17.5,"mevzuat":5.75,"oabt":47.5},{"rank":1828,"score":81.36014,"sozel":12.75,"sayisal":5.5,"tarih":5.0,"cografya":3.75,"egitim":27.5,"mevzuat":8.0,"oabt":42.75},{"rank":1845,"score":81.33692,"sozel":12.5,"sayisal":8.5,"tarih":5.0,"cografya":4.75,"egitim":17.5,"mevzuat":6.75,"oabt":45.0},{"rank":1864,"score":81.29832,"sozel":10.75,"sayisal":6.0,"tarih":4.75,"cografya":0.5,"egitim":22.0,"mevzuat":8.0,"oabt":47.5},{"rank":1867,"score":81.29523,"sozel":10.0,"sayisal":7.25,"tarih":6.0,"cografya":3.5,"egitim":18.75,"mevzuat":4.25,"oabt":47.5},{"rank":1907,"score":81.22786,"sozel":12.5,"sayisal":12.5,"tarih":6.0,"cografya":3.5,"egitim":18.75,"mevzuat":6.75,"oabt":42.5},{"rank":1909,"score":81.22587,"sozel":15.0,"sayisal":8.0,"tarih":6.0,"cografya":3.5,"egitim":23.75,"mevzuat":5.75,"oabt":41.75},{"rank":1967,"score":81.14343,"sozel":11.25,"sayisal":7.75,"tarih":4.75,"cografya":4.75,"egitim":21.25,"mevzuat":5.75,"oabt":45.0},{"rank":1996,"score":81.1067,"sozel":14.0,"sayisal":7.0,"tarih":5.0,"cografya":5.0,"egitim":26.5,"mevzuat":5.75,"oabt":41.5},{"rank":2018,"score":81.08117,"sozel":12.5,"sayisal":5.5,"tarih":6.0,"cografya":3.5,"egitim":24.0,"mevzuat":6.0,"oabt":44.0},{"rank":2031,"score":81.06217,"sozel":11.25,"sayisal":11.5,"tarih":6.0,"cografya":4.75,"egitim":18.75,"mevzuat":4.25,"oabt":43.75},{"rank":2104,"score":80.93455,"sozel":12.75,"sayisal":14.0,"tarih":2.0,"cografya":3.5,"egitim":21.0,"mevzuat":5.0,"oabt":43.75},{"rank":2136,"score":80.87814,"sozel":8.75,"sayisal":12.75,"tarih":1.25,"cografya":5.0,"egitim":23.75,"mevzuat":5.75,"oabt":45.0},{"rank":2147,"score":80.86048,"sozel":13.75,"sayisal":8.75,"tarih":3.75,"cografya":4.75,"egitim":22.5,"mevzuat":6.75,"oabt":42.5},{"rank":2158,"score":80.85157,"sozel":10.25,"sayisal":5.25,"tarih":3.75,"cografya":4.75,"egitim":21.25,"mevzuat":4.5,"oabt":47.5},{"rank":2189,"score":80.79977,"sozel":13.75,"sayisal":6.25,"tarih":6.0,"cografya":3.5,"egitim":14.75,"mevzuat":5.0,"oabt":46.25},{"rank":2254,"score":80.70263,"sozel":11.25,"sayisal":2.0,"tarih":5.0,"cografya":6.0,"egitim":25.0,"mevzuat":5.5,"oabt":45.0},{"rank":2310,"score":80.62126,"sozel":7.75,"sayisal":8.75,"tarih":4.75,"cografya":6.0,"egitim":27.5,"mevzuat":6.75,"oabt":42.5},{"rank":2360,"score":80.5705,"sozel":13.75,"sayisal":3.75,"tarih":4.75,"cografya":4.75,"egitim":25.0,"mevzuat":4.5,"oabt":43.75},{"rank":2379,"score":80.54627,"sozel":11.25,"sayisal":15.0,"tarih":5.0,"cografya":1.25,"egitim":20.0,"mevzuat":6.75,"oabt":42.5},{"rank":2383,"score":80.54279,"sozel":13.75,"sayisal":8.5,"tarih":3.75,"cografya":2.0,"egitim":23.0,"mevzuat":2.75,"oabt":45.0},{"rank":2398,"score":80.51812,"sozel":7.5,"sayisal":7.5,"tarih":3.75,"cografya":3.5,"egitim":27.5,"mevzuat":0.5,"oabt":47.5},{"rank":2473,"score":80.39744,"sozel":11.25,"sayisal":2.0,"tarih":6.0,"cografya":4.75,"egitim":22.5,"mevzuat":6.75,"oabt":45.0},{"rank":2539,"score":80.30801,"sozel":9.75,"sayisal":6.0,"tarih":3.75,"cografya":3.75,"egitim":21.5,"mevzuat":6.75,"oabt":46.25},{"rank":2562,"score":80.28812,"sozel":8.75,"sayisal":4.25,"tarih":6.0,"cografya":3.5,"egitim":25.0,"mevzuat":6.75,"oabt":45.0},{"rank":2566,"score":80.28254,"sozel":11.25,"sayisal":12.0,"tarih":4.75,"cografya":6.0,"egitim":22.5,"mevzuat":6.75,"oabt":40.25},{"rank":2581,"score":80.26501,"sozel":12.5,"sayisal":6.0,"tarih":6.0,"cografya":3.75,"egitim":25.25,"mevzuat":8.0,"oabt":41.25},{"rank":2661,"score":80.1562,"sozel":13.75,"sayisal":12.5,"tarih":6.0,"cografya":3.5,"egitim":18.75,"mevzuat":6.75,"oabt":40.25},{"rank":2665,"score":80.14749,"sozel":9.0,"sayisal":7.5,"tarih":4.75,"cografya":5.0,"egitim":22.5,"mevzuat":4.25,"oabt":45.0},{"rank":2679,"score":80.13009,"sozel":8.25,"sayisal":9.0,"tarih":6.0,"cografya":4.75,"egitim":24.0,"mevzuat":6.75,"oabt":42.5},{"rank":2715,"score":80.08631,"sozel":9.0,"sayisal":1.75,"tarih":6.0,"cografya":6.0,"egitim":30.0,"mevzuat":7.0,"oabt":42.5},{"rank":2876,"score":79.85975,"sozel":11.25,"sayisal":13.75,"tarih":4.75,"cografya":3.75,"egitim":21.25,"mevzuat":4.75,"oabt":41.25},{"rank":3019,"score":79.65625,"sozel":10.0,"sayisal":6.0,"tarih":6.0,"cografya":4.75,"egitim":21.25,"mevzuat":8.0,"oabt":42.75},{"rank":3035,"score":79.64387,"sozel":6.75,"sayisal":5.75,"tarih":4.0,"cografya":2.75,"egitim":23.75,"mevzuat":8.0,"oabt":46.25},{"rank":3054,"score":79.62112,"sozel":11.25,"sayisal":6.5,"tarih":0.25,"cografya":2.5,"egitim":27.5,"mevzuat":6.75,"oabt":45.0},{"rank":3151,"score":79.50945,"sozel":8.75,"sayisal":10.25,"tarih":3.75,"cografya":3.5,"egitim":23.0,"mevzuat":5.5,"oabt":43.75},{"rank":3170,"score":79.49188,"sozel":8.75,"sayisal":12.5,"tarih":4.75,"cografya":6.0,"egitim":20.0,"mevzuat":6.75,"oabt":41.25},{"rank":3226,"score":79.42488,"sozel":13.75,"sayisal":12.75,"tarih":4.0,"cografya":3.5,"egitim":21.25,"mevzuat":5.5,"oabt":40.0},{"rank":3302,"score":79.33505,"sozel":7.5,"sayisal":12.5,"tarih":6.0,"cografya":4.75,"egitim":17.5,"mevzuat":6.75,"oabt":42.5},{"rank":3333,"score":79.3037,"sozel":11.25,"sayisal":8.0,"tarih":3.5,"cografya":3.5,"egitim":20.0,"mevzuat":7.0,"oabt":43.75},{"rank":3431,"score":79.2014,"sozel":10.0,"sayisal":7.5,"tarih":5.0,"cografya":3.5,"egitim":18.0,"mevzuat":4.5,"oabt":45.25},{"rank":3771,"score":78.78734,"sozel":11.5,"sayisal":9.5,"tarih":3.75,"cografya":3.75,"egitim":22.0,"mevzuat":8.0,"oabt":40.75},{"rank":3856,"score":78.67091,"sozel":11.25,"sayisal":6.75,"tarih":4.75,"cografya":2.25,"egitim":23.75,"mevzuat":5.5,"oabt":42.5},{"rank":4041,"score":78.45206,"sozel":9.0,"sayisal":10.5,"tarih":5.0,"cografya":2.5,"egitim":16.5,"mevzuat":3.0,"oabt":45.0},{"rank":4250,"score":78.20151,"sozel":12.5,"sayisal":8.75,"tarih":6.0,"cografya":4.75,"egitim":25.0,"mevzuat":4.25,"oabt":38.0},{"rank":4525,"score":77.90312,"sozel":12.5,"sayisal":5.0,"tarih":3.75,"cografya":3.5,"egitim":23.75,"mevzuat":2.25,"oabt":42.75},{"rank":4554,"score":77.86606,"sozel":8.75,"sayisal":7.75,"tarih":5.0,"cografya":2.75,"egitim":16.25,"mevzuat":4.5,"oabt":45.0},{"rank":4690,"score":77.72444,"sozel":10.0,"sayisal":6.0,"tarih":1.0,"cografya":2.0,"egitim":20.75,"mevzuat":4.75,"oabt":46.25},{"rank":4721,"score":77.6895,"sozel":8.75,"sayisal":6.0,"tarih":5.0,"cografya":2.25,"egitim":23.75,"mevzuat":5.5,"oabt":42.75},{"rank":4804,"score":77.58698,"sozel":6.25,"sayisal":4.75,"tarih":5.0,"cografya":1.0,"egitim":17.75,"mevzuat":5.5,"oabt":47.5},{"rank":4849,"score":77.54719,"sozel":11.25,"sayisal":11.5,"tarih":5.0,"cografya":2.25,"egitim":18.75,"mevzuat":2.0,"oabt":41.25},{"rank":5066,"score":77.29337,"sozel":8.0,"sayisal":4.0,"tarih":3.75,"cografya":3.75,"egitim":20.0,"mevzuat":8.0,"oabt":44.0},{"rank":5328,"score":76.98016,"sozel":11.25,"sayisal":5.5,"tarih":5.0,"cografya":3.5,"egitim":22.75,"mevzuat":4.75,"oabt":40.5},{"rank":5372,"score":76.91906,"sozel":9.25,"sayisal":6.75,"tarih":2.75,"cografya":2.5,"egitim":19.0,"mevzuat":5.75,"oabt":44.0},{"rank":5379,"score":76.91157,"sozel":10.0,"sayisal":1.0,"tarih":6.0,"cografya":4.75,"egitim":22.5,"mevzuat":6.75,"oabt":41.25},{"rank":5640,"score":76.60909,"sozel":12.5,"sayisal":6.5,"tarih":4.75,"cografya":2.25,"egitim":22.75,"mevzuat":7.0,"oabt":38.75},{"rank":5724,"score":76.5105,"sozel":13.75,"sayisal":8.5,"tarih":4.75,"cografya":4.75,"egitim":22.5,"mevzuat":5.5,"oabt":36.25},{"rank":5891,"score":76.31709,"sozel":7.0,"sayisal":6.5,"tarih":5.0,"cografya":2.5,"egitim":13.25,"mevzuat":5.5,"oabt":45.25},{"rank":6198,"score":75.94577,"sozel":8.5,"sayisal":2.75,"tarih":6.0,"cografya":3.5,"egitim":18.5,"mevzuat":4.25,"oabt":43.0},{"rank":6364,"score":75.73819,"sozel":12.5,"sayisal":7.5,"tarih":2.75,"cografya":2.5,"egitim":18.5,"mevzuat":2.5,"oabt":41.5},{"rank":7038,"score":74.8711,"sozel":10.0,"sayisal":9.25,"tarih":3.0,"cografya":2.0,"egitim":20.25,"mevzuat":4.75,"oabt":39.5},{"rank":7113,"score":74.77328,"sozel":7.5,"sayisal":2.75,"tarih":3.5,"cografya":2.5,"egitim":21.5,"mevzuat":5.0,"oabt":42.75},{"rank":7935,"score":73.73661,"sozel":12.5,"sayisal":3.25,"tarih":4.75,"cografya":1.0,"egitim":16.25,"mevzuat":1.75,"oabt":41.25},{"rank":8727,"score":72.67214,"sozel":10.0,"sayisal":8.0,"tarih":3.75,"cografya":6.0,"egitim":17.5,"mevzuat":4.25,"oabt":35.5},{"rank":9982,"score":71.00036,"sozel":10.0,"sayisal":3.75,"tarih":4.75,"cografya":1.0,"egitim":17.75,"mevzuat":2.5,"oabt":37.75}];
+    const P2_MODEL = {
+      intercept: 31.286588866394,
+      coef: {"sozel":0.4082027152583463,"sayisal":0.33690795826021563,"tarih":0.4658578246874714,"cografya":0.36771520152276455,"egitim":0.25684209699131433,"mevzuat":0.26658205437970767,"oabt":0.7042528834610291},
+      mean: {"sozel":11.304166666666667,"sayisal":8.402083333333334,"tarih":5.058333333333334,"cografya":4.172916666666667,"egitim":22.604166666666668,"mevzuat":5.872916666666667,"oabt":44.03333333333333},
+      std: {"sozel":1.981209472070589,"sayisal":3.2265654845964136,"tarih":1.1896836647706912,"cografya":1.4030457321088607,"egitim":3.182239668151278,"mevzuat":1.5155430247017807,"oabt":2.5773317382302356},
+      candidateCount: 23212
+    };
 
-      try {
-        const { data, error } = await supabaseClient.rpc('calculate_pdr_ranking', {
-          p_user_nets: userNets
-        });
+    function calculateRankingViaServer(userNets) {
+      const keys = ['sozel','sayisal','tarih','cografya','egitim','mevzuat','oabt'];
+      let score = P2_MODEL.intercept;
+      keys.forEach(k => score += P2_MODEL.coef[k] * Number(userNets[k] || 0));
+      score = Math.max(0, score);
 
-        if (error) throw error;
-        if (!data) return;
+      // P2 puanını 2026 dosyasındaki gerçek P2 başarı sıraları arasında enterpole et.
+      const data = P2_RANKING_DATA;
 
-        latestServerResult = data;
-        renderServerResults(data, userNets);
+      // Önce net kombinasyonunu 120 gerçek adayın netleriyle birebir karşılaştır.
+      // Böylece veri setinde gerçekten bulunan bir adayın sonucu regresyon tahminiyle
+      // 1042 -> 1050 gibi kaymaz; doğrudan gerçek P2 puanı ve gerçek sırası kullanılır.
+      const exactCandidate = data.find(c =>
+        ['sozel','sayisal','tarih','cografya','egitim','mevzuat','oabt']
+          .every(k => Math.abs(Number(c[k]) - Number(userNets[k] || 0)) < 0.001)
+      );
 
-      } catch (err) {
-        console.error("Sunucu hesaplama hatası:", err);
+      if (exactCandidate) {
+        score = exactCandidate.score;
       }
+
+      // Veri setindeki küçük sıra tutarsızlıklarını düzeltmek için monotonik zarf kullan.
+      // Puan yükseldikçe sıra asla kötüleşmez.
+      const monotonicData = data.map((c, i) => ({ ...c, monotonicRank: i === 0 ? c.rank : 0 }));
+      for (let i = 1; i < monotonicData.length; i++) {
+        monotonicData[i].monotonicRank = Math.max(monotonicData[i - 1].monotonicRank, monotonicData[i].rank);
+      }
+
+      let rank;
+      if (exactCandidate) {
+        rank = exactCandidate.rank;
+      } else if (score >= monotonicData[0].score) {
+        rank = monotonicData[0].monotonicRank;
+      } else if (score <= monotonicData[monotonicData.length - 1].score) {
+        rank = monotonicData[monotonicData.length - 1].monotonicRank;
+      } else {
+        let lo = 0, hi = monotonicData.length - 1;
+        while (lo <= hi) {
+          const mid = (lo + hi) >> 1;
+          if (monotonicData[mid].score >= score) lo = mid + 1;
+          else hi = mid - 1;
+        }
+        const upper = monotonicData[hi], lower = monotonicData[lo];
+        const t = (upper.score - score) / (upper.score - lower.score);
+        rank = upper.monotonicRank + t * (lower.monotonicRank - upper.monotonicRank);
+      }
+      rank = Math.max(1, Math.min(P2_MODEL.candidateCount, Math.round(rank)));
+
+      const z_scores = {};
+      keys.forEach(k => {
+        z_scores[k] = (Number(userNets[k] || 0) - P2_MODEL.mean[k]) / (P2_MODEL.std[k] || 1);
+      });
+
+      const keysForMatch = ['sozel','sayisal','tarih','cografya','egitim','mevzuat','oabt'];
+      const nearest_5 = data.slice()
+        .map(c => ({ ...c, _distance: Math.sqrt(keysForMatch.reduce((sum,k) => {
+          const sd = P2_MODEL.std[k] || 1;
+          return sum + Math.pow((Number(c[k]) - Number(userNets[k] || 0)) / sd, 2);
+        }, 0)) }))
+        .sort((a,b) => a._distance - b._distance)
+        .slice(0,5)
+        .map(c => ({rank:c.rank, score:c.score, soz:c.sozel, mat:c.sayisal, tar:c.tarih, cog:c.cografya, egt:c.egitim, mev:c.mevzuat, oabt:c.oabt}));
+
+      const percentile = ((rank / P2_MODEL.candidateCount) * 100).toFixed(2);
+      const result = {rank, score, percentile, z_scores, nearest_5};
+      latestServerResult = result;
+      renderServerResults(result, userNets);
+      // Senaryo tablosunu sonuç kartından bağımsız olarak da güncelle.
+      renderScenarioMatrix(userNets);
     }
 
     function renderServerResults(data, userNets) {
@@ -1940,7 +2453,7 @@
       document.getElementById('result-rank-range').innerText = rankText;
       document.getElementById('result-p2-score').innerText = parseFloat(baseScore).toFixed(5);
       document.getElementById('result-2026-rank').innerText = `${exact2026Rank.toLocaleString('tr-TR')}. Sıra`;
-      document.getElementById('sticky-rank-range').innerText = rankText;
+      const stickyRank = document.getElementById('sticky-rank-range'); if (stickyRank) stickyRank.innerText = rankText;
       document.getElementById('percentile-label').innerText = `İlk %${data.percentile}`;
 
       const statusBadge = document.getElementById('status-badge');
@@ -1965,7 +2478,8 @@
     }
 
     function switchTab(tabId) {
-      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      // V6: sekmeler ana sayfada aynı anda görünür; menü yalnızca ilgili bölüme kaydırır.
+      document.querySelectorAll('.rk-content-stage > .tab-content').forEach(el => el.classList.remove('hidden'));
       
       document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.className = "tab-btn p-2 rounded-2xl border transition-all text-left flex flex-col justify-between gap-1 shadow-md bg-slate-900/90 text-slate-300 border-slate-800 hover:border-slate-700";
@@ -1981,14 +2495,15 @@
         activeBtn.className = "tab-btn p-2 rounded-2xl border transition-all text-left flex flex-col justify-between gap-1 shadow-lg bg-gradient-to-br from-indigo-600 to-purple-600 text-white border-indigo-400 ring-2 ring-indigo-500/50";
       }
 
-      if (tabId === 'tab-overview' && radarChartInstance) radarChartInstance.resize();
-      if (tabId === 'tab-leaderboard') fetchLiveLeaderboard();
-      if (tabId === 'tab-questions') renderCommunityQuestions();
-      if (tabId === 'tab-chat') {
-        fetchChatMessages();
-        const box = document.getElementById('chat-messages-box');
-        if (box) box.scrollTop = box.scrollHeight;
+      if (tabId === 'tab-overview') {
+        requestAnimationFrame(() => {
+          if (typeof updateRadarChart === 'function' && typeof getCurrentNets === 'function') {
+            try { updateRadarChart(getCurrentNets()); } catch(e) {}
+          }
+          if (radarChartInstance) radarChartInstance.resize();
+        });
       }
+      if (tabId === 'tab-leaderboard') fetchLiveLeaderboard();
       if (tabId === 'tab-simulator') {
         runCustomSimulation();
       }
@@ -2157,7 +2672,7 @@
     // ==========================================
     // 🔮 DÜZELTİLMİŞ SİMÜLASYON & ORANSAL ÇAN EĞRİSİ
     // ==========================================
-    async function renderScenarioMatrix(userNets) {
+    function renderScenarioMatrix(userNets) {
       const scenarios = [
         { name: "🔵 2026 Tabanı (Aynı Zorluk)", agsShift: 0, oabtShift: 0, tag: "bg-indigo-900/40 text-indigo-300" },
         { name: "🟢 2027 AGS -2 Net (Zor AGS)", agsShift: -2, oabtShift: 0, tag: "bg-emerald-950 text-emerald-300 font-bold" },
@@ -2172,6 +2687,12 @@
       const tbody = document.getElementById('scenario-matrix-body');
       if (!tbody) return;
       tbody.innerHTML = '';
+
+      const hasInput = userNets && Object.values(userNets).some(v => Number(v) > 0);
+      if (!hasInput) {
+        tbody.innerHTML = '<tr><td colspan="5" class="py-3 text-center text-slate-500">Netlerinizi giriniz.</td></tr>';
+        return;
+      }
 
       const currentRank = latestServerResult ? latestServerResult.rank : 1000;
       const currentScore = latestServerResult ? latestServerResult.score : 75.0;
@@ -2237,5 +2758,26 @@
       checkAuthSession();
     };
   </script>
-</body>
+<script>
+(function(){
+  function ensureRadar(){
+    const canvas=document.getElementById('radarChart');
+    if(!canvas || typeof Chart==='undefined') return;
+    try{
+      if(typeof getCurrentNets==='function'){
+        updateRadarChart(getCurrentNets());
+      } else if(typeof radarChartInstance==='undefined' || !radarChartInstance){
+        updateRadarChart({
+          sozel:0, sayisal:0, tarih:0, cografya:0, egitim:0, mevzuat:0, oabt:0
+        });
+      }
+      if(typeof radarChartInstance!=='undefined' && radarChartInstance) radarChartInstance.resize();
+    }catch(e){}
+  }
+  window.addEventListener('load', ()=>setTimeout(ensureRadar, 250));
+  window.addEventListener('resize', ()=>{
+    if(typeof radarChartInstance!=='undefined' && radarChartInstance) radarChartInstance.resize();
+  });
+})();
+</script></body>
 </html>
