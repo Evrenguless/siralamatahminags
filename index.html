@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
-<title>Pdrkampus.online | 2027 AGS PDR Sıralama, Simülasyon &amp; Soru Havuzu</title>
+<title>Pdrkampus.com.tr | 2027 AGS PDR Sıralama, Simülasyon &amp; Soru Havuzu</title>
 <!-- Favicon -->
 <link href="https://i.hizliresim.com/ztqymblw.png" rel="icon" type="image/png"/>
 <!-- Tailwind CSS CDN -->
@@ -89,6 +89,16 @@ body.rk-app-body{
 .rk-nav-button.active{color:#f7f3e9;background:var(--rk-teal);box-shadow:inset 3px 0 var(--rk-yellow)}
 .rk-nav-icon{width:17px;display:inline-grid;place-items:center;font-size:17px;line-height:1}
 .rk-nav-count{margin-left:auto;color:var(--rk-yellow);font:10px 'Space Mono',monospace}
+
+/* Net analizleri — grafiklere doğrudan menü erişimi */
+.rk-analysis-label{margin-top:20px!important;margin-bottom:7px!important}
+.rk-analysis-nav{gap:2px!important}
+.rk-analysis-button{font-size:11.5px!important;padding:9px 12px!important;color:#9fa7b8!important}
+.rk-analysis-button:hover{color:#fff!important}
+.rk-analysis-button .rk-nav-icon{font-size:15px!important}
+.rk-nav-arrow{margin-left:auto;color:#687084;font-size:14px;transition:transform .2s,color .2s}
+.rk-analysis-button:hover .rk-nav-arrow{color:var(--rk-yellow);transform:translateX(3px)}
+
 .rk-sidebar-footer{margin-top:auto;border-top:1px solid #3d4358;padding:19px 9px 0}
 .rk-candidate-mini{display:flex;gap:10px;align-items:center}
 .rk-avatar{width:31px;height:31px;border-radius:50%;display:grid;place-items:center;flex:0 0 auto;font-weight:700;font-size:11px;background:var(--rk-coral);color:var(--rk-fg)}
@@ -106,6 +116,7 @@ body.rk-app-body{
   color:var(--rk-muted);display:grid;place-items:center;cursor:pointer;transition:transform .2s,border .2s,color .2s
 }
 .rk-icon-button:hover{color:var(--rk-teal);border-color:var(--rk-teal);transform:translateY(-2px)}
+.rk-oabt-distribution-card,.rk-real-distribution-card{scroll-margin-top:112px!important;scroll-snap-margin-top:112px!important}
 .rk-mobile-menu{display:none}
 .rk-topbar #auth-header-container{display:flex;align-items:center;gap:9px}
 .rk-topbar #btn-login{
@@ -229,8 +240,50 @@ function rkNavigate(tabId){
   const el=document.getElementById('rk-current-section'); if(el) el.textContent=labels[tabId]||'Genel Bakış';
   target.classList.remove('hidden');
   requestAnimationFrame(()=>target.scrollIntoView({behavior:'smooth',block:'start'}));
-  const side=document.getElementById('rk-sidebar'); if(side && window.innerWidth<=680){ side.classList.remove('rk-open'); document.getElementById('rk-sidebar-overlay')?.classList.remove('rk-visible'); document.body.classList.remove('rk-menu-open'); const mb=document.getElementById('rk-mobile-menu'); if(mb){mb.setAttribute('aria-expanded','false');mb.setAttribute('aria-label','Menüyü aç');const ic=mb.querySelector('span');if(ic)ic.textContent='☰';} }
+  const side=document.getElementById('rk-sidebar');
+  if(side && window.innerWidth<=680){
+    side.classList.remove('rk-open');
+    document.getElementById('rk-sidebar-overlay')?.classList.remove('rk-visible');
+    document.body.classList.remove('rk-menu-open');
+    const mb=document.getElementById('rk-mobile-menu');
+    if(mb){mb.setAttribute('aria-expanded','false');mb.setAttribute('aria-label','Menüyü aç');const ic=mb.querySelector('span');if(ic)ic.textContent='☰';}
+  }
 }
+
+function rkNavigateToSection(tabId, sectionId, label){
+  const tab=document.getElementById(tabId);
+  const section=document.getElementById(sectionId);
+  if(!tab){ console.warn('PDRkampus: sekme bulunamadı',tabId); return; }
+  if(typeof switchTab === 'function') switchTab(tabId);
+  document.querySelectorAll('.rk-nav-button').forEach(b=>b.classList.toggle('active',false));
+  const el=document.getElementById('rk-current-section'); if(el) el.textContent=label||'Analizler';
+  tab.classList.remove('hidden');
+  const destination = section || tab;
+  // Hedefi sabit header'ın hemen altına kilitle. Grafikler canlı veriyle
+  // yeniden boyanabildiği için konumu birkaç kez yeniden doğruluyoruz.
+  const scrollToDestination = (behavior='smooth') => {
+    if(!destination || !document.body.contains(destination)) return;
+    const header = document.querySelector('.rk-topbar');
+    const headerHeight = header ? header.getBoundingClientRect().height : (window.innerWidth <= 680 ? 64 : 82);
+    const gap = 18;
+    const absoluteTop = destination.getBoundingClientRect().top + window.scrollY;
+    const targetTop = Math.max(0, absoluteTop - headerHeight - gap);
+    window.scrollTo({top: targetTop, behavior});
+  };
+  requestAnimationFrame(()=>scrollToDestination('smooth'));
+  setTimeout(()=>scrollToDestination('auto'), 220);
+  setTimeout(()=>scrollToDestination('auto'), 600);
+  setTimeout(()=>scrollToDestination('auto'), 1000);
+  const side=document.getElementById('rk-sidebar');
+  if(side && window.innerWidth<=680){
+    side.classList.remove('rk-open');
+    document.getElementById('rk-sidebar-overlay')?.classList.remove('rk-visible');
+    document.body.classList.remove('rk-menu-open');
+    const mb=document.getElementById('rk-mobile-menu');
+    if(mb){mb.setAttribute('aria-expanded','false');mb.setAttribute('aria-label','Menüyü aç');const ic=mb.querySelector('span');if(ic)ic.textContent='☰';}
+  }
+}
+
 function rkToast(msg){
   const old=document.querySelector('.rk-toast'); if(old) old.remove();
   const el=document.createElement('div'); el.className='rk-toast'; el.textContent=msg; document.body.appendChild(el);
@@ -915,11 +968,524 @@ body{
   0%{transform:scale(.985);opacity:.72}
   100%{transform:scale(1);opacity:1}
 }
-</style><style>.net-group{display:none!important}</style></head>
+</style><style>.net-group{display:none!important}</style>
+<style id="rk-scenario-v28">
+/* V28 — Senaryo Matrisi: modern, tablo odaklı dashboard görünümü */
+.rk-scenario-card{
+  overflow:hidden!important;
+  padding:0!important;
+  background:var(--rk-paper,#fffdf8)!important;
+  border:1px solid var(--rk-line,#e4ddd0)!important;
+  border-radius:18px!important;
+  box-shadow:0 8px 24px rgba(39,48,71,.045)!important;
+}
+.rk-scenario-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  padding:20px 22px 17px;
+  border-bottom:1px solid var(--rk-line,#e4ddd0);
+  background:#fffdf8;
+}
+.rk-scenario-kicker{
+  margin-bottom:5px;
+  color:var(--rk-teal,#2f897b);
+  font:700 9px "Space Mono",monospace;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+.rk-scenario-head h3{
+  margin:0!important;
+  color:var(--rk-ink,#273047)!important;
+  font:700 18px "Syne","DM Sans",sans-serif!important;
+  letter-spacing:-.035em;
+  text-transform:none!important;
+}
+.rk-scenario-head p{
+  margin:5px 0 0;
+  color:var(--rk-muted,#707887);
+  font-size:11px;
+}
+.rk-scenario-badge{
+  flex:0 0 auto;
+  padding:7px 10px;
+  border:1px solid #d9e8e3;
+  border-radius:8px;
+  background:#edf6f3;
+  color:var(--rk-teal,#2f897b);
+  font:700 9px "Space Mono",monospace;
+  letter-spacing:.08em;
+}
+.rk-scenario-table-wrap{
+  width:100%;
+  overflow-x:auto!important;
+}
+.rk-scenario-table{
+  width:100%!important;
+  min-width:760px!important;
+  border:0!important;
+  border-radius:0!important;
+  border-collapse:separate!important;
+  border-spacing:0!important;
+}
+.rk-scenario-table thead th{
+  padding:11px 15px!important;
+  background:#f4f0e8!important;
+  color:#70747f!important;
+  border-bottom:1px solid var(--rk-line,#e4ddd0)!important;
+  font:700 9px "Space Mono",monospace!important;
+  letter-spacing:.055em;
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+.rk-scenario-table thead th:first-child{padding-left:22px!important}
+.rk-scenario-table tbody tr{
+  background:#fffdf8!important;
+  transition:background .15s ease;
+}
+.rk-scenario-table tbody tr:nth-child(even){background:#faf7f0!important}
+.rk-scenario-table tbody tr:hover{background:#f1f7f4!important}
+.rk-scenario-table tbody td{
+  padding:12px 15px!important;
+  color:#555b68!important;
+  border-bottom:1px solid #eee9df!important;
+  font-size:11px!important;
+  vertical-align:middle!important;
+  white-space:nowrap;
+}
+.rk-scenario-table tbody tr:last-child td{border-bottom:0!important}
+.rk-scenario-table tbody td:first-child{
+  padding-left:22px!important;
+  color:var(--rk-ink,#273047)!important;
+  font-weight:700!important;
+  white-space:normal!important;
+  min-width:255px;
+}
+.rk-scenario-table tbody td:nth-child(2),
+.rk-scenario-table tbody td:nth-child(3){
+  color:#69707d!important;
+  font-weight:600!important;
+}
+.rk-scenario-table .rk-score-col,
+.rk-scenario-table .rk-rank-col{text-align:right!important}
+.rk-scenario-table tbody td:nth-child(4){
+  text-align:right!important;
+  color:var(--rk-teal,#2f897b)!important;
+  font:700 12px "Space Mono",monospace!important;
+}
+.rk-scenario-table tbody td:nth-child(5){
+  padding-right:22px!important;
+  text-align:right!important;
+  color:#a77916!important;
+  font:800 12px "Space Mono",monospace!important;
+}
+.rk-scenario-table tbody td:first-child span{
+  display:inline-flex!important;
+  align-items:center;
+  padding:5px 8px!important;
+  border-radius:7px!important;
+  border:1px solid #e0ddd4!important;
+  background:#f5f1e8!important;
+  color:#4b5362!important;
+  font-size:10px!important;
+  line-height:1.25!important;
+  font-weight:700!important;
+}
+.rk-scenario-table tbody td:first-child span[class*="emerald"]{
+  background:#eaf4f0!important;border-color:#cfe4dc!important;color:#2f786b!important;
+}
+.rk-scenario-table tbody td:first-child span[class*="rose"]{
+  background:#faece8!important;border-color:#efd2ca!important;color:#bd6654!important;
+}
+.rk-scenario-table tbody td:first-child span[class*="amber"]{
+  background:#fbf3df!important;border-color:#eadbb7!important;color:#9b751f!important;
+}
+.rk-scenario-table tbody td:first-child span[class*="purple"]{
+  background:#f1edf8!important;border-color:#ddd4ee!important;color:#75609a!important;
+}
+.rk-scenario-empty{
+  padding:28px!important;
+  text-align:center!important;
+  color:#8b8f99!important;
+  background:#fffdf8!important;
+}
+.rk-scenario-note{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:11px 22px 13px;
+  border-top:1px solid #eee9df;
+  color:#858994;
+  font-size:10px;
+  line-height:1.5;
+  background:#fbf9f4;
+}
+.rk-scenario-note span:first-child{
+  color:var(--rk-teal,#2f897b);
+  font-size:12px;
+}
+@media(max-width:680px){
+  .rk-scenario-head{
+    align-items:flex-start;
+    padding:17px 17px 14px;
+  }
+  .rk-scenario-head h3{font-size:16px!important}
+  .rk-scenario-head p{max-width:240px;line-height:1.45}
+  .rk-scenario-badge{font-size:8px;padding:6px 8px}
+  .rk-scenario-table{min-width:720px!important}
+  .rk-scenario-table thead th,
+  .rk-scenario-table tbody td{padding-left:11px!important;padding-right:11px!important}
+  .rk-scenario-table thead th:first-child,
+  .rk-scenario-table tbody td:first-child{padding-left:15px!important}
+  .rk-scenario-table tbody td:nth-child(5){padding-right:15px!important}
+  .rk-scenario-note{padding:10px 15px 12px}
+}
+</style>
+
+
+<style id="rk-footer-v29">
+.rk-footer{
+  margin-top:28px;
+  border-top:1px solid #e5dfd4;
+  background:#fbf8f2;
+}
+.rk-footer-inner{
+  max-width:1400px;
+  margin:0 auto;
+  padding:20px 24px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:22px;
+}
+.rk-footer-brand{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.rk-footer-brand strong{
+  color:#273047;
+  font:800 13px "Syne","DM Sans",sans-serif;
+  letter-spacing:-.02em;
+}
+.rk-footer-brand span{color:#858a94;font-size:10px}
+.rk-footer-links{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:4px 18px;
+  flex-wrap:wrap;
+}
+.rk-footer-links a{
+  color:#737985;
+  font-size:10px;
+  font-weight:600;
+  text-decoration:none;
+  transition:color .15s ease;
+}
+.rk-footer-links a:hover{color:#2f897b}
+.rk-legal-modal{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+.rk-legal-modal.is-open{display:flex}
+.rk-legal-backdrop{
+  position:absolute;
+  inset:0;
+  background:rgba(25,31,45,.48);
+  backdrop-filter:blur(4px);
+}
+.rk-legal-dialog{
+  position:relative;
+  width:min(720px,100%);
+  max-height:min(78vh,760px);
+  overflow:auto;
+  padding:28px 30px 30px;
+  border:1px solid #e1dbd0;
+  border-radius:18px;
+  background:#fffdf8;
+  box-shadow:0 24px 70px rgba(24,31,45,.22);
+}
+.rk-legal-close{
+  position:absolute;
+  top:14px;
+  right:16px;
+  width:32px;height:32px;
+  border:1px solid #e1dbd0;
+  border-radius:9px;
+  background:#f5f1e9;
+  color:#69707d;
+  font-size:21px;
+  line-height:1;
+  cursor:pointer;
+}
+.rk-legal-kicker{
+  margin-bottom:6px;
+  color:#2f897b;
+  font:700 9px "Space Mono",monospace;
+  letter-spacing:.12em;
+}
+.rk-legal-dialog h2{
+  margin:0 42px 16px 0;
+  color:#273047;
+  font:800 22px "Syne","DM Sans",sans-serif;
+  letter-spacing:-.035em;
+}
+.rk-legal-dialog .rk-legal-text{
+  color:#626875;
+  font-size:12px;
+  line-height:1.75;
+}
+.rk-legal-dialog .rk-legal-text h3{
+  margin:18px 0 6px;
+  color:#273047;
+  font-size:13px;
+  font-weight:800;
+}
+.rk-legal-dialog .rk-legal-text p{margin:0 0 10px}
+.rk-legal-dialog .rk-legal-text ul{margin:5px 0 12px;padding-left:18px}
+@media(max-width:700px){
+  .rk-footer-inner{padding:18px 16px;align-items:flex-start;flex-direction:column}
+  .rk-footer-links{justify-content:flex-start;gap:8px 15px}
+  .rk-legal-dialog{padding:24px 20px 24px;border-radius:15px}
+}
+</style>
+
+
+<style>
+.rk-exam-shell,.rk-past-shell{background:#fffdfa;border:1px solid var(--rk-border);border-radius:18px;box-shadow:0 10px 30px rgba(28,40,35,.06);overflow:hidden}
+.rk-exam-head,.rk-past-head{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;padding:24px;border-bottom:1px solid var(--rk-border)}
+.rk-exam-head h2,.rk-past-head h2{margin:4px 0 6px;font-size:25px;line-height:1.1;color:var(--rk-fg);font-weight:900}
+.rk-exam-head p,.rk-past-head p{margin:0;color:var(--rk-muted);font-size:13px}
+.rk-exam-meta{display:flex;gap:9px;flex-wrap:wrap;justify-content:flex-end}.rk-exam-meta span,.rk-coming-badge{background:#eef2ed;border:1px solid #dbe5df;color:var(--rk-fg);font-size:11px;font-weight:800;padding:8px 11px;border-radius:999px;white-space:nowrap}.rk-exam-meta span:last-child{background:#fff3df;border-color:#f0dfc1;color:#8a5a17;font-family:'Space Mono',monospace}
+.rk-exam-questions{padding:20px;display:grid;gap:12px}.rk-q-card{border:1px solid var(--rk-border);border-radius:13px;padding:16px;background:#fff}.rk-q-card.rk-answered{border-color:#cbded7}.rk-q-card.rk-wrong{border-color:#e6b9ad;background:#fff8f5}.rk-q-title{font-size:13px;font-weight:800;color:var(--rk-fg);margin-bottom:12px}.rk-q-options{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}.rk-q-option{position:relative}.rk-q-option input{position:absolute;opacity:0}.rk-q-option label{display:block;border:1px solid var(--rk-border);border-radius:9px;padding:10px 8px;text-align:center;font-size:12px;font-weight:800;color:var(--rk-muted);cursor:pointer;background:#faf9f5;transition:.15s}.rk-q-option input:checked+label{background:#e8f1ed;border-color:var(--rk-teal);color:var(--rk-teal)}.rk-q-card.rk-wrong .rk-q-option input:checked+label{background:#f8e9e4;border-color:#c96d58;color:#a34c39}.rk-exam-actions{display:flex;justify-content:flex-end;gap:9px;padding:18px 20px;border-top:1px solid var(--rk-border);background:#faf9f5}.rk-exam-primary,.rk-exam-secondary{border:0;border-radius:9px;padding:11px 17px;font-weight:900;font-size:12px;cursor:pointer}.rk-exam-primary{background:var(--rk-teal);color:#fff}.rk-exam-secondary{background:#eeeae1;color:var(--rk-fg)}.rk-exam-result{margin:0 20px 20px;padding:18px;border-radius:13px;background:#eef5f1;border:1px solid #cfe0d9}.rk-result-score{font-size:26px;font-weight:900;color:var(--rk-teal)}.rk-wrong-list{margin-top:12px;display:grid;gap:7px}.rk-wrong-item{padding:10px 12px;background:#fff;border:1px solid #ead8d2;border-radius:9px;font-size:12px}.rk-past-grid{padding:20px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.rk-past-grid button{border:1px solid var(--rk-border);background:#fff;border-radius:13px;padding:18px;text-align:left;cursor:pointer;transition:.15s}.rk-past-grid button:hover{border-color:var(--rk-teal);transform:translateY(-1px)}.rk-past-grid strong{display:block;font-size:20px;color:var(--rk-fg)}.rk-past-grid span{display:block;margin-top:5px;font-size:11px;color:var(--rk-muted)}.rk-past-placeholder{margin:0 20px 20px;padding:18px;border:1px dashed #cbd5cf;border-radius:12px;color:var(--rk-muted);font-size:12px;background:#faf9f5}
+@media(max-width:680px){.rk-exam-head,.rk-past-head{flex-direction:column;padding:18px}.rk-exam-meta{justify-content:flex-start}.rk-exam-questions{padding:12px}.rk-q-options{grid-template-columns:repeat(5,1fr)}.rk-q-option label{padding:9px 2px}.rk-exam-actions{padding:14px 12px}.rk-past-grid{grid-template-columns:1fr;padding:12px}}
+
+
+body.rk-focus-mode .rk-intro,
+body.rk-focus-mode .rk-mode-switch,
+body.rk-focus-mode .rk-dashboard-grid { display:none !important; }
+body.rk-focus-mode .rk-content-stage { max-width: none !important; margin: 0 !important; padding: 0 !important; }
+body.rk-focus-mode .rk-content-stage > .tab-content { display:none !important; min-height: calc(100vh - 82px); }
+body.rk-focus-mode .rk-content-stage > .tab-content.rk-focus-active { display:flex !important; }
+body.rk-focus-mode .rk-main { padding-bottom: 0 !important; }
+.rk-exam-lobby { min-height: calc(100vh - 82px); display:flex; align-items:center; justify-content:center; padding:36px; }
+.rk-exam-lobby-card { width:min(760px,100%); background:linear-gradient(145deg,#fffdf8,#f8f5ed); border:1px solid rgba(20,36,56,.10); border-radius:28px; padding:clamp(28px,5vw,52px); box-shadow:0 24px 70px rgba(20,36,56,.10); text-align:center; }
+.rk-exam-lobby-icon { width:68px;height:68px;margin:0 auto 20px;border-radius:20px;display:grid;place-items:center;background:#123044;color:#fff;font-size:28px;box-shadow:0 12px 28px rgba(18,48,68,.18); }
+.rk-exam-lobby-card h2 { font-family:'Syne',sans-serif!important;font-size:clamp(28px,4vw,42px)!important;letter-spacing:-.045em!important;color:#123044!important;margin:8px 0 10px!important; }
+.rk-exam-lobby-card p { color:#687580;font-size:14px;line-height:1.7;margin:0 auto;max-width:590px; }
+.rk-exam-info-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:28px 0; }
+.rk-exam-info { background:#fff;border:1px solid rgba(20,36,56,.08);border-radius:16px;padding:16px 12px; }
+.rk-exam-info strong { display:block;font-family:'Space Mono',monospace;font-size:20px;color:#123044; }
+.rk-exam-info span { display:block;margin-top:5px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#89939a; }
+.rk-exam-note { text-align:left;background:#f1f7f5;border:1px solid rgba(15,118,110,.12);border-radius:18px;padding:17px 19px;margin-bottom:24px;color:#52656a;font-size:12px;line-height:1.65; }
+.rk-exam-note strong { color:#123044;display:block;margin-bottom:5px; }
+.rk-exam-start { border:0;cursor:pointer;border-radius:15px;padding:14px 30px;background:#123044;color:#fff;font-weight:900;font-size:13px;box-shadow:0 12px 25px rgba(18,48,68,.18);transition:.2s ease; }
+.rk-exam-start:hover { transform:translateY(-2px);box-shadow:0 16px 30px rgba(18,48,68,.23); }
+@media(max-width:680px){ .rk-exam-lobby{min-height:calc(100vh - 72px);padding:18px 12px}.rk-exam-info-grid{grid-template-columns:1fr}.rk-exam-lobby-card{border-radius:22px;padding:26px 18px}.rk-exam-note{text-align:left} }
+</style>
+
+<style id="pdrkampus-v32-ui-fix">
+/* Menüdeki P logosu kaldırıldı */
+.rk-brand-mark,
+.rk-brand-mark * {
+  display: none !important;
+}
+</style>
+
+
+<style id="pdrkampus-v32-footer">
+.rk-footer-copyright {
+  margin-top: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .01em;
+  opacity: .72;
+}
+</style>
+
+
+
+<style id="pdrkampus-v35-brand">
+/* PDR Kampüs — sade, güçlü marka alanı */
+.rk-brand{
+  display:flex !important;
+  align-items:center !important;
+  gap:0 !important;
+  padding:12px 12px 30px !important;
+  min-height:72px;
+}
+.rk-brand-mark{
+  display:none !important;
+}
+.rk-brand-name{
+  display:block !important;
+  font-family:'Syne','DM Sans',sans-serif !important;
+  font-size:24px !important;
+  line-height:1 !important;
+  font-weight:800 !important;
+  letter-spacing:-.055em !important;
+  color:#f7f3e9 !important;
+  white-space:nowrap;
+}
+.rk-brand-name span{
+  color:var(--rk-coral) !important;
+  font-weight:800 !important;
+}
+.rk-brand::before,
+.rk-brand::after{
+  content:none !important;
+}
+
+/* Marka alanını menüden görsel olarak ayır */
+.rk-brand + .rk-sidebar-label{
+  margin-top:0 !important;
+  padding-top:13px !important;
+  border-top:1px solid rgba(255,255,255,.08);
+}
+
+/* Alt bölümdeki marka adını da tutarlı hale getir */
+.rk-sidebar-footer .rk-season-name{
+  font-weight:700 !important;
+  letter-spacing:-.01em;
+}
+</style>
+
+
+<style id="pdrkampus-v36-rank-tracker">
+.rk-rank-tracker{
+  margin:16px 14px 10px;
+  padding:13px 13px 11px;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:14px;
+  background:rgba(255,255,255,.045);
+  box-shadow:0 8px 24px rgba(0,0,0,.08);
+}
+.rk-rank-tracker-head{
+  display:flex;align-items:center;gap:8px;
+  color:#f4efe4;font-size:12px;font-weight:800;
+  letter-spacing:.01em;
+}
+.rk-rank-tracker-icon{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:24px;height:24px;border-radius:8px;
+  background:rgba(127,200,189,.14);color:#7fc8bd;font-size:14px;font-weight:900;
+}
+.rk-rank-tracker-body{margin:12px 0 10px;}
+.rk-rank-tracker-label{
+  font-size:9px;text-transform:uppercase;letter-spacing:.09em;
+  color:rgba(244,239,228,.48);font-weight:700;
+}
+.rk-rank-tracker-body strong{
+  display:block;margin-top:2px;
+  font-family:"Space Mono",monospace;
+  font-size:21px;line-height:1.1;color:#fff;font-weight:700;
+}
+.rk-rank-tracker-change{
+  margin-top:4px;font-size:10px;color:#7fc8bd;font-weight:700;
+}
+.rk-rank-tracker button{
+  width:100%;border:0;border-radius:9px;padding:8px 9px;
+  background:rgba(244,239,228,.07);color:#f4efe4;
+  font-size:10px;font-weight:800;cursor:pointer;
+  transition:background .2s ease,transform .2s ease;
+}
+.rk-rank-tracker button:hover{background:rgba(244,239,228,.12);transform:translateY(-1px);}
+@media(max-width:768px){.rk-rank-tracker{margin:12px 12px 8px;}}
+</style>
+
+
+<style id="pdrkampus-v37-clean-sidebar">
+/* 2026 / 27 PDRkampüs alanı kaldırıldı; yerine Sıramı Takip Et kartı kullanılıyor. */
+.rk-brand-sub,
+.rk-sidebar-footer .rk-version,
+.rk-sidebar-bottom .rk-version {
+  display: none !important;
+}
+</style>
+
+
+<style id="pdrkampus-v38-sidebar-cleanup">
+.rk-sidebar-season,
+.rk-season-label,
+.rk-season-name {
+  display: none !important;
+}
+</style>
+
+
+<style id="pdrkampus-v39-oabt-distribution">
+
+
+.rk-real-distribution-card{background:#fffdf8;border:1px solid rgba(24,44,64,.10);border-radius:18px;padding:20px;box-shadow:0 10px 30px rgba(24,44,64,.07);margin-top:12px}
+.rk-real-dist-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+.rk-real-dist-kicker{font-size:10px;font-weight:800;letter-spacing:.12em;color:#d17b5b;margin-bottom:4px}
+.rk-real-dist-head h3{margin:3px 0 4px;font-size:18px;font-weight:800;color:#182c40}
+.rk-real-dist-head p{margin:0;color:#6c7883;font-size:12px}
+.rk-real-dist-count{display:flex;flex-direction:column;align-items:flex-end;white-space:nowrap}
+.rk-real-dist-count strong{font-size:18px;line-height:1;color:#182c40}
+.rk-real-dist-count span{font-size:9px;color:#8a949c;margin-top:4px;text-transform:uppercase;letter-spacing:.08em}
+.rk-real-dist-switch{display:flex;gap:6px;margin:16px 0 8px;background:#f1eee7;padding:4px;border-radius:11px;width:max-content;max-width:100%}
+.rk-real-dist-btn{border:0;background:transparent;color:#71808c;font-size:10px;font-weight:800;padding:8px 11px;border-radius:8px;cursor:pointer;transition:all .18s ease}
+.rk-real-dist-btn:hover{color:#182c40}
+.rk-real-dist-btn.active{background:#182c40;color:#fff;box-shadow:0 3px 10px rgba(24,44,64,.14)}
+.rk-real-dist-meta{display:flex;justify-content:space-between;align-items:center;margin:8px 0;font-size:11px;color:#8a949c}
+.rk-real-dist-meta strong{font-size:12px;color:#263a4a}
+.rk-real-dist-chart-wrap{height:250px;position:relative}
+#rkRealResultDistributionChart{display:block!important;width:100%!important;height:100%!important}
+.rk-real-dist-note{margin-top:8px;font-size:10px;color:#8a949c}
+@media(max-width:640px){.rk-real-distribution-card{padding:16px}.rk-real-dist-head{gap:10px}.rk-real-dist-head h3{font-size:16px}.rk-real-dist-switch{width:100%}.rk-real-dist-btn{flex:1;padding:8px 7px}.rk-real-dist-chart-wrap{height:210px}.rk-real-dist-meta{gap:8px;flex-wrap:wrap}}
+.rk-oabt-distribution-card{background:#fffdf8;border:1px solid rgba(24,44,64,.10);border-radius:18px;padding:20px;box-shadow:0 10px 30px rgba(24,44,64,.07)}
+.rk-oabt-dist-kicker{font-size:10px;font-weight:800;letter-spacing:.12em;color:#4c9f95;margin-bottom:4px}
+.rk-oabt-dist-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+.rk-oabt-dist-head h3{margin:3px 0 4px;font-size:18px;font-weight:800;color:#182c40}
+.rk-oabt-dist-head p{margin:0;color:#6c7883;font-size:12px}
+.rk-oabt-dist-live{font-size:10px;font-weight:800;color:#328a7e;background:#eaf7f4;border:1px solid #c9e9e3;border-radius:999px;padding:6px 9px;white-space:nowrap}
+.rk-oabt-dist-live span{display:inline-block;width:6px;height:6px;border-radius:50%;background:#4c9f95;margin-right:4px}
+.rk-oabt-dist-meta{display:flex;justify-content:space-between;align-items:center;margin:16px 0 8px;font-size:11px;color:#8a949c}
+.rk-oabt-dist-meta strong{font-size:13px;color:#263a4a}
+.rk-oabt-dist-chart-wrap{height:250px;position:relative}
+#rkOabtDistributionChart{display:block!important;width:100%!important;height:100%!important}
+.rk-oabt-dist-note{margin-top:8px;font-size:10px;color:#8a949c}
+.rk-dist-switch{display:inline-flex;gap:4px;padding:4px;background:#eef2f0;border:1px solid rgba(24,44,64,.08);border-radius:12px;margin:4px 0 14px}
+.rk-dist-switch button{border:0;background:transparent;color:#63727d;padding:7px 12px;border-radius:9px;font-size:11px;font-weight:800;cursor:pointer;transition:.2s}
+.rk-dist-switch button:hover{color:#183044}
+.rk-dist-switch button.active{background:#183044;color:#fff;box-shadow:0 3px 10px rgba(24,48,68,.16)}
+@media(max-width:640px){.rk-dist-switch{width:100%}.rk-dist-switch button{flex:1;padding:8px 7px;font-size:10px}}
+
+@media(max-width:640px){.rk-oabt-distribution-card{padding:16px;margin-top:0}.rk-oabt-dist-head{gap:10px}.rk-oabt-dist-head h3{font-size:16px}.rk-oabt-dist-chart-wrap{height:210px}.rk-oabt-dist-live{padding:5px 7px}}
+.rk-oabt-distribution-card{
+  margin-top:18px;padding:20px 20px 16px;border:1px solid rgba(24,44,64,.08);
+  border-radius:18px;background:#fffdf8;box-shadow:0 12px 34px rgba(25,42,55,.06);
+}
+.rk-oabt-dist-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+.rk-oabt-dist-head h3{margin:3px 0 4px;font-size:18px;font-weight:800;color:#182c40}
+.rk-oabt-dist-head p{margin:0;color:#6c7883;font-size:12px}
+.rk-eyebrow{font-size:9px;letter-spacing:.12em;font-weight:800;color:#4c9f95}
+.rk-live-pill{display:flex;align-items:center;gap:6px;padding:6px 9px;border-radius:999px;
+  background:rgba(76,159,149,.09);color:#3e8d83;font-size:9px;font-weight:900;letter-spacing:.08em}
+.rk-live-pill span{width:6px;height:6px;border-radius:50%;background:#4c9f95;box-shadow:0 0 0 4px rgba(76,159,149,.10)}
+.rk-oabt-dist-meta{display:flex;justify-content:space-between;align-items:center;margin:16px 0 8px;
+  font-size:11px;color:#7a858e}
+.rk-oabt-dist-meta strong{font-size:13px;color:#263a4a}
+.rk-oabt-chart-wrap{height:270px;position:relative}
+#rkOabtDistributionChart{display:block!important;width:100%!important;height:100%!important}
+.rk-oabt-dist-note{margin-top:8px;font-size:10px;color:#8a949c}
+@media(max-width:768px){
+  .rk-oabt-distribution-card{padding:16px;margin-top:14px}
+  .rk-oabt-dist-head{gap:10px}
+  .rk-oabt-dist-head h3{font-size:16px}
+  .rk-oabt-chart-wrap{height:230px}
+}
+</style>
+
+</head>
 <body class="rk-app-body">
 <aside class="rk-sidebar" id="rk-sidebar">
 <div class="rk-brand">
-<div class="rk-brand-mark">P</div>
+<div class="rk-brand-mark"></div>
 <div class="rk-brand-name">PDR<span>kampüs</span></div>
 </div>
 <div class="rk-sidebar-label">Kampüs</div>
@@ -937,7 +1503,28 @@ body{
 <span class="rk-nav-icon">⇄</span><span>Eşleşen Sonuçlar</span>
 </button>
 </nav>
-<div class="rk-sidebar-footer rk-sidebar-season"><div class="rk-season-label">2026 / 27</div><div class="rk-season-name">PDRkampüs</div></div>
+<div class="rk-sidebar-label rk-analysis-label">Net Analizleri</div>
+<nav aria-label="Net analizleri" class="rk-nav rk-analysis-nav">
+<button class="rk-nav-button rk-analysis-button" type="button" onclick="rkNavigateToSection('tab-leaderboard','rk-live-analysis-target','Canlı Net Dağılımları')">
+<span class="rk-nav-icon">▥</span><span>Canlı Net Dağılımları</span><span class="rk-nav-arrow">→</span>
+</button>
+<button class="rk-nav-button rk-analysis-button" type="button" onclick="rkNavigateToSection('tab-matches','rk-real-analysis-target','Gerçek Sonuç Analizi')">
+<span class="rk-nav-icon">▤</span><span>120 Gerçek Sonuç</span><span class="rk-nav-arrow">→</span>
+</button>
+</nav>
+<div class="rk-rank-tracker" id="rk-rank-tracker">
+  <div class="rk-rank-tracker-head">
+    <span class="rk-rank-tracker-icon">↗</span>
+    <span>Sıramı Takip Et</span>
+  </div>
+  <div class="rk-rank-tracker-body">
+    <div class="rk-rank-tracker-label">Son tahmini sıra</div>
+    <strong id="rk-tracker-rank">—</strong>
+    <div class="rk-rank-tracker-change" id="rk-tracker-change">İlk hesaplamanı yap</div>
+  </div>
+  <button type="button" id="rk-tracker-open">Sonucumu gör →</button>
+</div>
+
 </aside>
 <div aria-hidden="true" class="rk-sidebar-overlay" id="rk-sidebar-overlay"></div>
 <!-- 🌟 ÜST NAVBAR & KALICI LOGO ALANI -->
@@ -1147,7 +1734,7 @@ body{
 </div>
 </div>
 </div></div></section>
-<div class="rk-stat-strip"><div class="rk-stat-card stat-p2"><span>P2-10</span><strong id="rk-p2">--</strong></div><div class="rk-stat-card stat-rank"><span>Tahmini Sıra</span><strong id="rk-rank">-- - --</strong></div><div class="rk-stat-card stat-oabt"><span>ÖABT Net</span><strong id="rk-oabt">0.00</strong></div></div><section class="rk-content-stage"><div class="tab-content flex flex-col gap-4" id="tab-overview">
+<div class="rk-stat-strip"><div class="rk-stat-card stat-p2"><span>2027 P2-10 Tahmini</span><strong id="rk-p2">--</strong></div><div class="rk-stat-card stat-rank"><span>2027 Tahmini Sıra</span><strong id="rk-rank">-- - --</strong></div><div class="rk-stat-card stat-oabt"><span>Toplam Girilen Net</span><strong id="rk-oabt">0.00</strong></div></div><section class="rk-content-stage"><div class="tab-content flex flex-col gap-4" id="tab-overview">
 <div class="bg-slate-900/80 border border-emerald-500/30 rounded-3xl p-4 shadow-xl">
 <div class="flex items-center justify-between mb-2.5 pb-2 border-b border-slate-800">
 <h3 class="text-xs font-bold text-emerald-300 uppercase tracking-wider flex items-center gap-1.5">
@@ -1207,6 +1794,7 @@ body{
 </div>
 </div>
 </div><div class="tab-content flex flex-col gap-3" id="tab-leaderboard">
+<div id="rk-live-analysis-target" class="rk-live-analysis-group">
 <div class="bg-slate-900/90 border border-indigo-500/40 rounded-3xl p-4 shadow-xl flex flex-wrap items-center justify-between gap-3 text-xs">
 <div>
 <h3 class="font-extrabold text-white text-sm flex items-center gap-1.5">
@@ -1227,6 +1815,28 @@ body{
 <div class="bg-slate-900/80 border border-slate-800/80 rounded-3xl p-4 shadow-xl">
 <div class="space-y-2 text-xs" id="leaderboard-list-container">
 <div class="text-center py-6 text-slate-500">Canlı sıralama yükleniyor...</div>
+</div>
+</div>
+
+<div class="rk-oabt-distribution-card">
+  <div class="rk-oabt-dist-head">
+    <div>
+      <div class="rk-oabt-dist-kicker">CANLI VERİ ANALİZİ</div>
+      <h3 id="rk-dist-title">ÖABT Net Dağılımı</h3>
+      <p id="rk-dist-desc">Canlı lige kayıtlı adayların ÖABT netlerinin hangi aralıklarda toplandığını gösterir.</p>
+    </div>
+    <div class="rk-oabt-dist-live"><span></span> CANLI</div>
+  </div>
+  <div class="rk-dist-switch" role="tablist" aria-label="Net dağılımı seçimi">
+    <button type="button" class="active" data-dist-mode="oabt" onclick="switchNetDistribution('oabt')">ÖABT Netleri</button>
+    <button type="button" data-dist-mode="ags" onclick="switchNetDistribution('ags')">Toplam AGS Netleri</button>
+  </div>
+  <div class="rk-oabt-dist-meta">
+    <strong id="rk-oabt-dist-total">0 aday</strong>
+    <span id="rk-oabt-dist-updated">Veri bekleniyor</span>
+  </div>
+  <div class="rk-oabt-dist-chart-wrap"><canvas id="rkOabtDistributionChart"></canvas></div>
+  <div class="rk-oabt-dist-note" id="rk-dist-note">Aralıklar 5 netlik dilimler halinde gruplanır. Grafik yalnızca canlı lige kaydedilmiş ÖABT netlerini kullanır.</div>
 </div>
 </div>
 </div><div class="tab-content flex flex-col gap-4" id="tab-simulator">
@@ -1272,56 +1882,98 @@ body{
 </div>
 </div>
 </div>
-<div class="bg-slate-900/80 border border-slate-800/80 rounded-3xl p-4 shadow-xl">
-<h3 class="text-xs font-bold text-slate-200 uppercase tracking-wider mb-2">🔮 2027 Senaryo Matrisi (Oransal Çan Eğrisi)</h3>
-<div class="overflow-x-auto custom-scrollbar">
-<table class="w-full text-left text-xs border-collapse">
-<thead>
-<tr class="bg-slate-950/90 text-slate-400 border-b border-slate-800 text-[11px]">
-<th class="py-2 px-2.5">Senaryo</th>
-<th class="py-2 px-2.5">AGS Ort.</th>
-<th class="py-2 px-2.5">ÖABT Ort.</th>
-<th class="py-2 px-2.5">Puan</th>
-<th class="py-2 px-2.5 text-right">Olası Sıra</th>
-</tr>
-</thead>
-<tbody class="divide-y divide-slate-800/60 text-slate-300 text-[11px]" id="scenario-matrix-body">
-<tr><td class="py-3 text-center text-slate-500" colspan="5">Netlerinizi giriniz.</td></tr>
-</tbody>
-</table>
-</div>
+<div class="rk-scenario-card bg-slate-900/80 border border-slate-800/80 rounded-3xl p-4 shadow-xl">
+  <div class="rk-scenario-head">
+    <div>
+      <div class="rk-scenario-kicker">2027 PROJEKSİYONU</div>
+      <h3>Senaryo Matrisi</h3>
+      <p>Oransal çan eğrisi yaklaşımıyla sınav zorluğunun olası etkisi</p>
+    </div>
+    <div class="rk-scenario-badge">8 SENARYO</div>
+  </div>
+  <div class="rk-scenario-table-wrap custom-scrollbar">
+    <table class="rk-scenario-table w-full text-left text-xs border-collapse">
+      <thead>
+        <tr>
+          <th>Senaryo</th>
+          <th>AGS değişimi</th>
+          <th>ÖABT değişimi</th>
+          <th class="rk-score-col">Tahmini P2-10</th>
+          <th class="rk-rank-col">Tahmini sıra</th>
+        </tr>
+      </thead>
+      <tbody id="scenario-matrix-body">
+        <tr><td colspan="5" class="rk-scenario-empty">Netlerinizi giriniz.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="rk-scenario-note">
+    <span>ⓘ</span>
+    <span>Sıra tahmini, mevcut sonuçtaki sıranın senaryo katsayısıyla oransal olarak değişmesi esasına dayanır.</span>
+  </div>
 </div>
 </div><div class="tab-content flex flex-col gap-3" id="tab-matches">
-<div class="bg-slate-900/80 border border-slate-800/80 rounded-3xl p-4 shadow-xl">
+<div id="rk-real-analysis-target" class="bg-slate-900/80 border border-slate-800/80 rounded-3xl p-4 shadow-xl">
 <h3 class="text-xs font-bold text-slate-200 uppercase tracking-wider mb-1 flex items-center gap-1.5">
 <span>🎯 En Yakın 5 Gerçek Sonuç Belgesi</span>
 </h3>
-<p class="text-[11px] text-slate-400 mb-3">Resmi veritabanındaki 118 sonuç belgesi arasından profilinize en yakın 5 aday:</p>
+<p class="text-[11px] text-slate-400 mb-3">Kayıtlı 120 gerçek sonuç belgesi arasından profilinize en yakın 5 aday:</p>
 <div class="space-y-2" id="similar-candidates-list">
 <div class="text-center py-4 text-xs text-slate-500">Netlerinizi girdikten sonra eşleşen 5 gerçek aday burada listelenecektir.</div>
 </div>
+
+<div class="rk-real-distribution-card">
+  <div class="rk-real-dist-head">
+    <div>
+      <div class="rk-real-dist-kicker">GERÇEK SONUÇ VERİLERİ</div>
+      <h3 id="rk-real-dist-title">Toplam AGS Net Dağılımı</h3>
+      <p id="rk-real-dist-desc">Veri tabanındaki 120 gerçek sonuç belgesinde toplam AGS netlerinin hangi aralıklarda toplandığını gösterir.</p>
+    </div>
+    <div class="rk-real-dist-count"><strong id="rk-real-dist-total">120</strong><span>gerçek sonuç</span></div>
+  </div>
+  <div class="rk-real-dist-switch" role="tablist" aria-label="Gerçek sonuç net dağılımı">
+    <button type="button" class="rk-real-dist-btn active" data-real-dist-mode="ags" onclick="switchRealResultDistribution('ags')">Toplam AGS Netleri</button>
+    <button type="button" class="rk-real-dist-btn" data-real-dist-mode="oabt" onclick="switchRealResultDistribution('oabt')">ÖABT Netleri</button>
+  </div>
+  <div class="rk-real-dist-meta">
+    <strong id="rk-real-dist-average">Ortalama: --</strong>
+    <span id="rk-real-dist-range">Aralık: --</span>
+  </div>
+  <div class="rk-real-dist-chart-wrap"><canvas id="rkRealResultDistributionChart"></canvas></div>
+  <div class="rk-real-dist-note" id="rk-real-dist-note">Grafik, kayıtlı 120 gerçek sonuç belgesindeki altı AGS testinin toplam netini kullanır.</div>
 </div>
-</div></section></main>
+</div>
+</div>
+</section></main>
 <!-- 📱 MOBİL İÇİN YAPIŞKAN ALT BİLGİ PİLİ -->
 <!-- 🌟 FOOTER -->
-<footer class="w-full bg-slate-950 border-t border-slate-800/80 mt-10 pt-8 pb-6 text-xs text-slate-400">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<div class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-800/60 text-[11px]">
-<div class="flex items-center gap-2.5">
-<img alt="Pdrkampus Logo" class="h-8 sm:h-9 w-auto object-contain" onerror="this.onerror=null; this.src='https://i.hizliresim.com/ztqymblw.jpg';" src="https://i.hizliresim.com/ztqymblw.png"/>
-<span class="font-extrabold text-white">Pdrkampus<span class="text-indigo-400">.online</span></span>
-<span class="text-slate-600">•</span>
-<span class="text-slate-400">PDR Adayları İçin Canlı Topluluk &amp; Simülasyon Platformu</span>
-</div>
-<div class="text-[10px] text-slate-500">
-          2026 MEB-AGS &amp; ÖABT Resmi İstatistikleri Entegre
-        </div>
-</div>
-<div class="pt-4 text-center text-[10px] text-slate-600">
-        © 2026 - 2027 Pdrkampus.online. Bu simülatör bilgilendirme amaçlıdır; resmi sınav sonuç belgesi yerine geçmez.
-      </div>
-</div>
+<footer class="rk-footer">
+  <div class="rk-footer-inner">
+    <div class="rk-footer-brand">
+      <strong>pdrkampus.com.tr</strong>
+      <span>© 2026–2027 · PDR Kampüs</span>
+    </div>
+    <nav class="rk-footer-links" aria-label="Yasal ve yardımcı bağlantılar">
+      <a href="#gizlilik-ilkeleri" data-legal="privacy">Gizlilik İlkeleri</a>
+      <a href="#kullanici-sozlesmesi" data-legal="terms">Kullanıcı Sözleşmesi</a>
+      <a href="#cerez-politikasi" data-legal="cookies">Çerez Politikası</a>
+      <a href="#yasal-uyari" data-legal="legal">Yasal Uyarı</a>
+      <a href="#iletisim" data-legal="contact">İletişim</a>
+    </nav>
+  </div>
+
+<div class="rk-footer-copyright">© 2026–2027 PDR Kampüs · Tüm hakları saklıdır.</div>
 </footer>
+
+<div id="rk-legal-modal" class="rk-legal-modal" aria-hidden="true">
+  <div class="rk-legal-backdrop" data-legal-close></div>
+  <section class="rk-legal-dialog" role="dialog" aria-modal="true" aria-labelledby="rk-legal-title">
+    <button type="button" class="rk-legal-close" data-legal-close aria-label="Pencereyi kapat">×</button>
+    <div class="rk-legal-kicker">PDR KAMPÜS · YASAL BİLGİLER</div>
+    <h2 id="rk-legal-title">Gizlilik İlkeleri</h2>
+    <div id="rk-legal-content"></div>
+  </section>
+</div>
 <script>
     // ==========================================
     // 🔑 SUPABASE BULUT AYARLARI
@@ -2219,7 +2871,7 @@ body{
       try {
         const { data, error } = await supabaseClient
           .from('leaderboard')
-          .select('user_id,full_name,avatar_url,score')
+          .select('user_id,full_name,avatar_url,ags_net,oabt_net,score,raw_inputs,is_anonymous,updated_at')
           .order('score', { ascending: false })
           .limit(150);
 
@@ -2227,6 +2879,9 @@ body{
 
         liveLeaderboardData = data || [];
         renderLeaderboardUI();
+        if (typeof window.renderOabtDistribution === 'function') {
+          setTimeout(window.renderOabtDistribution, 0);
+        }
       } catch (err) {
         container.innerHTML = `
           <div class="text-center py-6 text-slate-500 text-xs">
@@ -2234,6 +2889,44 @@ body{
           </div>
         `;
       }
+    }
+
+    function toFiniteNumber(value, fallback = 0) {
+      const n = Number(value);
+      return Number.isFinite(n) ? n : fallback;
+    }
+
+    function getLiveNetValue(item, field) {
+      const rawDirect = item?.[field];
+      const direct = Number(rawDirect);
+      if (rawDirect !== null && rawDirect !== undefined && rawDirect !== '' && Number.isFinite(direct)) return direct;
+
+      // Eski leaderboard kayıtlarında ags_net/oabt_net NULL olabilir.
+      // raw_inputs içindeki D/Y değerlerinden gerçek neti yeniden üret.
+      const raw = item?.raw_inputs || {};
+      if (field === 'oabt_net') {
+        const d = toFiniteNumber(raw['oabt-d'], 0);
+        const y = toFiniteNumber(raw['oabt-y'], 0);
+        return Math.max(0, d - (y / 4));
+      }
+
+      const pairs = [
+        ['sozel-d','sozel-y',15], ['sayisal-d','sayisal-y',15],
+        ['tarih-d','tarih-y',6], ['cografya-d','cografya-y',6],
+        ['egitim-d','egitim-y',30], ['mevzuat-d','mevzuat-y',8]
+      ];
+      let total = 0;
+      for (const [dId, yId, maxQ] of pairs) {
+        const d = Math.min(maxQ, Math.max(0, toFiniteNumber(raw[dId], 0)));
+        const y = Math.min(maxQ - d, Math.max(0, toFiniteNumber(raw[yId], 0)));
+        total += Math.max(0, d - y / 4);
+      }
+      return total;
+    }
+
+    function formatLiveNumber(value, decimals = 2) {
+      const n = Number(value);
+      return Number.isFinite(n) ? n.toFixed(decimals) : '--';
     }
 
     function renderLeaderboardUI() {
@@ -2283,11 +2976,11 @@ body{
                   <span class="font-bold text-white text-xs truncate">${item.full_name}</span>
                   ${isMe ? '<span class="px-1.5 py-0.2 rounded bg-indigo-600 text-white text-[9px] font-extrabold">SİZ</span>' : ''}
                 </div>
-                <span class="text-[10px] text-slate-400 font-mono block">AGS: ${parseFloat(item.ags_net).toFixed(2)} | ÖABT: ${parseFloat(item.oabt_net).toFixed(2)}</span>
+                <span class="text-[10px] text-slate-400 font-mono block">AGS: ${formatLiveNumber(getLiveNetValue(item, 'ags_net'), 2)} | ÖABT: ${formatLiveNumber(getLiveNetValue(item, 'oabt_net'), 2)}</span>
               </div>
             </div>
             <div class="text-right flex-shrink-0">
-              <span class="font-black text-emerald-400 text-xs sm:text-sm font-mono block">${parseFloat(item.score).toFixed(3)} P</span>
+              <span class="font-black text-emerald-400 text-xs sm:text-sm font-mono block">${formatLiveNumber(item.score, 3)} P</span>
               <span class="text-[9px] text-slate-500 font-mono">P2-10</span>
             </div>
           </div>
@@ -2409,9 +3102,22 @@ body{
       }
       rank = Math.max(1, Math.min(P2_MODEL.candidateCount, Math.round(rank)));
 
+      // 2026 MEB-AGS resmi Türkiye istatistikleri: Z-Skor katmanında kullanılır.
+      // 120 kişilik P2 veri setinden üretilen puan/sıra tahmin modeli aynen korunur.
+      const OFFICIAL_TEST_STATS = {
+        sozel:    { mean: 8.3,  std: 3.2 },
+        sayisal:  { mean: 3.4,  std: 3.9 },
+        tarih:    { mean: 2.7,  std: 2.1 },
+        cografya: { mean: 2.2,  std: 1.7 },
+        egitim:   { mean: 11.2, std: 6.3 },
+        mevzuat:  { mean: 2.5,  std: 2.4 },
+        oabt:     { mean: 33.5, std: 9.2 }
+      };
+
       const z_scores = {};
       keys.forEach(k => {
-        z_scores[k] = (Number(userNets[k] || 0) - P2_MODEL.mean[k]) / (P2_MODEL.std[k] || 1);
+        const stats = OFFICIAL_TEST_STATS[k];
+        z_scores[k] = (Number(userNets[k] || 0) - stats.mean) / stats.std;
       });
 
       const keysForMatch = ['sozel','sayisal','tarih','cografya','egitim','mevzuat','oabt'];
@@ -2450,11 +3156,19 @@ body{
       const max2027Rank = Math.round(exact2026Rank * 1.05);
       const rankText = (exact2026Rank === 1) ? "1 - 1" : `${min2027Rank.toLocaleString('tr-TR')} - ${max2027Rank.toLocaleString('tr-TR')}`;
 
-      document.getElementById('result-rank-range').innerText = rankText;
-      document.getElementById('result-p2-score').innerText = parseFloat(baseScore).toFixed(5);
-      document.getElementById('result-2026-rank').innerText = `${exact2026Rank.toLocaleString('tr-TR')}. Sıra`;
+      const resultRankRange = document.getElementById('result-rank-range'); if (resultRankRange) resultRankRange.innerText = rankText;
+      const resultP2 = document.getElementById('result-p2-score'); if (resultP2) resultP2.innerText = toFiniteNumber(baseScore, 0).toFixed(5);
+      const resultRank = document.getElementById('result-2026-rank'); if (resultRank) resultRank.innerText = `${exact2026Rank.toLocaleString('tr-TR')}. Sıra`;
+
+      // Üstteki 2027 özet kartları her net değişiminde mutlaka yenilenir.
+      const p2Summary = document.getElementById('rk-p2');
+      const rankSummary = document.getElementById('rk-rank');
+      const oabtSummary = document.getElementById('rk-oabt');
+      if (p2Summary) p2Summary.innerText = toFiniteNumber(baseScore, 0).toFixed(5);
+      if (rankSummary) rankSummary.innerText = rankText;
+      if (oabtSummary) oabtSummary.innerText = Object.values(userNets).reduce((sum, v) => sum + (Number(v) || 0), 0).toFixed(2);
       const stickyRank = document.getElementById('sticky-rank-range'); if (stickyRank) stickyRank.innerText = rankText;
-      document.getElementById('percentile-label').innerText = `İlk %${data.percentile}`;
+      const percentileLabel = document.getElementById('percentile-label'); if (percentileLabel) percentileLabel.innerText = `İlk %${data.percentile}`;
 
       const statusBadge = document.getElementById('status-badge');
       if (exact2026Rank <= 450) {
@@ -2622,18 +3336,26 @@ body{
       const statElem = document.getElementById(`stat-${testKey}`);
       if (!zElem || !statElem) return;
 
-      const sign = z >= 0 ? '+' : '';
-      zElem.innerText = `${sign}${parseFloat(z).toFixed(2)} σ`;
+      const safeZ = Number(z);
+      if (!Number.isFinite(safeZ)) {
+        zElem.innerText = '0.00 σ';
+        statElem.innerText = 'Veri bekleniyor';
+        statElem.className = 'text-[9px] text-slate-500';
+        return;
+      }
 
-      if (z >= 1.0) {
+      const sign = safeZ >= 0 ? '+' : '';
+      zElem.innerText = `${sign}${safeZ.toFixed(2)} σ`;
+
+      if (safeZ >= 1.0) {
         zElem.className = "font-black text-emerald-400 block text-xs";
         statElem.innerText = "🔥 Çok Güçlü Getiri";
         statElem.className = "text-[9px] text-emerald-400 font-semibold";
-      } else if (z >= 0.2) {
+      } else if (safeZ >= 0.2) {
         zElem.className = "font-bold text-indigo-300 block text-xs";
         statElem.innerText = "👍 Ortalamanın Üstü";
         statElem.className = "text-[9px] text-indigo-300";
-      } else if (z >= -0.3) {
+      } else if (safeZ >= -0.3) {
         zElem.className = "font-semibold text-slate-300 block text-xs";
         statElem.innerText = "⚖️ Ortalama Civarı";
         statElem.className = "text-[9px] text-slate-400";
@@ -2710,10 +3432,10 @@ body{
         tr.className = "hover:bg-slate-800/40 transition-colors";
         tr.innerHTML = `
           <td class="py-2 px-2.5 font-medium"><span class="px-2 py-0.5 rounded-lg text-[10px] ${sc.tag}">${sc.name}</span></td>
-          <td class="py-2 px-2.5">${agsLabel}</td>
-          <td class="py-2 px-2.5">${oabtLabel}</td>
-          <td class="py-2 px-2.5 font-bold text-emerald-400 font-mono">${projectedScore.toFixed(3)}</td>
-          <td class="py-2 px-2.5 font-black text-right text-indigo-300 font-mono">${projectedRank.toLocaleString('tr-TR')}. Sıra</td>
+          <td>${agsLabel}</td>
+          <td>${oabtLabel}</td>
+          <td>${projectedScore.toFixed(3)}</td>
+          <td>${projectedRank.toLocaleString('tr-TR')}. Sıra</td>
         `;
         tbody.appendChild(tr);
       }
@@ -2779,5 +3501,531 @@ body{
     if(typeof radarChartInstance!=='undefined' && radarChartInstance) radarChartInstance.resize();
   });
 })();
-</script></body>
+</script>
+<script id="rk-legal-v29">
+(function(){
+  const legalTexts = {
+    privacy: {
+      title: "Gizlilik İlkeleri",
+      body: `
+        <div class="rk-legal-text">
+          <p>PDR Kampüs, kullanıcıların siteyi güvenli ve işlevsel biçimde kullanabilmesini amaçlar. Bu metin, platform üzerinden girilen bilgilerin nasıl ele alındığına ilişkin genel bilgilendirmedir.</p>
+          <h3>Toplanan bilgiler</h3>
+          <p>Hesaplama için kullanıcı tarafından girilen sınav netleri ve senaryo tercihleri kullanılabilir. Üyelik veya canlı sıralama özellikleri kullanıldığında hesapla ilişkili teknik bilgiler de işlenebilir.</p>
+          <h3>Bilgilerin kullanım amacı</h3>
+          <p>Veriler; puan ve sıralama tahmini üretmek, canlı sıralama özelliklerini çalıştırmak, site güvenliğini sağlamak ve hizmeti geliştirmek amacıyla kullanılabilir.</p>
+          <h3>Veri güvenliği</h3>
+          <p>Kullanıcı bilgilerinin yetkisiz erişime karşı korunması için makul teknik ve idari önlemler uygulanır. Ancak internet üzerindeki hiçbir aktarımın mutlak biçimde risksiz olduğu garanti edilemez.</p>
+          <h3>Üçüncü taraf hizmetler</h3>
+          <p>Platformun çalışması için kullanılan barındırma, veri tabanı, analiz veya benzeri üçüncü taraf hizmetleri kendi gizlilik koşullarına tabi olabilir.</p>
+          <h3>Haklar ve talepler</h3>
+          <p>Verilerinizle ilgili bir talebiniz veya gizlilik sorunuz varsa iletişim bölümündeki kanallardan PDR Kampüs ile iletişime geçebilirsiniz.</p>
+        </div>`
+    },
+    terms: {
+      title: "Kullanıcı Sözleşmesi",
+      body: `
+        <div class="rk-legal-text">
+          <p>PDR Kampüs'ü kullanarak aşağıdaki kullanım esaslarını kabul etmiş olursunuz.</p>
+          <h3>Hizmetin amacı</h3>
+          <p>Platform, sınav sonuçları ve kullanıcı tarafından girilen veriler üzerinden bilgilendirme amaçlı puan ve sıralama tahminleri sunar.</p>
+          <h3>Tahminlerin niteliği</h3>
+          <p>2027 puan ve sıralama sonuçları tahminidir; resmî sınav sonucu, ÖSYM sonucu veya herhangi bir kurum tarafından verilmiş kesin başarı sırası olarak değerlendirilmemelidir.</p>
+          <h3>Kullanıcı sorumluluğu</h3>
+          <p>Kullanıcı, girdiği bilgilerin doğruluğundan ve hesabının güvenliğinden sorumludur. Platformun kötüye kullanılması, otomatik saldırılar veya hizmetin çalışmasını engelleyici faaliyetler yasaktır.</p>
+          <h3>Değişiklikler</h3>
+          <p>Platform özellikleri, hesaplama yöntemleri ve bu sözleşme hizmetin geliştirilmesi kapsamında güncellenebilir.</p>
+        </div>`
+    },
+    cookies: {
+      title: "Çerez Politikası",
+      body: `
+        <div class="rk-legal-text">
+          <p>PDR Kampüs, sitenin temel işlevlerini sağlamak ve kullanıcı deneyimini sürdürebilmek için çerezler veya benzer teknolojiler kullanabilir.</p>
+          <h3>Zorunlu teknolojiler</h3>
+          <p>Oturum, güvenlik, tercihlerin korunması ve temel site işlevleri için gerekli teknik veriler kullanılabilir.</p>
+          <h3>Tercihler</h3>
+          <p>Kullanılan üçüncü taraf hizmetlerin kendi çerez politikaları bulunabilir. Tarayıcınızın ayarlarından çerezleri yönetebilirsiniz; ancak bazı özellikler bu durumda düzgün çalışmayabilir.</p>
+        </div>`
+    },
+    legal: {
+      title: "Yasal Uyarı",
+      body: `
+        <div class="rk-legal-text">
+          <p>PDR Kampüs üzerindeki puan, sıralama, yüzdelik dilim ve senaryo sonuçları bilgilendirme ve tahmin amacı taşır.</p>
+          <h3>Resmî sonuç yerine geçmez</h3>
+          <p>Platformdaki tahminler resmî sınav sonucu, yerleştirme sonucu veya kurum tarafından açıklanan kesin sıralama değildir. Nihai değerlendirmede ilgili resmî kurumların açıkladığı sonuçlar esas alınmalıdır.</p>
+          <h3>Hesaplama modelleri</h3>
+          <p>Tahminler mevcut veri setleri ve istatistiksel modeller kullanılarak oluşturulur. Gelecekteki sınavın gerçek dağılımı değişebileceğinden tahminlerde sapma oluşabilir.</p>
+        </div>`
+    },
+    contact: {
+      title: "İletişim",
+      body: `
+        <div class="rk-legal-text">
+          <p>Görüş, hata bildirimi veya yasal talepleriniz için PDR Kampüs iletişim kanalını kullanabilirsiniz.</p>
+          <p><strong>Web:</strong> pdrkampus.com.tr</p>
+          <p>İletişim e-posta adresi yayına alınmadan önce buraya eklenebilir.</p>
+        </div>`
+    }
+  };
+
+  const modal = document.getElementById('rk-legal-modal');
+  const title = document.getElementById('rk-legal-title');
+  const content = document.getElementById('rk-legal-content');
+  if(!modal || !title || !content) return;
+
+  function openLegal(key){
+    const item = legalTexts[key] || legalTexts.privacy;
+    title.textContent = item.title;
+    content.innerHTML = item.body;
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden','false');
+    document.body.style.overflow='hidden';
+  }
+  function closeLegal(){
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden','true');
+    document.body.style.overflow='';
+  }
+
+  document.querySelectorAll('[data-legal]').forEach(a=>{
+    a.addEventListener('click', e=>{
+      e.preventDefault();
+      openLegal(a.getAttribute('data-legal'));
+    });
+  });
+  document.querySelectorAll('[data-legal-close]').forEach(el=>el.addEventListener('click', closeLegal));
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeLegal(); });
+})();
+</script>
+
+
+<script>
+let rkExamTimer=null,rkExamSeconds=4500,rkExamFinished=false;
+function rkBeginExam(){
+  document.getElementById('rk-exam-lobby')?.classList.add('hidden');
+  document.getElementById('rk-exam-workspace')?.classList.remove('hidden');
+  rkExamFinished=false; rkExamSeconds=4500; rkRenderExam(); rkStartExamTimer();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+
+<script id="pdrkampus-v36-rank-tracker-js">
+(function(){
+  const KEY = 'pdrkampus_rank_history_v1';
+
+  function getHistory(){
+    try { return JSON.parse(localStorage.getItem(KEY) || '[]'); }
+    catch(e){ return []; }
+  }
+  function saveRank(rank){
+    const n = Number(rank);
+    if(!Number.isFinite(n) || n < 1) return;
+    const h = getHistory();
+    h.push({rank:Math.round(n), at:Date.now()});
+    localStorage.setItem(KEY, JSON.stringify(h.slice(-20)));
+    renderTracker();
+  }
+  function renderTracker(){
+    const rankEl=document.getElementById('rk-tracker-rank');
+    const changeEl=document.getElementById('rk-tracker-change');
+    if(!rankEl || !changeEl) return;
+    const h=getHistory();
+    if(!h.length){
+      rankEl.textContent='—';
+      changeEl.textContent='İlk hesaplamanı yap';
+      return;
+    }
+    const current=h[h.length-1].rank;
+    rankEl.textContent=current.toLocaleString('tr-TR') + '.';
+    if(h.length<2){
+      changeEl.textContent='İlk kaydın oluşturuldu';
+      return;
+    }
+    const previous=h[h.length-2].rank;
+    const diff=previous-current;
+    if(diff>0) changeEl.textContent='↑ '+diff.toLocaleString('tr-TR')+' sıra yükseldin';
+    else if(diff<0) changeEl.textContent='↓ '+Math.abs(diff).toLocaleString('tr-TR')+' sıra geriledin';
+    else changeEl.textContent='Sıran değişmedi';
+  }
+
+  window.rkSaveTrackedRank = saveRank;
+  document.addEventListener('DOMContentLoaded', function(){
+    renderTracker();
+    const btn=document.getElementById('rk-tracker-open');
+    if(btn) btn.addEventListener('click', function(){
+      const target=document.getElementById('tab-overview');
+      if(target) target.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+  });
+})();
+</script>
+
+
+<script id="pdrkampus-v39-oabt-distribution-js">
+(function(){
+  let rkOabtDistChart = null;
+
+  function getLiveOabtValues(){
+    const source = (typeof liveLeaderboardData !== 'undefined' && Array.isArray(liveLeaderboardData))
+      ? liveLeaderboardData
+      : (Array.isArray(window.liveLeaderboardData) ? window.liveLeaderboardData : []);
+    return source.map(item => {
+      const candidates = [
+        item && item.oabt_net,
+        item && item.raw_inputs && item.raw_inputs.oabt_net,
+        item && item.raw_inputs && item.raw_inputs.oabt,
+        item && item.oabt
+      ];
+      for(const value of candidates){
+        const n = Number(value);
+        if(Number.isFinite(n) && n >= 0 && n <= 50) return n;
+      }
+      return null;
+    }).filter(v => v !== null);
+  }
+
+  function buildBuckets(values){
+    // 5 netlik aralıkları: 0-4.99 ... 45-50
+    const buckets = [];
+    for(let start=0; start<50; start+=5){
+      buckets.push({
+        min:start,
+        max:Math.min(50,start+5),
+        label:`${start}–${Math.min(50,start+5)}`,
+        count:0
+      });
+    }
+    values.forEach(v=>{
+      const idx = Math.min(9, Math.floor(v/5));
+      buckets[idx].count++;
+    });
+    // 50.00 tam puanını son aralığa dahil et.
+    values.forEach(v=>{
+      if(v===50){
+        buckets[9].count++;
+      }
+    });
+    // Yukarıdaki loop 50'yi 10. kovaya zaten dahil ediyor; çift sayımı düzelt.
+    if(values.some(v=>v===50)) buckets[9].count -= values.filter(v=>v===50).length;
+    return buckets;
+  }
+
+  function buildAgsBuckets(values){
+    const buckets=[];
+    for(let start=0;start<80;start+=5) buckets.push({label:`${start}–${Math.min(80,start+5)}`,count:0});
+    values.forEach(v=>{const idx=Math.min(buckets.length-1,Math.floor(v/5));buckets[idx].count++;});
+    return buckets;
+  }
+
+  let rkDistributionMode='oabt';
+  window.switchNetDistribution=function(mode){
+    rkDistributionMode=(mode==='ags')?'ags':'oabt';
+    document.querySelectorAll('[data-dist-mode]').forEach(btn=>btn.classList.toggle('active',btn.dataset.distMode===rkDistributionMode));
+    const title=document.getElementById('rk-dist-title');
+    const desc=document.getElementById('rk-dist-desc');
+    const note=document.getElementById('rk-dist-note');
+    if(rkDistributionMode==='ags'){
+      if(title) title.textContent='Toplam AGS Net Dağılımı';
+      if(desc) desc.textContent='Canlı lige kayıtlı adayların toplam AGS netlerinin hangi aralıklarda toplandığını gösterir.';
+      if(note) note.textContent='Aralıklar 5 netlik dilimler halinde gruplanır. Grafik yalnızca canlı lige kaydedilmiş toplam AGS netlerini kullanır.';
+    }else{
+      if(title) title.textContent='ÖABT Net Dağılımı';
+      if(desc) desc.textContent='Canlı lige kayıtlı adayların ÖABT netlerinin hangi aralıklarda toplandığını gösterir.';
+      if(note) note.textContent='Aralıklar 5 netlik dilimler halinde gruplanır. Grafik yalnızca canlı lige kaydedilmiş ÖABT netlerini kullanır.';
+    }
+    window.renderOabtDistribution();
+  };
+
+  function getLiveAgsValues(){
+    const source=(typeof liveLeaderboardData!=='undefined' && Array.isArray(liveLeaderboardData))?liveLeaderboardData:(Array.isArray(window.liveLeaderboardData)?window.liveLeaderboardData:[]);
+    return source.map(item=>{
+      const candidates=[item&&item.ags_net,item&&item.raw_inputs&&item.raw_inputs.ags_net,item&&item.raw_inputs&&item.raw_inputs.ags];
+      for(const c of candidates){const n=Number(c);if(Number.isFinite(n))return Math.max(0,Math.min(80,n));}
+      const parts=['sozel','sayisal','tarih','cografya','egitim','mevzuat'];
+      let total=0,found=false;
+      for(const k of parts){
+        const c=item&&item.raw_inputs&&item.raw_inputs[k];
+        const n=Number(c); if(Number.isFinite(n)){total+=n;found=true;}
+      }
+      return found?Math.max(0,Math.min(80,total)):null;
+    }).filter(v=>v!==null);
+  }
+
+  window.renderOabtDistribution = function(){
+    const canvas=document.getElementById('rkOabtDistributionChart');
+    const totalEl=document.getElementById('rk-oabt-dist-total');
+    const updatedEl=document.getElementById('rk-oabt-dist-updated');
+    if(!canvas || typeof Chart==='undefined') return;
+
+    const values=rkDistributionMode==='ags'?getLiveAgsValues():getLiveOabtValues();
+    const buckets=rkDistributionMode==='ags'?buildAgsBuckets(values):buildBuckets(values);
+    const total=values.length;
+
+    if(totalEl) totalEl.textContent=`${total.toLocaleString('tr-TR')} aday`;
+    if(updatedEl) updatedEl.textContent=total ? `Son güncelleme: ${new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'})}` : 'Veri bekleniyor';
+
+    const labels=buckets.map(b=>b.label);
+    const data=buckets.map(b=>b.count);
+
+    if(rkOabtDistChart) rkOabtDistChart.destroy();
+
+    rkOabtDistChart=new Chart(canvas.getContext('2d'),{
+      type:'bar',
+      data:{
+        labels,
+        datasets:[{
+          label:'Aday sayısı',
+          data,
+          backgroundColor:'rgba(76,159,149,.78)',
+          borderColor:'rgba(76,159,149,1)',
+          borderWidth:1,
+          borderRadius:7,
+          maxBarThickness:44
+        }]
+      },
+      options:{
+        responsive:true,
+        maintainAspectRatio:false,
+        plugins:{
+          legend:{display:false},
+          tooltip:{
+            callbacks:{
+              title:(items)=>`${rkDistributionMode==='ags'?'AGS':'ÖABT'} ${items[0].label} net`,
+              label:(item)=>` ${item.raw.toLocaleString('tr-TR')} aday`
+            }
+          }
+        },
+        scales:{
+          x:{
+            grid:{display:false},
+            ticks:{font:{size:10},color:'#71808c'}
+          },
+          y:{
+            beginAtZero:true,
+            ticks:{precision:0,font:{size:10},color:'#71808c'},
+            grid:{color:'rgba(24,44,64,.07)'},
+            title:{display:true,text:'Aday sayısı',font:{size:10,weight:'700'},color:'#71808c'}
+          }
+        }
+      }
+    });
+  };
+
+  // Canlı lig renderer'ı veriyi güncellediğinde grafiği de güncelle.
+  const originalRender = window.renderLiveLeaderboard;
+  if(typeof originalRender==='function' && !originalRender.__rkWrapped){
+    const wrapped=function(){
+      const result=originalRender.apply(this,arguments);
+      setTimeout(window.renderOabtDistribution,50);
+      return result;
+    };
+    wrapped.__rkWrapped=true;
+    window.renderLiveLeaderboard=wrapped;
+  }
+
+  document.addEventListener('DOMContentLoaded',()=>{
+    setTimeout(window.renderOabtDistribution,500);
+  });
+})();
+</script>
+
+
+<script id="pdrkampus-v42-real-result-distribution">
+(function(){
+  let realResultDistributionMode='ags';
+  let realResultDistributionChart=null;
+
+  function getRealResultValues(mode){
+    const data=(typeof P2_RANKING_DATA!=='undefined' && Array.isArray(P2_RANKING_DATA))?P2_RANKING_DATA:[];
+    return data.map(item=>{
+      if(mode==='oabt') return Number(item&&item.oabt);
+      const parts=['sozel','sayisal','tarih','cografya','egitim','mevzuat'];
+      return parts.reduce((sum,key)=>sum+(Number(item&&item[key])||0),0);
+    }).filter(Number.isFinite);
+  }
+
+  function buildRealBuckets(values, max, step){
+    const count=Math.ceil(max/step);
+    const buckets=Array.from({length:count},(_,i)=>({label:`${i*step}-${(i+1)*step}`,count:0}));
+    values.forEach(v=>{
+      const safe=Math.max(0,Math.min(max,v));
+      const idx=Math.min(count-1,Math.floor(safe/step));
+      buckets[idx].count++;
+    });
+    return buckets;
+  }
+
+  window.switchRealResultDistribution=function(mode){
+    realResultDistributionMode=mode==='oabt'?'oabt':'ags';
+    document.querySelectorAll('[data-real-dist-mode]').forEach(btn=>btn.classList.toggle('active',btn.dataset.realDistMode===realResultDistributionMode));
+    const title=document.getElementById('rk-real-dist-title');
+    const desc=document.getElementById('rk-real-dist-desc');
+    const note=document.getElementById('rk-real-dist-note');
+    if(realResultDistributionMode==='oabt'){
+      if(title) title.textContent='ÖABT Net Dağılımı';
+      if(desc) desc.textContent='Veri tabanındaki 120 gerçek sonuç belgesinde ÖABT netlerinin hangi aralıklarda toplandığını gösterir.';
+      if(note) note.textContent='Grafik, kayıtlı 120 gerçek sonuç belgesindeki ÖABT netlerini kullanır.';
+    }else{
+      if(title) title.textContent='Toplam AGS Net Dağılımı';
+      if(desc) desc.textContent='Veri tabanındaki 120 gerçek sonuç belgesinde toplam AGS netlerinin hangi aralıklarda toplandığını gösterir.';
+      if(note) note.textContent='Grafik, kayıtlı 120 gerçek sonuç belgesindeki altı AGS testinin toplam netini kullanır.';
+    }
+    renderRealResultDistribution();
+  };
+
+  window.renderRealResultDistribution=function(){
+    const canvas=document.getElementById('rkRealResultDistributionChart');
+    if(!canvas || typeof Chart==='undefined') return;
+    const values=getRealResultValues(realResultDistributionMode);
+    const max=realResultDistributionMode==='oabt'?50:80;
+    const buckets=buildRealBuckets(values,max,5);
+    const totalEl=document.getElementById('rk-real-dist-total');
+    const avgEl=document.getElementById('rk-real-dist-average');
+    const rangeEl=document.getElementById('rk-real-dist-range');
+    if(totalEl) totalEl.textContent=values.length.toLocaleString('tr-TR');
+    const avg=values.length?values.reduce((a,b)=>a+b,0)/values.length:0;
+    const min=values.length?Math.min(...values):0;
+    const maxValue=values.length?Math.max(...values):0;
+    if(avgEl) avgEl.textContent=`Ortalama: ${avg.toFixed(2)} net`;
+    if(rangeEl) rangeEl.textContent=`Aralık: ${min.toFixed(2)} – ${maxValue.toFixed(2)}`;
+    if(realResultDistributionChart) realResultDistributionChart.destroy();
+    realResultDistributionChart=new Chart(canvas.getContext('2d'),{
+      type:'bar',
+      data:{labels:buckets.map(b=>b.label),datasets:[{label:'Gerçek aday sayısı',data:buckets.map(b=>b.count),backgroundColor:'rgba(209,123,91,.78)',borderColor:'rgba(209,123,91,1)',borderWidth:1,borderRadius:7,maxBarThickness:44}]},
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{title:(items)=>`${realResultDistributionMode==='ags'?'AGS':'ÖABT'} ${items[0].label} net`,label:(item)=>` ${item.raw.toLocaleString('tr-TR')} gerçek sonuç`}}},scales:{x:{grid:{display:false},ticks:{font:{size:10},color:'#71808c'}},y:{beginAtZero:true,ticks:{precision:0,font:{size:10},color:'#71808c'},grid:{color:'rgba(24,44,64,.07)'},title:{display:true,text:'Gerçek aday sayısı',font:{size:10,weight:'700'},color:'#71808c'}}}}
+    });
+  };
+
+  document.addEventListener('DOMContentLoaded',()=>setTimeout(window.renderRealResultDistribution,300));
+})();
+</script>
+
+<script id="pdrkampus-v39-oabt-distribution-fallback">
+(function(){
+  const oldRender=window.renderOabtDistribution;
+  window.renderOabtDistribution=function(){
+    try{
+      if((typeof liveLeaderboardData !== 'undefined' && Array.isArray(liveLeaderboardData))
+         || Array.isArray(window.liveLeaderboardData)){
+        return oldRender();
+      }
+      const rows=[...document.querySelectorAll('#live-leaderboard-body tr')];
+      const vals=rows.map(r=>{
+        const text=r.innerText||'';
+        const m=text.match(/(?:ÖABT|Oabt)[^\d]*(\d+(?:[.,]\d+)?)/i);
+        return m ? Number(m[1].replace(',','.')) : null;
+      }).filter(v=>Number.isFinite(v)&&v>=0&&v<=50);
+      const totalEl=document.getElementById('rk-oabt-dist-total');
+      const updatedEl=document.getElementById('rk-oabt-dist-updated');
+      if(totalEl) totalEl.textContent=`${vals.length.toLocaleString('tr-TR')} aday`;
+      if(updatedEl) updatedEl.textContent=vals.length?'Canlı lig verisi':'Veri bekleniyor';
+    }catch(e){}
+  };
+})();
+</script>
+
+<style id="pdrkampus-v44-subtest-distribution-css">
+.rk-subtest-dist{margin-top:22px;border-top:1px solid rgba(24,44,64,.08);padding-top:18px}.rk-subtest-dist-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:12px}.rk-subtest-dist-kicker{font:800 10px/1.2 "Space Mono",monospace;letter-spacing:.12em;color:#4c9f95}.rk-subtest-dist-title{font:800 18px/1.2 "Syne",sans-serif;color:#182c40;margin:5px 0 0}.rk-subtest-item{border:1px solid rgba(24,44,64,.09);border-radius:14px;background:#fff;margin-top:9px;overflow:hidden;transition:box-shadow .2s,border-color .2s}.rk-subtest-item.open{border-color:rgba(76,159,149,.35);box-shadow:0 8px 24px rgba(24,44,64,.07)}.rk-subtest-toggle{width:100%;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 16px;background:transparent;border:0;cursor:pointer;text-align:left;color:#182c40}.rk-subtest-left{display:flex;align-items:center;gap:11px;min-width:0}.rk-subtest-icon{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;background:#eef7f5;color:#327f77;font-weight:900;font-size:13px;flex:none}.rk-subtest-name{font-weight:800;font-size:13px}.rk-subtest-summary{font-size:11px;color:#7a8792;margin-top:2px}.rk-subtest-chevron{font-size:16px;color:#7a8792;transition:transform .2s}.rk-subtest-item.open .rk-subtest-chevron{transform:rotate(180deg)}.rk-subtest-body{display:none;padding:0 16px 16px}.rk-subtest-item.open .rk-subtest-body{display:block}.rk-subtest-stats{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px}.rk-subtest-stat{padding:7px 10px;border-radius:9px;background:#f6f8f8;color:#60707d;font-size:10px}.rk-subtest-stat strong{color:#182c40;font-size:11px}.rk-subtest-chart{height:210px;position:relative}.rk-subtest-note{margin-top:9px;font-size:10px;color:#89949c}.rk-subtest-empty{padding:18px;text-align:center;color:#7a8792;font-size:12px;background:#f8faf9;border-radius:12px}@media(max-width:680px){.rk-subtest-chart{height:190px}.rk-subtest-toggle{padding:13px}.rk-subtest-body{padding:0 12px 13px}}
+</style>
+<script id="pdrkampus-v44-subtest-distribution">
+(function(){
+  const TESTS=[
+    {key:'sozel',name:'Sözel Yetenek',short:'Sözel'},
+    {key:'sayisal',name:'Sayısal Yetenek',short:'Sayısal'},
+    {key:'tarih',name:'Tarih',short:'Tarih'},
+    {key:'cografya',name:'Coğrafya',short:'Coğrafya'},
+    {key:'egitim',name:'Eğitim Bilimleri',short:'Eğitim'},
+    {key:'mevzuat',name:'Mevzuat',short:'Mevzuat'}
+  ];
+  const charts={};
+  function data(){return (typeof P2_RANKING_DATA!=='undefined'&&Array.isArray(P2_RANKING_DATA))?P2_RANKING_DATA:[];}
+  function values(key){return data().map(x=>Number(x&&x[key])).filter(Number.isFinite);} 
+  function buckets(vals,max){
+    const step=2.5, count=Math.ceil(max/step), out=Array.from({length:count},(_,i)=>({label:`${(i*step).toLocaleString('tr-TR')}-${((i+1)*step).toLocaleString('tr-TR')}`,count:0}));
+    vals.forEach(v=>{const safe=Math.max(0,Math.min(max,v)); const i=Math.min(count-1,Math.floor(safe/step)); out[i].count++;});
+    return out;
+  }
+  function renderChart(key,canvas){
+    if(typeof Chart==='undefined'||!canvas)return;
+    const vals=values(key), bs=buckets(vals, key==='egitim'?30:key==='sozel'?15:key==='sayisal'?15:key==='tarih'?6:key==='cografya'?6:8);
+    if(charts[key])charts[key].destroy();
+    charts[key]=new Chart(canvas.getContext('2d'),{type:'bar',data:{labels:bs.map(b=>b.label),datasets:[{label:'Aday sayısı',data:bs.map(b=>b.count),backgroundColor:'rgba(76,159,149,.78)',borderColor:'rgba(76,159,149,1)',borderWidth:1,borderRadius:6,maxBarThickness:30}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{title:i=>`${TESTS.find(t=>t.key===key).name}: ${i[0].label} net`,label:i=>` ${i.raw.toLocaleString('tr-TR')} aday`}}},scales:{x:{grid:{display:false},ticks:{font:{size:9},color:'#71808c',maxRotation:45,minRotation:0}},y:{beginAtZero:true,ticks:{precision:0,font:{size:10},color:'#71808c'},grid:{color:'rgba(24,44,64,.07)'},title:{display:true,text:'Aday sayısı',font:{size:10,weight:'700'},color:'#71808c'}}}}});
+  }
+  function openTest(key){
+    const item=document.querySelector(`[data-rk-subtest="${key}"]`); if(!item)return;
+    const was=item.classList.contains('open');
+    document.querySelectorAll('.rk-subtest-item').forEach(x=>x.classList.remove('open'));
+    if(!was){item.classList.add('open'); const canvas=item.querySelector('canvas'); requestAnimationFrame(()=>renderChart(key,canvas));}
+  }
+  window.renderP2SubtestDistributions=function(){
+    const host=document.getElementById('rk-real-dist-subtests'); if(!host)return;
+    const ds=data();
+    if(!ds.length){host.innerHTML='<div class="rk-subtest-empty">Gerçek sonuç verileri yüklenemedi.</div>';return;}
+    host.innerHTML=`<div class="rk-subtest-dist-head"><div><div class="rk-subtest-dist-kicker">DERS DERS ANALİZ</div><div class="rk-subtest-dist-title">AGS Test Dağılımları</div></div><div class="rk-subtest-summary">${ds.length} gerçek sonuç</div></div>`+TESTS.map((t,i)=>{const v=values(t.key),avg=v.reduce((a,b)=>a+b,0)/v.length;return `<div class="rk-subtest-item" data-rk-subtest="${t.key}"><button class="rk-subtest-toggle" type="button" onclick="openP2Subtest('${t.key}')"><span class="rk-subtest-left"><span class="rk-subtest-icon">${i+1}</span><span><span class="rk-subtest-name">${t.name}</span><span class="rk-subtest-summary">Ortalama ${avg.toFixed(2)} net · ${v.length} aday</span></span></span><span class="rk-subtest-chevron">⌄</span></button><div class="rk-subtest-body"><div class="rk-subtest-stats"><span class="rk-subtest-stat">Ortalama <strong>${avg.toFixed(2)}</strong></span><span class="rk-subtest-stat">En düşük <strong>${Math.min(...v).toFixed(2)}</strong></span><span class="rk-subtest-stat">En yüksek <strong>${Math.max(...v).toFixed(2)}</strong></span></div><div class="rk-subtest-chart"><canvas data-rk-subtest-canvas="${t.key}"></canvas></div><div class="rk-subtest-note">120 gerçek sonuçtaki ${t.name} netleri 2,5 netlik aralıklarda gruplanmıştır.</div></div></div>`;}).join('');
+  };
+  window.openP2Subtest=function(key){openTest(key);};
+  function inject(){
+    const card=document.querySelector('.rk-real-distribution-card'); if(!card||document.getElementById('rk-real-dist-subtests'))return;
+    const host=document.createElement('div');host.id='rk-real-dist-subtests';host.className='rk-subtest-dist';
+    const note=card.querySelector('.rk-real-dist-note'); if(note)note.insertAdjacentElement('beforebegin',host); else card.appendChild(host);
+    window.renderP2SubtestDistributions();
+  }
+  document.addEventListener('DOMContentLoaded',()=>setTimeout(inject,350));
+})();
+</script>
+<style id="rk-direct-analysis-v47">
+.rk-oabt-distribution-card,.rk-real-distribution-card{scroll-margin-top:112px!important;scroll-snap-margin-top:112px!important}
+@media(max-width:680px){.rk-oabt-distribution-card,.rk-real-distribution-card{scroll-margin-top:84px!important;scroll-snap-margin-top:84px!important}}
+</style>
+<style id="rk-analysis-target-v48">
+#rk-live-analysis-target,#rk-real-analysis-target{scroll-margin-top:96px!important;scroll-snap-margin-top:96px!important}
+@media(max-width:680px){#rk-live-analysis-target,#rk-real-analysis-target{scroll-margin-top:76px!important;scroll-snap-margin-top:76px!important}}
+
+/* V49: Dinamik içerik tek bir anchor bloğunun içinde tutulur. Veri sonradan gelse de anchor'ın üst kenarı değişmez. */
+.rk-live-analysis-group{display:flex;flex-direction:column;gap:12px;width:100%;scroll-margin-top:96px!important;scroll-snap-margin-top:96px!important}
+@media(max-width:680px){.rk-live-analysis-group{scroll-margin-top:76px!important;scroll-snap-margin-top:76px!important}}
+</style>
+<script id="rk-analysis-navigation-v48">
+(function(){
+  window.rkNavigateToSection=function(tabId, sectionId, label){
+    const tab=document.getElementById(tabId);
+    const target=document.getElementById(sectionId);
+    if(!tab||!target)return;
+    if(typeof switchTab==='function')switchTab(tabId);
+    document.querySelectorAll('.rk-nav-button').forEach(b=>b.classList.remove('active'));
+    const current=document.getElementById('rk-current-section'); if(current)current.textContent=label||'Analizler';
+    const header=document.querySelector('.rk-topbar');
+    const offset=(header?header.getBoundingClientRect().height:72)+(window.innerWidth<=680?8:14);
+    const go=()=>{
+      const y=target.getBoundingClientRect().top+window.pageYOffset-offset;
+      window.scrollTo({top:Math.max(0,y),behavior:'smooth'});
+    };
+    requestAnimationFrame(()=>{go();setTimeout(go,180);setTimeout(go,500);});
+    if(window.innerWidth<=680 && typeof rkCloseMobileMenu==='function')rkCloseMobileMenu();
+  };
+})();
+</script>
+
+<script>
+(function(){
+  window.rkNavigateToSection=function(tabId,sectionId,label){
+    const tab=document.getElementById(tabId), target=document.getElementById(sectionId);
+    if(!tab||!target)return;
+    if(typeof switchTab==='function') switchTab(tabId);
+    document.querySelectorAll('.rk-nav-button').forEach(b=>b.classList.remove('active'));
+    const current=document.getElementById('rk-current-section'); if(current) current.textContent=label||'Analizler';
+    const go=()=>{
+      const h=document.querySelector('.rk-topbar');
+      const headerHeight=h ? h.getBoundingClientRect().height : (window.innerWidth<=680?64:82);
+      const y=target.getBoundingClientRect().top+window.pageYOffset-headerHeight-14;
+      window.scrollTo({top:Math.max(0,y),behavior:'smooth'});
+    };
+    requestAnimationFrame(go);
+    if(window.innerWidth<=680 && typeof rkCloseMobileMenu==='function') rkCloseMobileMenu();
+  };
+})();
+</script>
+</body>
 </html>
