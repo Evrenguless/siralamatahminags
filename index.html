@@ -1484,6 +1484,10 @@ body.rk-focus-mode .rk-main { padding-bottom: 0 !important; }
 }
 </style>
 
+
+<style>
+.rk-historical-card{position:relative;overflow:hidden;background:#fffdf8;border:1px solid #e8e1d7;border-radius:18px;padding:20px;box-shadow:0 10px 28px rgba(31,52,69,.07);margin-top:4px}.rk-historical-card:before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:linear-gradient(90deg,#2f897b 0%,#2f897b 52%,#e77865 100%)}.rk-historical-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:15px}.rk-historical-kicker{font-size:9px;letter-spacing:.15em;color:#2f897b;font-weight:900;margin-bottom:5px}.rk-historical-head h3{margin:0;color:#182c40;font-size:18px;font-weight:850;letter-spacing:-.025em}.rk-historical-head p{margin:6px 0 0;color:#6c7883;font-size:11px;line-height:1.55;max-width:760px}.rk-historical-badge{white-space:nowrap;border:1px solid rgba(47,137,123,.24);background:#f0f8f6;color:#2f897b;border-radius:999px;padding:7px 10px;font-size:9px;font-weight:900}.rk-historical-kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0 0 16px}.rk-historical-kpis>div{background:#fff;border:1px solid #e8e1d7;border-radius:13px;padding:12px 13px}.rk-historical-kpis span{display:block;color:#71808a;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.06em}.rk-historical-kpis strong{display:block;color:#203447;font-size:22px;line-height:1.1;margin-top:4px}.rk-historical-kpis small{color:#9a6b61;font-size:9px;font-weight:800}.rk-historical-chart-wrap{height:310px;padding:8px 4px 2px;background:linear-gradient(180deg,#fffdf8 0%,#fbf7ef 100%);border-radius:14px}.rk-historical-table-wrap{overflow:auto;margin-top:14px}.rk-historical-table{width:100%;border-collapse:separate;border-spacing:0;min-width:760px;font-size:10px}.rk-historical-table th{background:#f5f0e8;color:#66747f;text-align:left;padding:10px 9px;font-size:9px;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}.rk-historical-table th:first-child{border-radius:9px 0 0 9px}.rk-historical-table th:last-child{border-radius:0 9px 9px 0}.rk-historical-table td{padding:10px 9px;border-bottom:1px solid #eee7dc;color:#435361;font-weight:600;white-space:nowrap}.rk-historical-table tbody tr:hover td{background:#faf7f1}.rk-historical-table td:first-child{font-weight:900;color:#203447}.rk-historical-table td:nth-child(4){color:#2f897b;font-weight:900}.rk-historical-table td:last-child{color:#d36f5d;font-weight:900}.rk-historical-note{margin-top:13px;padding:11px 13px;border:1px solid #eadfd3;background:#fff8ef;border-radius:12px;color:#6d655d;font-size:10px;line-height:1.55}.rk-historical-note strong{color:#4d443c}.rk-historical-sources{margin-top:9px;color:#9a9288;font-size:9px;line-height:1.5}@media(max-width:700px){.rk-historical-card{padding:15px}.rk-historical-head{flex-direction:column}.rk-historical-kpis{grid-template-columns:1fr}.rk-historical-chart-wrap{height:270px}}
+</style>
 </head>
 <body class="rk-app-body">
 <aside class="rk-sidebar" id="rk-sidebar">
@@ -1513,6 +1517,12 @@ body.rk-focus-mode .rk-main { padding-bottom: 0 !important; }
 </button>
 <button class="rk-nav-button rk-analysis-button" type="button" onclick="rkNavigateToSection('tab-matches','rk-real-analysis-target','Gerçek Sonuç Analizi')">
 <span class="rk-nav-icon">▤</span><span>Gerçek Sonuç Analizi</span><span class="rk-nav-arrow">→</span>
+</button>
+<button class="rk-nav-button rk-analysis-button" type="button" onclick="rkNavigateToSection('tab-overview','rk-marginal-p2','Kişisel Puan Analizi')">
+<span class="rk-nav-icon">✦</span><span>Kişisel Puan Analizi</span><span class="rk-nav-arrow">→</span>
+</button>
+<button class="rk-nav-button rk-analysis-button" type="button" onclick="rkNavigateToSection('tab-leaderboard','rk-historical-appointments','Tarihsel Atama Analizi')">
+<span class="rk-nav-icon">◫</span><span>Tarihsel Atama Analizi</span><span class="rk-nav-arrow">→</span>
 </button>
 </nav>
 
@@ -1726,17 +1736,6 @@ body.rk-focus-mode .rk-main { padding-bottom: 0 !important; }
 </div>
 </div></div></section>
 <div class="rk-stat-strip"><div class="rk-stat-card stat-p2"><span>2027 P2-10 Tahmini</span><strong id="rk-p2">--</strong></div><div class="rk-stat-card stat-rank"><span>2027 Tahmini Sıra</span><strong id="rk-rank">-- - --</strong></div><div class="rk-stat-card stat-oabt"><span>Toplam Girilen Net</span><strong id="rk-oabt">0.00</strong></div></div><section class="rk-content-stage"><div class="tab-content flex flex-col gap-4" id="tab-overview">
-<div class="bg-slate-900/80 border border-emerald-500/30 rounded-3xl p-4 shadow-xl">
-<div class="flex items-center justify-between mb-2.5 pb-2 border-b border-slate-800">
-<h3 class="text-xs font-bold text-emerald-300 uppercase tracking-wider flex items-center gap-1.5">
-<span>🩺 Akıllı Koçluk &amp; Net Reçetesi</span>
-</h3>
-<span class="text-[9px] text-emerald-400 bg-emerald-950/80 border border-emerald-800/60 px-2 py-0.5 rounded-md font-semibold">Tavsiyeler</span>
-</div>
-<div class="space-y-2 text-xs text-slate-300 leading-relaxed" id="prescription-content">
-<div class="text-slate-500 italic text-[11px]">Netlerinizi girdikten sonra sistem zayıf ve güçlü yönlerinizi tarayarak size özel nokta atışı çalışma tavsiyeleri üretecektir.</div>
-</div>
-</div>
 <div class="bg-slate-900/80 border border-slate-800/80 rounded-3xl p-4 shadow-xl">
 <div class="flex justify-between items-center mb-2 pb-1.5 border-b border-slate-800">
 <h4 class="text-xs font-bold text-slate-200 uppercase tracking-wider">🕸️ Başarı Profili Radar Grafiği</h4>
@@ -1784,6 +1783,40 @@ body.rk-focus-mode .rk-main { padding-bottom: 0 !important; }
 </div>
 </div>
 </div>
+
+<div class="rk-marginal-card" id="rk-marginal-p2">
+  <div class="rk-marginal-head">
+    <div>
+      <div class="rk-marginal-kicker">KİŞİSEL PUAN ANALİZİ</div>
+      <h3>⚡ 1 Netin Tahmini P2 Etkisi</h3>
+      <p>Mevcut netlerini baz alarak bir testte daha net yaptığında P2 puanın ve tahmini sıran nasıl değişebilir?</p>
+    </div>
+    <div class="rk-marginal-badge"><span></span> CANLI HESAP</div>
+  </div>
+  <div class="rk-marginal-grid">
+    <div class="rk-marginal-tests" id="rk-marginal-tests">
+      <button type="button" class="rk-marginal-test active" data-marginal-test="oabt" onclick="selectMarginalTest('oabt')"><span>ÖABT</span><strong id="marginal-effect-oabt">+0,70</strong></button>
+      <button type="button" class="rk-marginal-test" data-marginal-test="tarih" onclick="selectMarginalTest('tarih')"><span>Tarih</span><strong id="marginal-effect-tarih">+0,47</strong></button>
+      <button type="button" class="rk-marginal-test" data-marginal-test="sozel" onclick="selectMarginalTest('sozel')"><span>Sözel</span><strong id="marginal-effect-sozel">+0,41</strong></button>
+      <button type="button" class="rk-marginal-test" data-marginal-test="cografya" onclick="selectMarginalTest('cografya')"><span>Coğrafya</span><strong id="marginal-effect-cografya">+0,38</strong></button>
+      <button type="button" class="rk-marginal-test" data-marginal-test="sayisal" onclick="selectMarginalTest('sayisal')"><span>Sayısal</span><strong id="marginal-effect-sayisal">+0,34</strong></button>
+      <button type="button" class="rk-marginal-test" data-marginal-test="mevzuat" onclick="selectMarginalTest('mevzuat')"><span>Mevzuat</span><strong id="marginal-effect-mevzuat">+0,27</strong></button>
+      <button type="button" class="rk-marginal-test" data-marginal-test="egitim" onclick="selectMarginalTest('egitim')"><span>Eğitim</span><strong id="marginal-effect-egitim">+0,25</strong></button>
+    </div>
+    <div class="rk-marginal-detail">
+      <div class="rk-marginal-detail-top"><span id="marginal-selected-label">ÖABT</span><b id="marginal-current-net">-- net</b></div>
+      <div class="rk-marginal-slider-row"><span>+1</span><input id="marginal-step" type="range" min="1" max="5" step="1" value="1" oninput="updateMarginalP2Panel()"><span>+5</span></div>
+      <div class="rk-marginal-value"><span id="marginal-step-label">+1 net</span><strong id="marginal-score-gain">+0,70</strong><small>P2 tahmini katkı</small></div>
+      <div class="rk-marginal-results">
+        <div><span>Mevcut P2</span><strong id="marginal-base-score">--</strong></div>
+        <div class="rk-marginal-arrow">→</div>
+        <div><span>Yeni P2</span><strong id="marginal-new-score">--</strong></div>
+      </div>
+      <div class="rk-marginal-rank"><span>Tahmini sıra</span><strong id="marginal-rank-change">-- → --</strong></div>
+    </div>
+  </div>
+  <div class="rk-marginal-foot"><span>ⓘ</span> Değerler, PDRkampüs'teki doğrulanmış gerçek sonuçlardan oluşturulan tahmini model üzerinden hesaplanır; ÖSYM'nin resmi “1 net = X puan” katsayısı değildir.</div>
+</div>
 </div><div class="tab-content flex flex-col gap-3" id="tab-leaderboard">
 <div id="rk-live-analysis-target" class="rk-live-analysis-group">
 <div class="bg-slate-900/90 border border-indigo-500/40 rounded-3xl p-4 shadow-xl flex flex-wrap items-center justify-between gap-3 text-xs">
@@ -1830,7 +1863,55 @@ body.rk-focus-mode .rk-main { padding-bottom: 0 !important; }
   <div class="rk-oabt-dist-note" id="rk-dist-note">Aralıklar 5 netlik dilimler halinde gruplanır. Grafik yalnızca canlı lige kaydedilmiş ÖABT netlerini kullanır.</div>
 </div>
 </div>
-</div><div class="tab-content flex flex-col gap-4" id="tab-simulator">
+</div><div class="rk-historical-card" id="rk-historical-appointments">
+  <div class="rk-historical-head">
+    <div>
+      <div class="rk-historical-kicker">2016–2026 · PDR SINAV & ATAMA VERİSİ</div>
+      <h3>📊 PDR Adayı vs Kontenjan</h3>
+      <p>Her yıl sınava giren PDR aday sayısını, Rehberlik kontenjanını ve mevcut toplam öğretmen ataması içindeki PDR payını birlikte gösterir.</p>
+    </div>
+    <div class="rk-historical-badge">KULLANILAN VERİ: ÖSYM VERİLERİ</div>
+  </div>
+  <div class="rk-historical-kpis">
+    <div><span>En yüksek PDR aday sayısı</span><strong>24.678</strong><small>2023</small></div>
+    <div><span>En yüksek PDR kontenjanı</span><strong>3.604</strong><small>2023</small></div>
+    <div><span>En yüksek PDR payı</span><strong>%8,45</strong><small>2021</small></div>
+  </div>
+  <div class="rk-historical-chart-title">
+    <div><strong>1. Sınava Giren PDR Adayı — PDR Kontenjanı</strong><span>Yıllara göre aday havuzundaki büyüme ve kontenjan değişimi.</span></div>
+  </div>
+  <div class="rk-historical-chart-wrap rk-historical-chart-tall"><canvas id="rkHistoricalAppointmentsChart"></canvas></div>
+  <div class="rk-historical-chart-title rk-historical-secondary-title">
+    <div><strong>2. PDR Kontenjanının Toplam Öğretmen Atamasındaki Payı</strong><span>Her yıl PDR kontenjanının toplam öğretmen ataması içindeki yüzdelik payı.</span></div>
+  </div>
+  <div class="rk-historical-share-wrap"><canvas id="rkHistoricalShareChart"></canvas></div>
+  <div class="rk-historical-share-kpis">
+    <div><span>En yüksek PDR payı</span><strong>%8,45</strong><small>2021</small></div>
+    <div><span>2023 PDR payı</span><strong>%8,09</strong><small>44.573 toplam atama içinde 3.604 PDR</small></div>
+    <div><span>2026 PDR payı</span><strong>%6,03</strong><small>10.000 toplam atama içinde 603 PDR</small></div>
+  </div>
+  <div class="rk-historical-table-wrap">
+    <table class="rk-historical-table">
+      <thead><tr><th>Sınav yılı</th><th>Sınava giren PDR adayı</th><th>PDR kontenjanı</th><th>Toplam öğretmen ataması</th><th>PDR'nin toplam atamadaki payı</th></tr></thead>
+      <tbody>
+        <tr><td>2026</td><td>23.212</td><td>603</td><td>10.000</td><td>%6,03</td></tr>
+        <tr><td>2025</td><td>19.387</td><td>377</td><td>15.000</td><td>%2,51</td></tr>
+        <tr><td>2024</td><td>23.235</td><td>1.597</td><td>19.968</td><td>%8,00</td></tr>
+        <tr><td>2023</td><td>24.678</td><td>3.604</td><td>44.573</td><td>%8,09</td></tr>
+        <tr><td>2022</td><td>22.023</td><td>467</td><td>34.682</td><td>%1,35</td></tr>
+        <tr><td>2021</td><td>21.488</td><td>1.808</td><td>21.407</td><td>%8,45</td></tr>
+        <tr><td>2020</td><td>20.811</td><td>2.630</td><td>40.925</td><td>%6,43</td></tr>
+        <tr><td>2019</td><td>18.420</td><td>2.176</td><td>41.379</td><td>%5,26</td></tr>
+        <tr><td>2018</td><td>16.180</td><td>922</td><td>25.577</td><td>%3,60</td></tr>
+        <tr><td>2017</td><td>14.075</td><td>707</td><td>20.857</td><td>%3,39</td></tr>
+        <tr><td>2016</td><td>10.450</td><td>2.099</td><td>49.311</td><td>%4,26</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="rk-historical-note"><strong>Önemli:</strong> “Sınava Giren PDR Adayı” sayıları senin verdiğin 2016–2026 kesin katılım tablosundan, PDR kontenjanları gönderdiğin yıllık Rehberlik atama görselinden, toplam öğretmen atama sayıları ise aynı görseldeki yıllık toplamlar üzerinden alınmıştır. “PDR’nin toplam atamadaki payı” = PDR kontenjanı ÷ toplam öğretmen ataması × 100. 2026 için toplam öğretmen ataması <strong>10.000</strong> olarak kullanılmıştır.</div>
+  <div class="rk-historical-sources">Veri kaynağı: ÖSYM verileri ve yıllara ait öğretmen atama/ kontenjan verileri.</div>
+</div>
+<div class="tab-content flex flex-col gap-4" id="tab-simulator">
 <div class="bg-slate-900/80 border border-indigo-500/30 rounded-3xl p-4 shadow-xl">
 <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-800">
 <h3 class="text-xs font-bold text-indigo-300 uppercase tracking-wider">🎛️ 2027 Sınav Zorluğu Simülatörü</h3>
@@ -3130,9 +3211,70 @@ const P2_VALID_RESULT_COUNT = P2_RANKING_DATA.length;
       renderScenarioMatrix(userNets);
     }
 
+
+    // V53 — Kullanıcının mevcut netlerine göre 1 netin marjinal P2 etkisi.
+    let marginalSelectedTest = 'oabt';
+    let marginalBaseNets = null;
+    let marginalBaseScore = null;
+    let marginalBaseRank = null;
+    const MARGINAL_TESTS = {
+      sozel:{label:'Sözel',max:15}, sayisal:{label:'Sayısal',max:15}, tarih:{label:'Tarih',max:6},
+      cografya:{label:'Coğrafya',max:6}, egitim:{label:'Eğitim',max:30}, mevzuat:{label:'Mevzuat',max:8}, oabt:{label:'ÖABT',max:50}
+    };
+    function estimateRankFromScoreForMarginal(score){
+      const data=P2_RANKING_DATA;
+      if(!Array.isArray(data)||!data.length) return null;
+      if(score>=data[0].score) return data[0].rank;
+      if(score<=data[data.length-1].score) return data[data.length-1].rank;
+      let lo=0,hi=data.length-1;
+      while(lo<=hi){const mid=(lo+hi)>>1;if(data[mid].score>=score)lo=mid+1;else hi=mid-1;}
+      const upper=data[hi],lower=data[lo];
+      const t=(upper.score-score)/(upper.score-lower.score);
+      return Math.max(1,Math.round(upper.rank+t*(lower.rank-upper.rank)));
+    }
+    function selectMarginalTest(key){
+      if(!MARGINAL_TESTS[key])return;
+      marginalSelectedTest=key;
+      document.querySelectorAll('.rk-marginal-test').forEach(btn=>btn.classList.toggle('active',btn.dataset.marginalTest===key));
+      updateMarginalP2Panel();
+    }
+    function updateMarginalP2Panel(){
+      if(!marginalBaseNets||marginalBaseScore===null)return;
+      const test=MARGINAL_TESTS[marginalSelectedTest];
+      const stepEl=document.getElementById('marginal-step');
+      const steps=stepEl?Number(stepEl.value)||1:1;
+      const current=Number(marginalBaseNets[marginalSelectedTest]||0);
+      const maxAdd=Math.max(0,test.max-current);
+      const actualAdd=Math.min(steps,maxAdd);
+      const coef=P2_MODEL.coef[marginalSelectedTest]||0;
+      const gain=coef*actualAdd;
+      const newScore=marginalBaseScore+gain;
+      const newRank=estimateRankFromScoreForMarginal(newScore);
+      const fmt=n=>Number(n).toLocaleString('tr-TR',{minimumFractionDigits:2,maximumFractionDigits:2});
+      const effectEl=document.getElementById('marginal-effect-'+marginalSelectedTest); if(effectEl)effectEl.textContent='+'+fmt(coef);
+      const label=document.getElementById('marginal-selected-label');if(label)label.textContent=test.label;
+      const net=document.getElementById('marginal-current-net');if(net)net.textContent=fmt(current)+' net';
+      const stepLabel=document.getElementById('marginal-step-label');if(stepLabel)stepLabel.textContent='+'+fmt(actualAdd)+' net';
+      const gainEl=document.getElementById('marginal-score-gain');if(gainEl)gainEl.textContent='+'+fmt(gain);
+      const base=document.getElementById('marginal-base-score');if(base)base.textContent=fmt(marginalBaseScore);
+      const ns=document.getElementById('marginal-new-score');if(ns)ns.textContent=fmt(newScore);
+      const rc=document.getElementById('marginal-rank-change');if(rc)rc.textContent=(marginalBaseRank?marginalBaseRank.toLocaleString('tr-TR'):'--')+' → '+(newRank?newRank.toLocaleString('tr-TR'):'--');
+    }
+    function renderMarginalP2Panel(userNets,baseScore,baseRank){
+      marginalBaseNets={...userNets}; marginalBaseScore=Number(baseScore)||0; marginalBaseRank=Number(baseRank)||null;
+      const slider=document.getElementById('marginal-step');
+      if(slider){slider.value='1';}
+      document.querySelectorAll('.rk-marginal-test').forEach(btn=>{
+        const key=btn.dataset.marginalTest; const effect=document.getElementById('marginal-effect-'+key);
+        if(effect)effect.textContent='+'+(Number(P2_MODEL.coef[key]||0)).toLocaleString('tr-TR',{minimumFractionDigits:2,maximumFractionDigits:2});
+      });
+      updateMarginalP2Panel();
+    }
+
     function renderServerResults(data, userNets) {
       const exact2026Rank = data.rank;
       const baseScore = data.score;
+      renderMarginalP2Panel(userNets, baseScore, exact2026Rank);
 
       if (data.z_scores) {
         for (let key in data.z_scores) {
@@ -3177,7 +3319,6 @@ const P2_VALID_RESULT_COUNT = P2_RANKING_DATA.length;
         statusBadge.className = "text-xs font-bold px-3 py-0.5 rounded-full border bg-rose-500/20 border-rose-500/50 text-rose-300 shadow-sm";
       }
 
-      renderPrescription(userNets, data.z_scores, exact2026Rank);
       updateRadarChart(userNets);
       renderScenarioMatrix(userNets);
       runCustomSimulation();
@@ -3215,108 +3356,113 @@ const P2_VALID_RESULT_COUNT = P2_RANKING_DATA.length;
       }
     }
 
-    function renderPrescription(userNets, zScores, currentRank) {
-      const container = document.getElementById('prescription-content');
-      if (!container) return;
-      let recs = [];
-
-      if (userNets.oabt < 38) {
-        recs.push(`🎯 <b class="text-purple-300">ÖABT Önceliği:</b> ÖABT netiniz (${userNets.oabt.toFixed(2)}) ortalama civarında. Puanın %50'si buradan geldiği için ÖABT'yi 43+ seviyesine çekmek sıralamanızı tek başına <b>en az 600-800 kişi</b> öne atar.`);
-      } else {
-        recs.push(`🌟 <b class="text-emerald-300">Harika ÖABT Gücü:</b> ÖABT netiniz (${userNets.oabt.toFixed(2)}) çok güçlü bir taban oluşturuyor.`);
-      }
-
-      if (zScores && zScores.sayisal < 0.2) {
-        recs.push(`📐 <b class="text-blue-300">Sayısal Fırsat Alanı:</b> Türkiye sayısal ortalaması (3.4) çok düşük olduğu için buradan yapacağınız her +1 doğru cevap, yüksek standart sapma çarpanıyla sizi yüzlerce adayın önüne geçirir.`);
-      }
-
-      if (userNets.mevzuat < 5) {
-        recs.push(`⚖️ <b class="text-amber-300">Mevzuat (ÖMK 7528) Kolay Net:</b> 8 soruluk ÖMK mevzuatını eksiksiz tekrarlamak çok kısa sürede risksiz +3 net kazandıracaktır.`);
-      }
-
-      if (userNets.egitim < 20) {
-        recs.push(`📚 <b class="text-indigo-300">Eğitim Bilimleri Ağırlığı:</b> 30 soruluk Eğitim testi tek başına AGS'nin %37.5'ini oluşturur. Buradaki netinizi 24+ seviyesine çekmek taban puanınızı garantiye alır.`);
-      }
-
-      if (currentRank <= 500) {
-        recs.push(`🏆 <b class="text-emerald-400">Derece Stratejisi:</b> Derece bandındasınız. Konu eksiğinden ziyade karma branş denemeleriyle hız ve dikkat yönetimine odaklanmalısınız.`);
-      }
-
-      container.innerHTML = recs.map(r => `
-        <div class="p-2.5 bg-slate-950/70 border border-slate-800/80 rounded-2xl flex items-start gap-2.5 text-xs">
-          <span class="text-sm">📌</span>
-          <div>${r}</div>
-        </div>
-      `).join('');
-    }
-
     function updateRadarChart(userNets) {
-      const ctx = document.getElementById('radarChart')?.getContext('2d');
+      const canvas = document.getElementById('radarChart');
+      const ctx = canvas?.getContext('2d');
       if (!ctx) return;
-      const labels = ['Sözel', 'Sayısal', 'Tarih', 'Coğrafya', 'Eğitim', 'Mevzuat', 'ÖABT'];
-      
-      const userPercents = [
-        Math.min(100, (userNets.sozel / 15) * 100),
-        Math.min(100, (userNets.sayisal / 15) * 100),
-        Math.min(100, (userNets.tarih / 6) * 100),
-        Math.min(100, (userNets.cografya / 6) * 100),
-        Math.min(100, (userNets.egitim / 30) * 100),
-        Math.min(100, (userNets.mevzuat / 8) * 100),
-        Math.min(100, (userNets.oabt / 50) * 100)
+
+      const tests = [
+        { key:'sozel', label:'Sözel', max:15, avg:8.3 },
+        { key:'sayisal', label:'Sayısal', max:15, avg:3.4 },
+        { key:'tarih', label:'Tarih', max:6, avg:2.7 },
+        { key:'cografya', label:'Coğrafya', max:6, avg:2.2 },
+        { key:'egitim', label:'Eğitim', max:30, avg:11.2 },
+        { key:'mevzuat', label:'Mevzuat', max:8, avg:2.5 },
+        { key:'oabt', label:'ÖABT', max:50, avg:33.5 }
       ];
 
-      const trPercents = [
-        (8.3 / 15) * 100,
-        (3.4 / 15) * 100,
-        (2.7 / 6) * 100,
-        (2.2 / 6) * 100,
-        (11.2 / 30) * 100,
-        (2.5 / 8) * 100,
-        (33.5 / 50) * 100
-      ];
+      const labels = tests.map(t => [t.label, `${Number(userNets[t.key] || 0).toFixed(2)} / ${t.max}`]);
+      const userPercents = tests.map(t => Math.min(100, Math.max(0, (Number(userNets[t.key] || 0) / t.max) * 100)));
+      const trPercents = tests.map(t => (t.avg / t.max) * 100);
 
       if (radarChartInstance) radarChartInstance.destroy();
 
       radarChartInstance = new Chart(ctx, {
         type: 'radar',
         data: {
-          labels: labels,
+          labels,
           datasets: [
             {
-              label: 'Sizin Başarınız (%)',
+              label: 'Sizin performansınız',
               data: userPercents,
-              borderColor: '#a855f7',
-              backgroundColor: 'rgba(168, 85, 247, 0.25)',
-              pointBackgroundColor: '#a855f7',
-              borderWidth: 2
+              borderColor: '#2f897b',
+              backgroundColor: 'rgba(47, 137, 123, 0.16)',
+              pointBackgroundColor: '#fffdf8',
+              pointBorderColor: '#2f897b',
+              pointHoverBackgroundColor: '#2f897b',
+              pointHoverBorderColor: '#fffdf8',
+              pointRadius: 4,
+              pointHoverRadius: 6,
+              borderWidth: 2.5,
+              tension: 0.15
             },
             {
-              label: 'Türkiye Ortalaması (%)',
+              label: 'Türkiye ortalaması',
               data: trPercents,
-              borderColor: '#64748b',
-              backgroundColor: 'rgba(100, 116, 139, 0.15)',
-              pointBackgroundColor: '#64748b',
+              borderColor: '#e77865',
+              backgroundColor: 'rgba(231, 120, 101, 0.045)',
+              pointBackgroundColor: '#e77865',
+              pointBorderColor: '#fffdf8',
+              pointRadius: 2.5,
               borderWidth: 1.5,
-              borderDash: [3, 3]
+              borderDash: [5, 5]
             }
           ]
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
+          animation: { duration: 650, easing: 'easeOutQuart' },
+          interaction: { intersect: false, mode: 'nearest' },
           plugins: {
             legend: {
-              labels: { color: '#94a3b8', font: { size: 9 }, boxWidth: 10 }
+              position: 'bottom',
+              labels: {
+                color: '#536071',
+                font: { family: 'DM Sans', size: 10, weight: '700' },
+                boxWidth: 12,
+                boxHeight: 8,
+                padding: 14,
+                usePointStyle: true
+              }
+            },
+            tooltip: {
+              backgroundColor: '#273047',
+              titleColor: '#fffdf8',
+              bodyColor: '#f6f1e7',
+              borderColor: '#e4ddd0',
+              borderWidth: 1,
+              padding: 10,
+              displayColors: true,
+              callbacks: {
+                label: (context) => {
+                  const t = tests[context.dataIndex];
+                  const net = context.datasetIndex === 0 ? Number(userNets[t.key] || 0) : t.avg;
+                  return ` ${context.dataset.label}: ${net.toFixed(2)} / ${t.max} (%${context.parsed.r.toFixed(1)})`;
+                }
+              }
             }
           },
           scales: {
             r: {
               min: 0,
               max: 100,
-              ticks: { display: false, stepSize: 25 },
-              angleLines: { color: '#1e293b' },
-              grid: { color: '#1e293b' },
-              pointLabels: { color: '#cbd5e1', font: { size: 10, weight: 'bold' } }
+              beginAtZero: true,
+              angleLines: { color: 'rgba(39,48,71,.10)', lineWidth: 1 },
+              grid: { color: 'rgba(39,48,71,.10)', circular: true, lineWidth: 1 },
+              ticks: {
+                display: true,
+                stepSize: 25,
+                color: '#8a919d',
+                backdropColor: 'transparent',
+                font: { family: 'Space Mono', size: 8 },
+                callback: value => `${value}%`
+              },
+              pointLabels: {
+                color: '#273047',
+                padding: 7,
+                font: { family: 'DM Sans', size: 10, weight: '800' }
+              }
             }
           }
         }
@@ -3997,6 +4143,53 @@ function rkBeginExam(){
 /* V49: Dinamik içerik tek bir anchor bloğunun içinde tutulur. Veri sonradan gelse de anchor'ın üst kenarı değişmez. */
 .rk-live-analysis-group{display:flex;flex-direction:column;gap:12px;width:100%;scroll-margin-top:96px!important;scroll-snap-margin-top:96px!important}
 @media(max-width:680px){.rk-live-analysis-group{scroll-margin-top:76px!important;scroll-snap-margin-top:76px!important}}
+
+/* V53 — Kişisel 1 Netin Tahmini P2 Etkisi */
+/* V55 — Kişisel Puan Analizi / PDRkampüs tema uyumu */
+.rk-marginal-card{position:relative;overflow:hidden;background:#fffdf8;border:1px solid #e8e1d7;border-radius:18px;padding:20px;box-shadow:0 10px 28px rgba(31,52,69,.08);}
+.rk-marginal-card:before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:linear-gradient(90deg,#4c9f95 0%,#4c9f95 58%,#ef8b73 100%);}
+.rk-marginal-card:after{content:"";position:absolute;width:180px;height:180px;right:-90px;top:-105px;border-radius:50%;background:rgba(76,159,149,.08);pointer-events:none;}
+.rk-marginal-head{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:18px}
+.rk-marginal-kicker{font-size:9px;letter-spacing:.15em;color:#4c9f95;font-weight:900;margin-bottom:5px}
+.rk-marginal-head h3{margin:0;color:#182c40;font-size:17px;font-weight:850;letter-spacing:-.02em}
+.rk-marginal-head p{margin:6px 0 0;color:#6c7883;font-size:11px;line-height:1.55;max-width:690px}
+.rk-marginal-badge{white-space:nowrap;border:1px solid rgba(76,159,149,.24);background:#f0f8f6;color:#3e8d83;border-radius:999px;padding:7px 10px;font-size:9px;font-weight:900;letter-spacing:.05em}
+.rk-marginal-badge span{display:inline-block;width:6px;height:6px;border-radius:50%;background:#4c9f95;margin-right:5px;box-shadow:0 0 0 3px rgba(76,159,149,.12)}
+.rk-marginal-grid{position:relative;z-index:1;display:grid;grid-template-columns:minmax(260px,.9fr) minmax(320px,1.3fr);gap:14px}
+.rk-marginal-tests{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.rk-marginal-test{position:relative;border:1px solid #e5ded4;background:#fff;border-radius:12px;padding:10px 12px;color:#52616d;text-align:left;cursor:pointer;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,background .18s ease}
+.rk-marginal-test:hover{border-color:#9acdc6;transform:translateY(-1px);box-shadow:0 5px 14px rgba(31,52,69,.06)}
+.rk-marginal-test.active{border-color:#4c9f95;background:#f2faf8;box-shadow:inset 0 0 0 1px rgba(76,159,149,.12),0 5px 14px rgba(76,159,149,.08)}
+.rk-marginal-test.active:after{content:"";position:absolute;right:9px;top:9px;width:5px;height:5px;border-radius:50%;background:#4c9f95}
+.rk-marginal-test span{display:block;font-size:10px;font-weight:800;color:#53636f}
+.rk-marginal-test.active span{color:#285e58}
+.rk-marginal-test strong{display:block;margin-top:3px;color:#3e8d83;font-family:ui-monospace,monospace;font-size:13px}
+.rk-marginal-detail{border:1px solid #e5ded4;background:#faf8f3;border-radius:15px;padding:15px}
+.rk-marginal-detail-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:11px}
+.rk-marginal-detail-top span{font-size:12px;color:#182c40;font-weight:850}
+.rk-marginal-detail-top b{font:700 11px ui-monospace,monospace;color:#7a858e}
+.rk-marginal-slider-row{display:flex;align-items:center;gap:9px;color:#8a949c;font:800 10px ui-monospace,monospace}
+.rk-marginal-slider-row input{width:100%;accent-color:#4c9f95}
+.rk-marginal-value{text-align:center;padding:13px 0 11px}
+.rk-marginal-value span{display:block;color:#7a858e;font-size:10px;font-weight:700}
+.rk-marginal-value strong{display:block;color:#3e8d83;font:900 30px ui-monospace,monospace;letter-spacing:-.04em;margin:2px 0}
+.rk-marginal-value small{color:#8a949c;font-size:9px}
+.rk-marginal-results{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:7px}
+.rk-marginal-results>div:not(.rk-marginal-arrow){padding:10px;border-radius:11px;background:#fff;border:1px solid #e7e0d6}
+.rk-marginal-results span,.rk-marginal-rank span{display:block;color:#8a949c;font-size:9px;font-weight:700}
+.rk-marginal-results strong{display:block;color:#304454;font:800 15px ui-monospace,monospace;margin-top:2px}
+.rk-marginal-results>div:last-child{background:#f0f8f6;border-color:#d4ebe7}
+.rk-marginal-results>div:last-child strong{color:#3e8d83}
+.rk-marginal-arrow{color:#ef8b73;font-weight:900;font-size:14px}
+.rk-marginal-rank{margin-top:7px;padding:10px 11px;border-radius:11px;background:#fff8f5;border:1px solid #f1ddd6;display:flex;justify-content:space-between;align-items:center}
+.rk-marginal-rank strong{color:#c96f59;font:800 12px ui-monospace,monospace}
+.rk-marginal-foot{position:relative;z-index:1;margin-top:12px;padding-top:11px;border-top:1px solid #ece5dc;color:#8a949c;font-size:9px;line-height:1.55}
+.rk-marginal-foot span{color:#4c9f95;margin-right:4px}
+@media(max-width:700px){.rk-marginal-head{flex-direction:column;gap:10px}.rk-marginal-grid{grid-template-columns:1fr}.rk-marginal-tests{grid-template-columns:repeat(2,minmax(0,1fr))}.rk-marginal-test{padding:9px}.rk-marginal-card{padding:16px;border-radius:16px}.rk-marginal-badge{align-self:flex-start}}
+
+/* V54 — Kişisel Puan Analizi menü hedefi */
+#rk-marginal-p2{scroll-margin-top:96px!important;scroll-snap-margin-top:96px!important}
+@media(max-width:680px){#rk-marginal-p2{scroll-margin-top:76px!important;scroll-snap-margin-top:76px!important}}
 </style>
 <script id="rk-analysis-navigation-v48">
 (function(){
@@ -4038,5 +4231,88 @@ function rkBeginExam(){
   };
 })();
 </script>
+
+<script>
+(function(){
+  function initHistoricalAppointmentsChart(){
+    const canvas=document.getElementById('rkHistoricalAppointmentsChart');
+    if(!canvas || typeof Chart==='undefined' || canvas.dataset.ready) return;
+    canvas.dataset.ready='1';
+    const labels=['2016','2017','2018','2019','2020','2021','2022','2023','2024','2025','2026'];
+    const applicants=[10450,14075,16180,18420,20811,21488,22023,24678,23235,19387,23212];
+    const quotas=[2099,707,922,2176,2630,1808,467,3604,1597,377,603];
+    new Chart(canvas,{type:'bar',data:{labels,datasets:[
+      {label:'Sınava Giren PDR Adayı',data:applicants,backgroundColor:'#2f897b',borderRadius:6,borderSkipped:false,barPercentage:.72,categoryPercentage:.78},
+      {label:'PDR Kontenjanı',data:quotas,backgroundColor:'#e77865',borderRadius:6,borderSkipped:false,barPercentage:.72,categoryPercentage:.78}
+    ]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{position:'bottom',labels:{usePointStyle:true,boxWidth:9,font:{family:'DM Sans',size:11,weight:'700'}}},tooltip:{callbacks:{label:(ctx)=>ctx.dataset.label+': '+ctx.parsed.y.toLocaleString('tr-TR')}}},scales:{y:{beginAtZero:true,ticks:{callback:(v)=>Number(v).toLocaleString('tr-TR')},grid:{color:'rgba(39,48,71,.08)'},title:{display:true,text:'Kişi sayısı',font:{family:'DM Sans',size:10,weight:'700'}}},x:{grid:{display:false},ticks:{font:{family:'DM Sans',size:10,weight:'700'}}}}}});
+  }
+  function initHistoricalShareChart(){
+    const canvas=document.getElementById('rkHistoricalShareChart');
+    if(!canvas || typeof Chart==='undefined' || canvas.dataset.ready) return;
+    canvas.dataset.ready='1';
+    const labels=['2016','2017','2018','2019','2020','2021','2022','2023','2024','2025','2026'];
+    const share=[4.26,3.39,3.60,5.26,6.43,8.45,1.35,8.09,8.00,2.51,6.03];
+    new Chart(canvas,{type:'bar',data:{labels,datasets:[{label:'PDR kontenjanının toplam öğretmen atamasındaki payı',data:share,backgroundColor:'#2f897b',borderRadius:7,borderSkipped:false,barPercentage:.64,categoryPercentage:.74}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:(ctx)=>'PDR payı: %'+Number(ctx.parsed.y).toLocaleString('tr-TR',{minimumFractionDigits:2,maximumFractionDigits:2})}}},scales:{y:{beginAtZero:true,max:10,ticks:{callback:(v)=>'%'+v},grid:{color:'rgba(39,48,71,.08)'},title:{display:true,text:'Toplam atamalardaki PDR payı',font:{family:'DM Sans',size:10,weight:'700'}}},x:{grid:{display:false},ticks:{font:{family:'DM Sans',size:10,weight:'700'}}}}}});
+  }
+  function init(){initHistoricalAppointmentsChart();initHistoricalShareChart();}
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
+  document.addEventListener('click',function(e){if(e.target.closest('[onclick*="rk-historical-appointments"]')) setTimeout(init,250);});
+})();
+</script>
 </body>
 </html>
+<style>
+/* V58 — temiz overview + daha detaylı kişisel başarı radarı */
+#tab-overview > .bg-slate-900\/80 {
+  background:var(--rk-paper) !important;
+  border-color:var(--rk-line) !important;
+  box-shadow:0 10px 28px rgba(39,48,71,.05) !important;
+}
+#tab-overview .h-52.relative {
+  height:330px !important;
+  min-height:330px !important;
+  padding:8px 14px 4px !important;
+  background:linear-gradient(180deg,#fffdf8 0%,#fbf7ef 100%) !important;
+  overflow:visible !important;
+}
+#tab-overview .h-52.relative canvas {
+  max-height:315px !important;
+}
+@media(max-width:900px){
+  #tab-overview .h-52.relative { height:300px !important; min-height:300px !important; padding:4px 4px 0 !important; }
+  #tab-overview .h-52.relative canvas { max-height:290px !important; }
+}
+</style>
+
+<style id="rk-historical-v59">
+.rk-historical-card{background:var(--rk-paper,#fffdf8);border:1px solid var(--rk-line,#e4ddd0);border-radius:20px;box-shadow:0 10px 28px rgba(39,48,71,.055);overflow:hidden!important;padding:0!important}
+.rk-historical-head{display:flex;justify-content:space-between;gap:20px;padding:22px 24px 17px;border-bottom:1px solid var(--rk-line);background:#fffdf8}
+.rk-historical-kicker{font:800 9px 'Space Mono',monospace;letter-spacing:.14em;color:var(--rk-teal);margin-bottom:6px}
+.rk-historical-head h3{margin:0;color:var(--rk-ink);font-size:20px;font-weight:850;letter-spacing:-.03em}
+.rk-historical-head p{margin:7px 0 0;color:var(--rk-muted);font-size:12px;line-height:1.55;max-width:760px}
+.rk-historical-badge{align-self:flex-start;white-space:nowrap;padding:8px 11px;border-radius:999px;background:#f2f7f5;color:var(--rk-teal);border:1px solid #cfe2dc;font:800 9px 'Space Mono',monospace}
+.rk-historical-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:16px 24px 4px}
+.rk-historical-kpis>div{background:#f7f4ec;border:1px solid var(--rk-line);border-radius:14px;padding:13px 14px}
+.rk-historical-kpis span{display:block;font-size:10px;color:var(--rk-muted);font-weight:700}.rk-historical-kpis strong{display:block;margin-top:4px;font:800 23px 'Syne',sans-serif;color:var(--rk-ink)}.rk-historical-kpis small{display:block;margin-top:2px;font-size:9px;color:#92949c}
+.rk-historical-explain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:12px 24px}
+.rk-historical-explain-card{display:flex;align-items:center;gap:10px;padding:11px 12px;border:1px solid var(--rk-line);border-radius:13px;background:#fff}.rk-historical-explain-card.highlight{background:#eef7f4;border-color:#cfe2dc}.rk-historical-explain-icon{font-size:20px}.rk-historical-explain-card strong{display:block;font-size:11px;color:var(--rk-ink)}.rk-historical-explain-card small{display:block;margin-top:2px;font-size:9px;color:var(--rk-muted);line-height:1.35}
+.rk-historical-chart-title{padding:6px 24px 10px}.rk-historical-chart-title strong{display:block;font-size:13px;color:var(--rk-ink)}.rk-historical-chart-title span{display:block;font-size:10px;color:var(--rk-muted);margin-top:3px}.rk-historical-chart-wrap{height:390px;margin:0 24px 10px;padding:14px 10px 4px;border:1px solid var(--rk-line);border-radius:15px;background:linear-gradient(180deg,#fffdf8,#faf6ed)}.rk-historical-chart-wrap canvas{width:100%!important;height:100%!important}
+.rk-historical-rate-title{margin:12px 24px 8px;font-size:12px;font-weight:800;color:var(--rk-ink)}.rk-historical-rate-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;padding:0 24px 15px}.rk-historical-rate-grid>div{border:1px solid var(--rk-line);border-radius:10px;background:#fff;padding:9px 10px}.rk-historical-rate-grid b{display:block;font-size:9px;color:var(--rk-muted)}.rk-historical-rate-grid strong{display:block;margin-top:3px;font:800 14px 'Syne',sans-serif;color:var(--rk-teal)}
+.rk-historical-table-wrap{margin:0 24px 16px;overflow:auto;border:1px solid var(--rk-line);border-radius:14px}.rk-historical-table{width:100%;border-collapse:collapse;min-width:700px}.rk-historical-table th,.rk-historical-table td{padding:10px 12px;border-bottom:1px solid var(--rk-line);text-align:left;font-size:10px}.rk-historical-table th{background:#f1eadf;color:var(--rk-ink);font-weight:800}.rk-historical-table td{background:#fffdf8;color:#4e5664}.rk-historical-table tr:last-child td{border-bottom:0}.rk-historical-table td:nth-child(4){color:var(--rk-teal);font-weight:800}.rk-historical-note{margin:0 24px 8px;padding:12px 14px;background:#f7f4ec;border:1px solid var(--rk-line);border-radius:12px;color:var(--rk-muted);font-size:10px;line-height:1.6}.rk-historical-note strong{color:var(--rk-ink)}.rk-historical-sources{padding:0 24px 20px;color:#989aa1;font-size:9px;line-height:1.5}
+@media(max-width:800px){.rk-historical-head{display:block;padding:18px}.rk-historical-badge{display:inline-block;margin-top:12px}.rk-historical-kpis,.rk-historical-explain-grid{grid-template-columns:1fr;padding-left:18px;padding-right:18px}.rk-historical-chart-title{padding-left:18px;padding-right:18px}.rk-historical-chart-wrap{height:330px;margin-left:18px;margin-right:18px}.rk-historical-rate-grid{grid-template-columns:repeat(2,1fr);padding-left:18px;padding-right:18px}.rk-historical-table-wrap{margin-left:18px;margin-right:18px}.rk-historical-note{margin-left:18px;margin-right:18px}.rk-historical-sources{padding-left:18px;padding-right:18px}}
+</style>
+
+<style id="rk-historical-v61">
+/* V61 — 100 aday oranı kaldırıldı; PDR/toplam öğretmen atama payı öne çıkarıldı. */
+.rk-historical-kpis>div:last-child{background:#eef7f4;border-color:#cfe2dc}
+.rk-historical-kpis>div:last-child strong{color:var(--rk-teal)}
+.rk-historical-share-wrap{height:300px!important}
+@media(max-width:700px){.rk-historical-share-wrap{height:250px!important}}
+
+.rk-historical-secondary-title{margin-top:26px!important;border-top:1px solid var(--rk-line,#e4ddd0);padding-top:22px}
+.rk-historical-share-wrap{height:260px;margin:10px 18px 0;padding:10px 12px 4px;background:#fffdf8;border:1px solid var(--rk-line,#e4ddd0);border-radius:16px}
+.rk-historical-share-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 18px 0}
+.rk-historical-share-kpis>div{background:#fbf7ef;border:1px solid var(--rk-line,#e4ddd0);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:3px}
+.rk-historical-share-kpis span{font-size:10px;font-weight:800;color:#6f746f;text-transform:uppercase;letter-spacing:.04em}.rk-historical-share-kpis strong{font-size:21px;line-height:1.1;color:#273047}.rk-historical-share-kpis small{font-size:10px;color:#7d817c}
+@media(max-width:700px){.rk-historical-share-wrap{height:230px;margin:8px 10px 0;padding:8px 4px 2px}.rk-historical-share-kpis{grid-template-columns:1fr;margin:10px}.rk-historical-secondary-title{margin-top:18px!important;padding-top:18px}.rk-historical-table{min-width:900px}}
+</style>
