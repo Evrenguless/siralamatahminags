@@ -2082,8 +2082,9 @@ body{
         <div class="rk-quiz-welcome-actions">
           <button class="rk-quiz-primary" id="rk-quiz-start" type="button">Denemeyi başlat <span>→</span></button>
           <button class="rk-quiz-secondary hidden" id="rk-quiz-resume" type="button">Kaldığım yerden devam et</button>
+          <button class="rk-quiz-secondary" id="rk-quiz-optional-login" type="button">Google ile giriş yap</button>
         </div>
-        <small>Giriş yapmadan çözebilir; ilerlemen bu tarayıcıda otomatik kaydedilir.</small>
+        <small id="rk-quiz-storage-note">Giriş yapmadan çözebilir; ilerlemen bu tarayıcıda otomatik kaydedilir.</small>
       </div>
       <div class="rk-quiz-welcome-art" aria-hidden="true"><div><span id="rk-quiz-art-year">----</span><strong>ÖABT</strong><i id="rk-quiz-art-count">-- SORU</i></div></div>
     </div>
@@ -2389,26 +2390,52 @@ body{
     // ==========================================
     // 🔐 GOOGLE AUTH & KULLANICI YÖNETİMİ
     // ==========================================
+    async function ensureSupabaseClient() {
+      if (supabaseClient) return supabaseClient;
+      if (window.supabase?.createClient) {
+        supabaseClient = window.supabase.createClient(SUPABASE_CONFIG.URL, SUPABASE_CONFIG.ANON_KEY);
+        return supabaseClient;
+      }
+      if (!ensureSupabaseClient.loading) {
+        ensureSupabaseClient.loading = new Promise((resolve, reject) => {
+          const script = document.createElement('script');
+          script.src = 'https://unpkg.com/@supabase/supabase-js@2';
+          script.async = true;
+          script.dataset.pdrSupabaseFallback = 'true';
+          script.onload = resolve;
+          script.onerror = () => reject(new Error('Supabase giriş kütüphanesi yüklenemedi.'));
+          document.head.appendChild(script);
+        }).finally(() => { ensureSupabaseClient.loading = null; });
+      }
+      await ensureSupabaseClient.loading;
+      if (!window.supabase?.createClient) throw new Error('Supabase giriş kütüphanesi hazır değil.');
+      supabaseClient = window.supabase.createClient(SUPABASE_CONFIG.URL, SUPABASE_CONFIG.ANON_KEY);
+      return supabaseClient;
+    }
+
     async function loginWithGoogle() {
-      if (!supabaseClient) {
-        alert("Lütfen Supabase bağlantı anahtarlarınızı kontrol edin.");
-        return;
-      }
-
+      if (loginWithGoogle.running) return;
       if (window.location.protocol === 'file:') {
-        alert("⚠️ Google ile Giriş yapabilmek için sayfayı 'file://' olarak değil, VS Code Live Server veya web siteniz üzerinden açmalısınız.");
+        alert('Google ile giriş, indirilen HTML dosyasında değil yalnızca yayınlanmış web sitesinde çalışır.');
         return;
       }
 
+      const buttons = [document.getElementById('btn-login'), document.getElementById('rk-quiz-optional-login')].filter(Boolean);
+      loginWithGoogle.running = true;
+      buttons.forEach(button => { button.disabled = true; button.setAttribute('aria-busy', 'true'); });
       try {
-        const redirectUrl = window.location.href.split('#')[0];
-        const { error } = await supabaseClient.auth.signInWithOAuth({
+        const client = await ensureSupabaseClient();
+        const redirectUrl = new URL('./', window.location.href).href;
+        const { error } = await client.auth.signInWithOAuth({
           provider: 'google',
           options: { redirectTo: redirectUrl }
         });
         if (error) throw error;
       } catch (err) {
-        alert("Giriş başlatılamadı: " + err.message);
+        console.error('Google girişi başlatılamadı:', err);
+        alert('Google girişi başlatılamadı: ' + (err?.message || 'Bilinmeyen bağlantı hatası'));
+        loginWithGoogle.running = false;
+        buttons.forEach(button => { button.disabled = false; button.removeAttribute('aria-busy'); });
       }
     }
 
@@ -4411,6 +4438,10 @@ body.rk-quiz-mode .rk-content-stage{margin-top:0!important}
     $('rk-quiz-start').firstChild.textContent=`${activeYear} denemesini başlat `;
     const resume=$('rk-quiz-resume');resume.classList.add('hidden');
     if(state.started){resume.classList.remove('hidden');resume.textContent=state.completed?'Sonucu görüntüle':'Kaldığım yerden devam et';}
+    const optionalLogin=$('rk-quiz-optional-login');
+    if(optionalLogin)optionalLogin.classList.toggle('hidden',googleUser());
+    const storageNote=$('rk-quiz-storage-note');
+    if(storageNote)storageNote.textContent=googleUser()?'İlerlemen Google hesabına otomatik kaydedilir.':'Giriş yapmadan çözebilir; ilerlemen bu tarayıcıda otomatik kaydedilir.';
   }
 
   function showWelcome(){
@@ -4511,6 +4542,7 @@ body.rk-quiz-mode .rk-content-stage{margin-top:0!important}
   document.addEventListener('DOMContentLoaded',()=>{
     showGate('Sınav arşivi yükleniyor','Yayımlanmış sınavlar hazırlanıyor…',true);
     $('rk-quiz-retry')?.addEventListener('click',initializeForCurrentUser);
+    $('rk-quiz-optional-login')?.addEventListener('click',loginWithGoogle);
     $('rk-quiz-start')?.addEventListener('click',()=>begin(true));
     $('rk-quiz-resume')?.addEventListener('click',()=>begin(false));
     $('rk-quiz-prev')?.addEventListener('click',()=>move(-1));$('rk-quiz-next')?.addEventListener('click',()=>move(1));
