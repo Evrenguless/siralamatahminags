@@ -2064,18 +2064,17 @@ body{
   <header class="rk-section-head rk-quiz-section-head"><div><span>ÇÖZÜMLÜ SINAV ARŞİVİ</span><h2>Çıkmış soru analizleri</h2><p>Yılını seç, düzenli soru panelinde denemeni çöz; sınav sonunda yanlışlarını ve ayrıntılı açıklamaları incele.</p></div><b>07</b></header>
   <section class="rk-quiz-shell" aria-labelledby="rk-quiz-title">
     <div class="rk-quiz-auth-gate" id="rk-quiz-auth-gate">
-      <div class="rk-quiz-auth-icon" aria-hidden="true">G</div>
-      <span class="rk-quiz-kicker">HESABA ÖZEL SINAV ARŞİVİ</span>
-      <h3 id="rk-quiz-auth-title">Oturum kontrol ediliyor</h3>
-      <p id="rk-quiz-auth-copy">Google hesabın ve sınav arşivi kontrol ediliyor…</p>
-      <button class="rk-quiz-primary hidden" id="rk-quiz-google-login" type="button">Google ile giriş yap <span>→</span></button>
+      <div class="rk-quiz-auth-icon" aria-hidden="true">Ö</div>
+      <span class="rk-quiz-kicker">ÇÖZÜMLÜ SINAV ARŞİVİ</span>
+      <h3 id="rk-quiz-auth-title">Sınav arşivi yükleniyor</h3>
+      <p id="rk-quiz-auth-copy">Yayımlanmış sınavlar hazırlanıyor…</p>
       <button class="rk-quiz-secondary hidden" id="rk-quiz-retry" type="button">Tekrar dene</button>
     </div>
     <div class="rk-quiz-welcome" id="rk-quiz-welcome">
       <div class="rk-quiz-welcome-copy">
         <span class="rk-quiz-kicker">ÇÖZÜMLÜ ONLINE DENEME</span>
         <h3 id="rk-quiz-title">Sınav yılını seç</h3>
-        <p id="rk-quiz-welcome-description">Yayımlanmış PDR ÖABT sınavları, seçenekleri ve ayrıntılı çözümleriyle hesabına özel panelde hazırlanır.</p>
+        <p id="rk-quiz-welcome-description">Yayımlanmış PDR ÖABT sınavları, seçenekleri ve ayrıntılı çözümleriyle düzenli sınav panelinde hazırlanır.</p>
         <div class="rk-quiz-year-grid" id="rk-quiz-year-grid" aria-label="Sınav yılı seçimi"></div>
         <div class="rk-quiz-facts">
           <span><b id="rk-quiz-fact-count">--</b> soru</span><span><b>A–E</b> seçenek</span><span><b>✓</b> ayrıntılı çözüm</span>
@@ -2084,7 +2083,7 @@ body{
           <button class="rk-quiz-primary" id="rk-quiz-start" type="button">Denemeyi başlat <span>→</span></button>
           <button class="rk-quiz-secondary hidden" id="rk-quiz-resume" type="button">Kaldığım yerden devam et</button>
         </div>
-        <small>İlerlemen Google hesabında otomatik kaydedilir.</small>
+        <small>Giriş yapmadan çözebilir; ilerlemen bu tarayıcıda otomatik kaydedilir.</small>
       </div>
       <div class="rk-quiz-welcome-art" aria-hidden="true"><div><span id="rk-quiz-art-year">----</span><strong>ÖABT</strong><i id="rk-quiz-art-count">-- SORU</i></div></div>
     </div>
@@ -4204,6 +4203,7 @@ body.rk-quiz-mode .rk-content-stage{margin-top:0!important}
   let loadSequence=0;
   const questionCache=new Map();
   const progressCache=new Map();
+  const localProgressKey=year=>`pdrkampus_exam_progress_${Number(year)}`;
 
   function withTimeout(task,ms,message){
     let timeoutId;
@@ -4221,13 +4221,8 @@ body.rk-quiz-mode .rk-content-stage{margin-top:0!important}
     setView('gate');
     const titleNode=$('rk-quiz-auth-title');
     const copyNode=$('rk-quiz-auth-copy');
-    const button=$('rk-quiz-google-login');
     if(titleNode)titleNode.textContent=title;
     if(copyNode)copyNode.textContent=copy;
-    if(button){
-      button.classList.toggle('hidden',loading||googleUser());
-      button.disabled=loading;
-    }
     const retryButton=$('rk-quiz-retry');
     if(retryButton){
       retryButton.classList.toggle('hidden',!retry);
@@ -4248,7 +4243,13 @@ body.rk-quiz-mode .rk-content-stage{margin-top:0!important}
   }
 
   function readYearState(year){
-    return rowToState(progressCache.get(Number(year)));
+    const numericYear=Number(year);
+    let row=progressCache.get(numericYear);
+    if(!row&&!googleUser()){
+      try{row=JSON.parse(localStorage.getItem(localProgressKey(numericYear))||'null');}
+      catch(error){console.warn('Yerel sınav ilerlemesi okunamadı:',error);}
+    }
+    return rowToState(row);
   }
 
   async function fetchQuestions(year){
@@ -4278,10 +4279,9 @@ body.rk-quiz-mode .rk-content-stage{margin-top:0!important}
   }
 
   async function persistState(){
-    if(!googleUser()||!activeYear)return;
+    if(!activeYear)return;
     clearTimeout(saveTimer);
     const payload={
-      user_id:currentUser.id,
       exam_year:Number(activeYear),
       current_question:state.current,
       answers:state.answers||{},
@@ -4289,12 +4289,24 @@ body.rk-quiz-mode .rk-content-stage{margin-top:0!important}
       finished_at:state.finishedAt?new Date(state.finishedAt).toISOString():null,
       completed:Boolean(state.completed)
     };
+    const status=$('rk-quiz-save-status');
+    if(!googleUser()){
+      progressCache.set(Number(activeYear),payload);
+      try{
+        localStorage.setItem(localProgressKey(activeYear),JSON.stringify(payload));
+        if(status)status.textContent='Bu tarayıcıya kaydedildi ✓';
+      }catch(error){
+        console.warn('Yerel sınav ilerlemesi kaydedilemedi:',error);
+        if(status)status.textContent='İlerleme bu oturumda korunuyor';
+      }
+      return payload;
+    }
+    payload.user_id=currentUser.id;
     const {data,error}=await supabaseClient
       .from('pdrkampus_exam_progress')
       .upsert(payload,{onConflict:'user_id,exam_year'})
       .select()
       .single();
-    const status=$('rk-quiz-save-status');
     if(error){
       console.warn('Sınav ilerlemesi kaydedilemedi:',error);
       if(status)status.textContent='Kayıt başarısız — bağlantıyı kontrol et';
@@ -4324,15 +4336,14 @@ body.rk-quiz-mode .rk-content-stage{margin-top:0!important}
       showGate('Bağlantı kurulamadı','Sınav servisine ulaşılamadı. Sayfayı yenileyebilir veya tekrar deneyebilirsin.',false,true);
       return;
     }
-    if(!googleUser()){
-      showGate('Google hesabınla giriş yap','Çıkmış soru analizlerine erişmek ve ilerlemeni hesabında saklamak için Google ile giriş yapmalısın.');
-      return;
-    }
-    showGate('Sınav arşivi yükleniyor','Soruların ve hesabına kayıtlı ilerlemen güvenli biçimde hazırlanıyor…',true);
+    showGate('Sınav arşivi yükleniyor','Sorular ve kayıtlı ilerlemen hazırlanıyor…',true);
     try{
+      const progressRequest=googleUser()
+        ? supabaseClient.from('pdrkampus_exam_progress').select('exam_year,current_question,answers,started_at,finished_at,completed').eq('user_id',currentUser.id)
+        : Promise.resolve({data:[],error:null});
       const [catalogResult,progressResult]=await withTimeout(Promise.all([
         supabaseClient.from('pdrkampus_exam_catalog').select('year,title,description,question_count').eq('is_published',true).order('year',{ascending:false}),
-        supabaseClient.from('pdrkampus_exam_progress').select('exam_year,current_question,answers,started_at,finished_at,completed').eq('user_id',currentUser.id)
+        progressRequest
       ]),12000,'Sınav arşivi zamanında yüklenemedi. İnternet bağlantını kontrol edip tekrar dene.');
       if(catalogResult.error)throw catalogResult.error;
       if(progressResult.error)throw progressResult.error;
@@ -4379,7 +4390,7 @@ body.rk-quiz-mode .rk-content-stage{margin-top:0!important}
   }
 
   async function selectYear(year){
-    if(!googleUser()||!catalog.some(item=>Number(item.year)===Number(year)))return;
+    if(!catalog.some(item=>Number(item.year)===Number(year)))return;
     activeYear=Number(year);
     showGate('Sınav yükleniyor','Seçtiğin sınav ve kayıtlı ilerlemen hazırlanıyor…',true);
     try{
@@ -4390,7 +4401,6 @@ body.rk-quiz-mode .rk-content-stage{margin-top:0!important}
   }
 
   function renderWelcome(){
-    if(!googleUser()){initializeForCurrentUser();return;}
     renderYearGrid();
     const meta=catalog.find(item=>Number(item.year)===activeYear)||{};
     $('rk-quiz-title').textContent=`${activeYear} ÖABT soru analizi`;
@@ -4404,13 +4414,11 @@ body.rk-quiz-mode .rk-content-stage{margin-top:0!important}
   }
 
   function showWelcome(){
-    if(!googleUser()){initializeForCurrentUser();return;}
     clearInterval(timerHandle);setView('welcome');renderWelcome();
     window.scrollTo({top:Math.max(0,$('tab-quiz').offsetTop-75),behavior:'smooth'});
   }
 
   async function begin(fresh){
-    if(!googleUser()){initializeForCurrentUser();return;}
     if(fresh){state={...emptyState(),started:true,startedAt:Date.now()};await queueSave(true);}
     if(state.completed){showResults();return;}
     state.started=true;if(!state.startedAt)state.startedAt=Date.now();queueSave();
@@ -4501,8 +4509,7 @@ body.rk-quiz-mode .rk-content-stage{margin-top:0!important}
   }
 
   document.addEventListener('DOMContentLoaded',()=>{
-    showGate('Oturum kontrol ediliyor','Google hesabın ve sınav arşivi kontrol ediliyor…',true);
-    $('rk-quiz-google-login')?.addEventListener('click',loginWithGoogle);
+    showGate('Sınav arşivi yükleniyor','Yayımlanmış sınavlar hazırlanıyor…',true);
     $('rk-quiz-retry')?.addEventListener('click',initializeForCurrentUser);
     $('rk-quiz-start')?.addEventListener('click',()=>begin(true));
     $('rk-quiz-resume')?.addEventListener('click',()=>begin(false));
@@ -4514,10 +4521,7 @@ body.rk-quiz-mode .rk-content-stage{margin-top:0!important}
       if($('rk-quiz-app')?.classList.contains('hidden')||['INPUT','TEXTAREA'].includes(document.activeElement?.tagName))return;
       const key=event.key.toUpperCase();if(['A','B','C','D','E'].includes(key))selectAnswer(key);else if(event.key==='ArrowLeft')move(-1);else if(event.key==='ArrowRight')move(1);
     });
-    if(window.PDR_AUTH_READY||currentUser||!supabaseClient)initializeForCurrentUser();
-    else setTimeout(()=>{
-      if($('rk-quiz-auth-title')?.textContent==='Oturum kontrol ediliyor')initializeForCurrentUser();
-    },9000);
+    initializeForCurrentUser();
   });
   document.addEventListener('pdr:auth-changed',initializeForCurrentUser);
 })();
