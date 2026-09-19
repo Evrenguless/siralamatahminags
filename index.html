@@ -2069,6 +2069,7 @@ body{
       <h3 id="rk-quiz-auth-title">Oturum kontrol ediliyor</h3>
       <p id="rk-quiz-auth-copy">Google hesabın ve sınav arşivi kontrol ediliyor…</p>
       <button class="rk-quiz-primary hidden" id="rk-quiz-google-login" type="button">Google ile giriş yap <span>→</span></button>
+      <button class="rk-quiz-secondary hidden" id="rk-quiz-retry" type="button">Tekrar dene</button>
     </div>
     <div class="rk-quiz-welcome" id="rk-quiz-welcome">
       <div class="rk-quiz-welcome-copy">
@@ -2418,48 +2419,75 @@ body{
       }
       currentUser = null;
       updateAuthUI();
-      document.dispatchEvent(new CustomEvent('pdr:auth-changed', { detail: { user: currentUser } }));
       fetchLiveLeaderboard();
       updateChatUI();
     }
 
     async function checkAuthSession() {
-      if (!supabaseClient) {
-        restoreLocalInputs();
-        return;
-      }
-
-      try {
-        const { data: { session } } = await supabaseClient.auth.getSession();
-        currentUser = session?.user || null;
-        updateAuthUI();
-        updateChatUI();
-        document.dispatchEvent(new CustomEvent('pdr:auth-changed', { detail: { user: currentUser } }));
-
-        if (currentUser) {
-          await loadUserCloudData();
-        } else {
+      if (checkAuthSession.running) return checkAuthSession.running;
+      checkAuthSession.running = (async () => {
+        if (!supabaseClient) {
+          currentUser = null;
+          updateAuthUI();
           restoreLocalInputs();
+          window.PDR_AUTH_READY = true;
+          document.dispatchEvent(new CustomEvent('pdr:auth-changed', { detail: { user: currentUser, ready: true, error: 'sdk-unavailable' } }));
+          return false;
         }
 
-        fetchLiveLeaderboard();
-        fetchChatMessages();
-        initChatRealtime();
-        renderCommunityQuestions();
-
-        supabaseClient.auth.onAuthStateChange(async (_event, session) => {
-          currentUser = session?.user || null;
+        try {
+          const sessionResult = await Promise.race([
+            supabaseClient.auth.getSession(),
+            new Promise((_, reject) => setTimeout(() => reject(new Error('Oturum kontrolü zaman aşımına uğradı.')), 8000))
+          ]);
+          if (sessionResult.error) throw sessionResult.error;
+          currentUser = sessionResult.data?.session?.user || null;
           updateAuthUI();
           updateChatUI();
-          document.dispatchEvent(new CustomEvent('pdr:auth-changed', { detail: { user: currentUser } }));
+          window.PDR_AUTH_READY = true;
+          document.dispatchEvent(new CustomEvent('pdr:auth-changed', { detail: { user: currentUser, ready: true } }));
+
           if (currentUser) {
-            await loadUserCloudData();
+            loadUserCloudData().catch(error => console.warn('Kullanıcı verileri yüklenemedi:', error));
+          } else {
+            restoreLocalInputs();
           }
+
           fetchLiveLeaderboard();
-        });
-      } catch (err) {
-        console.warn("Auth kontrolü yerel modda:", err);
-        restoreLocalInputs();
+          fetchChatMessages();
+          initChatRealtime();
+          renderCommunityQuestions();
+
+          if (!checkAuthSession.listenerRegistered) {
+            checkAuthSession.listenerRegistered = true;
+            supabaseClient.auth.onAuthStateChange(async (_event, session) => {
+              currentUser = session?.user || null;
+              updateAuthUI();
+              updateChatUI();
+              window.PDR_AUTH_READY = true;
+              document.dispatchEvent(new CustomEvent('pdr:auth-changed', { detail: { user: currentUser, ready: true } }));
+              if (currentUser) {
+                try { await loadUserCloudData(); }
+                catch (error) { console.warn('Kullanıcı verileri yüklenemedi:', error); }
+              }
+              fetchLiveLeaderboard();
+            });
+          }
+          return true;
+        } catch (err) {
+          console.warn('Oturum kontrolü tamamlanamadı:', err);
+          currentUser = null;
+          updateAuthUI();
+          restoreLocalInputs();
+          window.PDR_AUTH_READY = true;
+          document.dispatchEvent(new CustomEvent('pdr:auth-changed', { detail: { user: currentUser, ready: true, error: err?.message || 'auth-error' } }));
+          return false;
+        }
+      })();
+      try {
+        return await checkAuthSession.running;
+      } finally {
+        checkAuthSession.running = null;
       }
     }
 
@@ -3517,10 +3545,15 @@ body{
     }
 
     // SAYFA AÇILDIĞINDA OTURUM VE BİLEŞENLERİ BAŞLAT
-    window.onload = async function() {
-      await loadSiteDatasets();
-      await checkAuthSession();
-    };
+    function startPdrApp() {
+      checkAuthSession();
+      loadSiteDatasets();
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', startPdrApp, { once: true });
+    } else {
+      startPdrApp();
+    }
   </script>
 <script>
 (function(){
@@ -4172,12 +4205,18 @@ body.rk-quiz-mode .rk-content-stage{margin-top:0!important}
   const questionCache=new Map();
   const progressCache=new Map();
 
+  function withTimeout(task,ms,message){
+    let timeoutId;
+    const timeout=new Promise((_,reject)=>{timeoutId=setTimeout(()=>reject(new Error(message)),ms);});
+    return Promise.race([Promise.resolve(task),timeout]).finally(()=>clearTimeout(timeoutId));
+  }
+
   function setView(name){
     ['welcome','app','results'].forEach(view=>$(`rk-quiz-${view}`)?.classList.toggle('hidden',view!==name));
     $('rk-quiz-auth-gate')?.classList.toggle('hidden',name!=='gate');
   }
 
-  function showGate(title,copy,loading=false){
+  function showGate(title,copy,loading=false,retry=false){
     clearInterval(timerHandle);
     setView('gate');
     const titleNode=$('rk-quiz-auth-title');
@@ -4188,6 +4227,11 @@ body.rk-quiz-mode .rk-content-stage{margin-top:0!important}
     if(button){
       button.classList.toggle('hidden',loading||googleUser());
       button.disabled=loading;
+    }
+    const retryButton=$('rk-quiz-retry');
+    if(retryButton){
+      retryButton.classList.toggle('hidden',!retry);
+      retryButton.disabled=loading;
     }
   }
 
@@ -4210,11 +4254,15 @@ body.rk-quiz-mode .rk-content-stage{margin-top:0!important}
   async function fetchQuestions(year){
     const numericYear=Number(year);
     if(questionCache.has(numericYear))return questionCache.get(numericYear);
-    const {data,error}=await supabaseClient
-      .from('pdrkampus_exam_questions')
-      .select('question_no,title,category,prompt,options,correct_answer,analysis')
-      .eq('exam_year',numericYear)
-      .order('question_no',{ascending:true});
+    const {data,error}=await withTimeout(
+      supabaseClient
+        .from('pdrkampus_exam_questions')
+        .select('question_no,title,category,prompt,options,correct_answer,analysis')
+        .eq('exam_year',numericYear)
+        .order('question_no',{ascending:true}),
+      12000,
+      'Sorular zamanında yüklenemedi. İnternet bağlantını kontrol edip tekrar dene.'
+    );
     if(error)throw error;
     const mapped=(data||[]).map(row=>({
       number:row.question_no,
@@ -4273,7 +4321,7 @@ body.rk-quiz-mode .rk-content-stage{margin-top:0!important}
     questions=[];
     state=emptyState();
     if(!supabaseClient){
-      showGate('Bağlantı kurulamadı','Supabase bağlantı ayarlarını kontrol edin.');
+      showGate('Bağlantı kurulamadı','Sınav servisine ulaşılamadı. Sayfayı yenileyebilir veya tekrar deneyebilirsin.',false,true);
       return;
     }
     if(!googleUser()){
@@ -4282,10 +4330,10 @@ body.rk-quiz-mode .rk-content-stage{margin-top:0!important}
     }
     showGate('Sınav arşivi yükleniyor','Soruların ve hesabına kayıtlı ilerlemen güvenli biçimde hazırlanıyor…',true);
     try{
-      const [catalogResult,progressResult]=await Promise.all([
+      const [catalogResult,progressResult]=await withTimeout(Promise.all([
         supabaseClient.from('pdrkampus_exam_catalog').select('year,title,description,question_count').eq('is_published',true).order('year',{ascending:false}),
         supabaseClient.from('pdrkampus_exam_progress').select('exam_year,current_question,answers,started_at,finished_at,completed').eq('user_id',currentUser.id)
-      ]);
+      ]),12000,'Sınav arşivi zamanında yüklenemedi. İnternet bağlantını kontrol edip tekrar dene.');
       if(catalogResult.error)throw catalogResult.error;
       if(progressResult.error)throw progressResult.error;
       if(sequence!==loadSequence)return;
@@ -4299,7 +4347,7 @@ body.rk-quiz-mode .rk-content-stage{margin-top:0!important}
       renderWelcome();
     }catch(error){
       console.error(error);
-      showGate('Sınav verileri yüklenemedi',error.message||'Supabase tablolarını ve erişim politikalarını kontrol edin.');
+      showGate('Sınav verileri yüklenemedi',error.message||'Supabase tablolarını ve erişim politikalarını kontrol edin.',false,true);
     }
   }
 
@@ -4338,7 +4386,7 @@ body.rk-quiz-mode .rk-content-stage{margin-top:0!important}
       questions=await fetchQuestions(activeYear);
       state=readYearState(activeYear);
       setView('welcome');renderWelcome();
-    }catch(error){showGate('Sınav yüklenemedi',error.message||'Bağlantıyı kontrol edin.');}
+    }catch(error){showGate('Sınav yüklenemedi',error.message||'Bağlantıyı kontrol edin.',false,true);}
   }
 
   function renderWelcome(){
@@ -4455,6 +4503,7 @@ body.rk-quiz-mode .rk-content-stage{margin-top:0!important}
   document.addEventListener('DOMContentLoaded',()=>{
     showGate('Oturum kontrol ediliyor','Google hesabın ve sınav arşivi kontrol ediliyor…',true);
     $('rk-quiz-google-login')?.addEventListener('click',loginWithGoogle);
+    $('rk-quiz-retry')?.addEventListener('click',initializeForCurrentUser);
     $('rk-quiz-start')?.addEventListener('click',()=>begin(true));
     $('rk-quiz-resume')?.addEventListener('click',()=>begin(false));
     $('rk-quiz-prev')?.addEventListener('click',()=>move(-1));$('rk-quiz-next')?.addEventListener('click',()=>move(1));
@@ -4465,6 +4514,10 @@ body.rk-quiz-mode .rk-content-stage{margin-top:0!important}
       if($('rk-quiz-app')?.classList.contains('hidden')||['INPUT','TEXTAREA'].includes(document.activeElement?.tagName))return;
       const key=event.key.toUpperCase();if(['A','B','C','D','E'].includes(key))selectAnswer(key);else if(event.key==='ArrowLeft')move(-1);else if(event.key==='ArrowRight')move(1);
     });
+    if(window.PDR_AUTH_READY||currentUser||!supabaseClient)initializeForCurrentUser();
+    else setTimeout(()=>{
+      if($('rk-quiz-auth-title')?.textContent==='Oturum kontrol ediliyor')initializeForCurrentUser();
+    },9000);
   });
   document.addEventListener('pdr:auth-changed',initializeForCurrentUser);
 })();
