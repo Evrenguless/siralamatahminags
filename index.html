@@ -35,6 +35,266 @@
 /* Sıramı Takip Et modülü tamamen kaldırıldı */
 .rk-rank-tracker,.rk-rank-tracker-card,[data-rank-tracker]{display:none!important}
 </style>
+
+<style id="pdrkampus-v68-research-and-header-fixes">
+/* V68 — sabit header hizası ve marka renk birliği */
+.rk-brand-name span,
+.rk-header-brand-kampus{color:#2f897b!important}
+
+@media(min-width:681px){
+  .rk-sidebar{z-index:2200!important}
+  .rk-topbar{
+    position:fixed!important;
+    top:0!important;
+    left:var(--rk-sidebar-rail)!important;
+    right:0!important;
+    width:auto!important;
+    margin-left:0!important;
+    z-index:2000!important;
+  }
+}
+@media(max-width:680px){
+  .rk-topbar{position:fixed!important;top:0!important;left:0!important;right:0!important;width:100%!important;margin:0!important}
+}
+
+/* ÖABT & ASDEP araştırma paneli */
+#tab-research{scroll-margin-top:96px!important}
+.rk-research-shell{
+  width:100%;overflow:hidden;border:1px solid var(--rk-line,#e3ddd2);border-radius:22px;
+  background:#f8f5ed;box-shadow:0 12px 34px rgba(24,44,64,.055);
+}
+.rk-research-hero{
+  display:flex;justify-content:space-between;align-items:flex-start;gap:24px;padding:24px;
+  background:linear-gradient(120deg,#fffdf8 0%,#fffaf1 58%,#edf7f4 100%);
+  border-bottom:1px solid var(--rk-line,#e3ddd2);position:relative;overflow:hidden;
+}
+.rk-research-hero:after{
+  content:"";position:absolute;right:-64px;top:-94px;width:220px;height:220px;border-radius:50%;
+  background:rgba(47,137,123,.08);pointer-events:none;
+}
+.rk-research-kicker{display:block;color:#2f897b;font:800 9px 'Space Mono',monospace;letter-spacing:.14em}
+.rk-research-hero h3{margin:7px 0 6px!important;color:#173244!important;font:800 25px 'Syne',sans-serif!important;letter-spacing:-.035em}
+.rk-research-hero p{margin:0;color:#6d7881;font-size:12px;line-height:1.6;max-width:760px}
+.rk-research-badge{
+  position:relative;z-index:1;white-space:nowrap;border:1px solid #c8e1db;background:#fff;color:#2f897b;
+  border-radius:999px;padding:8px 11px;font:800 9px 'Space Mono',monospace;
+}
+.rk-research-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;padding:16px 20px 4px}
+.rk-research-kpis article{padding:14px 15px;background:#fffdf8;border:1px solid var(--rk-line);border-radius:15px}
+.rk-research-kpis article.is-alert{background:#fff3ee;border-color:#f0d2c7}
+.rk-research-kpis span{display:block;color:#798087;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.06em}
+.rk-research-kpis strong{display:block;margin-top:5px;color:#173244;font:800 25px 'Syne',sans-serif;line-height:1}
+.rk-research-kpis small{display:block;margin-top:4px;color:#92979a;font-size:9px}
+.rk-research-kpis .is-alert strong{color:#d16f57}
+
+.rk-research-grid{display:grid;grid-template-columns:minmax(0,1.18fr) minmax(330px,.82fr);gap:14px;padding:14px 20px}
+.rk-research-card{background:#fffdf8;border:1px solid var(--rk-line);border-radius:17px;padding:18px;min-width:0}
+.rk-card-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:16px}
+.rk-card-heading span{display:block;color:#2f897b;font:800 9px 'Space Mono',monospace;letter-spacing:.12em}
+.rk-card-heading h3{margin:5px 0 0!important;color:#173244!important;font-size:17px!important;letter-spacing:-.025em}
+.rk-card-heading>b{white-space:nowrap;color:#6f7a80;background:#f2eee6;border:1px solid var(--rk-line);border-radius:999px;padding:7px 9px;font-size:8px}
+
+.rk-topic-bars{display:grid;gap:8px}
+.rk-topic-row{display:grid;grid-template-columns:minmax(155px,1.2fr) minmax(100px,1fr) 24px;align-items:center;gap:9px}
+.rk-topic-row>span{color:#53616b;font-size:9px;font-weight:700;line-height:1.25}
+.rk-topic-row>i{height:9px;border-radius:999px;background:#ece8de;overflow:hidden;font-style:normal}
+.rk-topic-row>i>em{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#2f897b,#65aa9e);transform-origin:left;animation:rk-bar-in .65s ease both}
+.rk-topic-row>b{color:#173244;font:800 11px 'Space Mono',monospace;text-align:right}
+@keyframes rk-bar-in{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.rk-research-note{margin:14px 0 0;padding:11px 12px;border:1px solid #eadfd1;border-radius:11px;background:#fff8ee;color:#726a61;font-size:9px;line-height:1.55}
+.rk-research-note strong{color:#4b443d}
+
+.rk-asdep-bars{height:184px;display:flex;align-items:flex-end;justify-content:center;gap:24px;padding:10px 8px 0;border-bottom:1px solid var(--rk-line)}
+.rk-asdep-bars>div{height:100%;width:74px;display:grid;grid-template-rows:18px 1fr 20px 17px;text-align:center;align-items:end}
+.rk-asdep-bars span{color:#6f787f;font:800 9px 'Space Mono',monospace}
+.rk-asdep-bars i{height:100%;display:flex;align-items:flex-end;justify-content:center;font-style:normal}
+.rk-asdep-bars em{display:block;width:42px;min-height:4px;border-radius:8px 8px 2px 2px;background:linear-gradient(180deg,#65aa9e,#2f897b)}
+.rk-asdep-bars .is-zero em{background:#e88a68}
+.rk-asdep-bars strong{color:#173244;font:800 13px 'Syne',sans-serif}
+.rk-asdep-bars small{color:#8a9297;font-size:8px}
+.rk-asdep-timeline{display:grid;gap:8px;margin-top:14px}
+.rk-asdep-timeline>div{display:grid;grid-template-columns:43px 1fr;gap:10px;padding:10px;border:1px solid var(--rk-line);border-radius:11px;background:#fff}
+.rk-asdep-timeline>div.is-current{background:#fff4ef;border-color:#f0d2c7}
+.rk-asdep-timeline b{color:#2f897b;font:800 11px 'Space Mono',monospace}
+.rk-asdep-timeline p{margin:0;color:#657078;font-size:9px;line-height:1.5}
+.rk-asdep-timeline p strong{color:#344b59}
+
+.rk-topic-table-card{margin:0 20px 20px}
+.rk-topic-table-wrap{overflow:auto;border:1px solid var(--rk-line);border-radius:13px}
+.rk-topic-table{width:100%;min-width:920px;border-collapse:collapse}
+.rk-topic-table th,.rk-topic-table td{padding:11px 12px;border-bottom:1px solid var(--rk-line);text-align:left;vertical-align:top}
+.rk-topic-table th{background:#efe9df;color:#465762;font-size:8px;text-transform:uppercase;letter-spacing:.05em}
+.rk-topic-table td{background:#fffdf8;color:#66717a;font-size:9px;line-height:1.5}
+.rk-topic-table td:first-child{width:32%;color:#243e4e;font-weight:800}
+.rk-topic-table td:nth-child(2){width:12%;color:#2f897b;text-align:center}
+.rk-topic-table td:nth-child(3){width:auto;color:#66717a;font-family:inherit}
+.rk-topic-table tr:last-child td{border-bottom:0}
+
+@media(max-width:1050px){
+  .rk-research-grid{grid-template-columns:1fr}
+}
+@media(max-width:680px){
+  #tab-research{scroll-margin-top:76px!important}
+  .rk-research-shell{border-radius:18px}
+  .rk-research-hero{display:block;padding:18px}
+  .rk-research-badge{display:inline-block;margin-top:13px}
+  .rk-research-hero h3{font-size:21px!important}
+  .rk-research-kpis{grid-template-columns:repeat(2,1fr);padding:12px 12px 2px}
+  .rk-research-grid{padding:12px;gap:12px}
+  .rk-research-card{padding:14px}
+  .rk-card-heading{display:block}.rk-card-heading>b{display:inline-block;margin-top:9px}
+  .rk-topic-row{grid-template-columns:minmax(120px,1.15fr) minmax(72px,1fr) 20px;gap:6px}
+  .rk-topic-row>span{font-size:8px}
+  .rk-asdep-bars{gap:12px}.rk-asdep-bars>div{width:64px}
+  .rk-topic-table-card{margin:0 12px 12px}
+}
+</style>
+
+<style id="pdrkampus-v67-information-architecture">
+/* V67 — yerleşim dönüşümü. Hesaplama ve veri katmanına dokunmaz. */
+:root{
+  --rk-sidebar-rail:78px;
+  --rk-sidebar-open:258px;
+  --rk-surface:#fffdf8;
+  --rk-page:#f5f1e8;
+  --rk-ink:#173244;
+  --rk-line:#e3ddd2;
+}
+
+/* Sayfa akışı: karşılama → özet → hesaplama → ayrıntılı analizler */
+.rk-main{
+  display:flex!important;
+  flex-direction:column!important;
+}
+.rk-intro{order:0}
+.rk-stat-strip{order:1;margin-top:0!important;margin-bottom:18px!important}
+.rk-workspace{order:2}
+.rk-content-stage{order:3}
+
+/* Dashboard karşılama ve hızlı işlemler */
+.rk-hero-side{
+  position:relative;z-index:1;display:flex;flex-direction:column;align-items:flex-end;gap:12px;
+}
+.rk-quick-actions{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}
+.rk-quick-actions button{
+  appearance:none;border:1px solid rgba(24,44,64,.10);background:#fff;color:#294252;
+  border-radius:11px;padding:9px 12px;font-size:10px;font-weight:800;cursor:pointer;
+  display:flex;align-items:center;gap:6px;box-shadow:0 4px 12px rgba(24,44,64,.045);
+  transition:transform .18s ease,border-color .18s ease,color .18s ease;
+}
+.rk-quick-actions button:hover{transform:translateY(-2px);border-color:#8abdb4;color:#23796c}
+.rk-quick-actions button span{font-size:14px;line-height:1;color:#2f897b}
+
+/* Özet kartları */
+.rk-stat-strip{gap:12px!important}
+.rk-stat-card{
+  min-height:84px!important;padding:17px 18px!important;border-radius:17px!important;
+  background:var(--rk-surface)!important;position:relative;overflow:hidden;
+}
+.rk-stat-card:after{
+  content:"";position:absolute;right:-24px;bottom:-38px;width:92px;height:92px;border-radius:50%;
+  background:rgba(47,137,123,.07);
+}
+.rk-stat-card.stat-rank:after{background:rgba(244,201,93,.13)}
+.rk-stat-card.stat-oabt:after{background:rgba(232,138,104,.10)}
+.rk-stat-card span{max-width:58%;line-height:1.45!important}
+.rk-stat-card strong{position:relative;z-index:1;font-size:clamp(18px,2vw,25px)!important}
+
+/* Bölümlerin ortak başlık dili */
+.rk-section-head{
+  width:100%;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;
+  padding:4px 2px 12px;border-bottom:1px solid var(--rk-line);
+}
+.rk-section-head>div>span{
+  display:block;margin-bottom:5px;color:#2f897b;font:800 9px 'Space Mono',monospace;
+  letter-spacing:.15em;
+}
+.rk-section-head h2{
+  margin:0!important;color:var(--rk-ink)!important;font:800 clamp(20px,2.2vw,28px) 'Syne','Plus Jakarta Sans',sans-serif!important;
+  letter-spacing:-.035em!important;
+}
+.rk-section-head p{margin:7px 0 0;color:#747f86;font-size:11px;line-height:1.55;max-width:760px}
+.rk-section-head>b{
+  color:#d8d2c7;font:800 34px 'Syne',sans-serif;letter-spacing:-.06em;line-height:1;
+}
+.rk-content-stage>.tab-content{padding-top:8px!important}
+.rk-content-stage>.tab-content+.tab-content{margin-top:24px!important}
+
+/* Genel bakışta iki ana analiz kartı yan yana, kişisel katkı tam genişlik */
+#tab-overview{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;align-items:start!important}
+#tab-overview>.rk-section-head,#tab-overview>#rk-marginal-p2{grid-column:1/-1}
+
+/* Masaüstünde dar menü rayı; üzerine gelince içeriğin üstünde açılır. */
+@media(min-width:681px){
+  .rk-sidebar{
+    width:var(--rk-sidebar-rail)!important;padding:22px 11px 16px!important;overflow:hidden!important;
+    transition:width .24s cubic-bezier(.2,.75,.25,1),box-shadow .24s ease!important;
+    box-shadow:8px 0 24px rgba(20,35,52,.06)!important;
+  }
+  .rk-sidebar:hover,.rk-sidebar:focus-within{
+    width:var(--rk-sidebar-open)!important;box-shadow:18px 0 45px rgba(20,35,52,.18)!important;
+  }
+  .rk-brand{height:44px;padding:2px 10px 24px!important;gap:11px!important;white-space:nowrap}
+  .rk-brand-mark{
+    display:grid!important;width:35px!important;height:35px!important;min-width:35px!important;border-radius:11px!important;
+    place-items:center!important;background:#f4c95d!important;color:#242b3f!important;font:800 16px 'Syne',sans-serif!important;
+  }
+  .rk-brand-name{
+    opacity:0;transform:translateX(-7px);transition:opacity .16s ease,transform .2s ease;white-space:nowrap;
+  }
+  .rk-sidebar:hover .rk-brand-name,.rk-sidebar:focus-within .rk-brand-name{opacity:1;transform:none}
+  .rk-sidebar-label{
+    width:220px!important;height:22px!important;overflow:hidden;white-space:nowrap;
+    opacity:0;transform:translateX(-4px);transition:opacity .15s ease,transform .2s ease;
+    padding-left:12px!important;margin-top:8px!important;margin-bottom:5px!important;
+  }
+  .rk-sidebar:hover .rk-sidebar-label,.rk-sidebar:focus-within .rk-sidebar-label{opacity:1;transform:none}
+  .rk-nav{width:232px!important}
+  .rk-nav-button{
+    width:232px!important;min-height:42px!important;padding:10px 12px!important;gap:12px!important;
+    overflow:hidden!important;white-space:nowrap!important;
+  }
+  .rk-nav-icon{width:32px!important;min-width:32px!important;font-size:18px!important}
+  .rk-nav-button>span:not(.rk-nav-icon){opacity:0;transition:opacity .12s ease}
+  .rk-sidebar:hover .rk-nav-button>span:not(.rk-nav-icon),
+  .rk-sidebar:focus-within .rk-nav-button>span:not(.rk-nav-icon){opacity:1}
+  .rk-nav-arrow{margin-left:auto!important}
+  .rk-topbar{
+    width:calc(100% - var(--rk-sidebar-rail))!important;margin-left:var(--rk-sidebar-rail)!important;
+  }
+  .rk-main{
+    width:calc(100% - var(--rk-sidebar-rail))!important;margin-left:var(--rk-sidebar-rail)!important;
+  }
+  .rk-main+footer,footer.rk-footer,footer.w-full.bg-slate-950{
+    width:calc(100% - var(--rk-sidebar-rail))!important;margin-left:var(--rk-sidebar-rail)!important;
+  }
+}
+
+@media(max-width:980px){
+  #tab-overview{grid-template-columns:1fr!important}
+  #tab-overview>.rk-section-head,#tab-overview>#rk-marginal-p2{grid-column:1}
+}
+
+@media(max-width:680px){
+  .rk-sidebar{width:270px!important;padding:22px 14px 18px!important;overflow-y:auto!important}
+  .rk-brand-mark{display:grid!important}
+  .rk-topbar,.rk-main,.rk-main+footer,footer.rk-footer,footer.w-full.bg-slate-950{
+    width:100%!important;margin-left:0!important;
+  }
+  .rk-intro{display:block!important}
+  .rk-hero-side{align-items:flex-start;margin-top:16px}
+  .rk-quick-actions{width:100%;display:grid;grid-template-columns:repeat(3,1fr)}
+  .rk-quick-actions button{justify-content:center;padding:10px 7px}
+  .rk-stat-strip{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .rk-stat-card{min-height:78px!important;display:block!important;padding:14px!important}
+  .rk-stat-card:last-child{grid-column:1/-1}
+  .rk-stat-card span{display:block;max-width:none;margin-bottom:7px}
+  .rk-section-head{align-items:flex-start;padding-bottom:10px}
+  .rk-section-head>b{font-size:27px}
+  .rk-section-head p{font-size:10px}
+  .rk-content-stage>.tab-content+.tab-content{margin-top:10px!important}
+}
+</style>
 <style id="rk-replit-theme">
 /* =========================================================
    PDRKAMPÜS — REPLIT INSPIRED UI OVERRIDE
@@ -239,7 +499,7 @@ function rkNavigate(tabId){
   if(!target){ console.warn('PDRkampus: sekme bulunamadı',tabId); return; }
   if(typeof switchTab === 'function') switchTab(tabId);
   document.querySelectorAll('.rk-nav-button').forEach(b=>b.classList.toggle('active',b.dataset.tab===tabId));
-  const labels={'tab-overview':'Genel Bakış','tab-leaderboard':'Canlı Sıralama','tab-simulator':'Senaryo Simülatörü','tab-matches':'Eşleşen Sonuçlar'};
+  const labels={'tab-overview':'Kişisel Performans Analizi','tab-simulator':'2027 Senaryo Analizi','tab-matches':'Eşleşen Aday ve Dağılımlar','tab-leaderboard':'Canlı Sıralama ve Net Dağılımları','tab-historical':'PDR Adayı vs Kontenjan','tab-research':'PDR ÖABT & ASDEP Analizi'};
   const el=document.getElementById('rk-current-section'); if(el) el.textContent=labels[tabId]||'Genel Bakış';
   target.classList.remove('hidden');
   requestAnimationFrame(()=>target.scrollIntoView({behavior:'smooth',block:'start'}));
@@ -1492,37 +1752,36 @@ body.rk-focus-mode .rk-main { padding-bottom: 0 !important; }
 <body class="rk-app-body">
 <aside class="rk-sidebar" id="rk-sidebar">
 <div class="rk-brand">
-<div class="rk-brand-mark"></div>
 <div class="rk-brand-name">PDR<span>kampüs</span></div>
 </div>
-<div class="rk-sidebar-label">Kampüs</div>
-<nav aria-label="Ana menü" class="rk-nav">
+<nav aria-label="Kişisel performans" class="rk-nav">
 <button class="rk-nav-button active" data-tab="tab-overview" onclick="rkNavigate('tab-overview')" type="button">
-<span class="rk-nav-icon">⌂</span><span>Genel Bakış</span>
-</button>
-<button class="rk-nav-button" data-tab="tab-leaderboard" onclick="rkNavigate('tab-leaderboard')" type="button">
-<span class="rk-nav-icon">♛</span><span>Canlı Sıralama</span>
-</button>
-<button class="rk-nav-button" data-tab="tab-simulator" onclick="rkNavigate('tab-simulator')" type="button">
-<span class="rk-nav-icon">◒</span><span>Senaryo Simülatörü</span>
-</button>
-<button class="rk-nav-button" data-tab="tab-matches" onclick="rkNavigate('tab-matches')" type="button">
-<span class="rk-nav-icon">⇄</span><span>Eşleşen Sonuçlar</span>
+<span class="rk-nav-icon"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3.5 10.5 12 3.4l8.5 7.1v9.1a1.4 1.4 0 0 1-1.4 1.4H4.9a1.4 1.4 0 0 1-1.4-1.4z"/><path d="M9 21v-6.7h6V21"/></svg></span><span class="rk-nav-text">Kişisel Performans</span>
 </button>
 </nav>
-<div class="rk-sidebar-label rk-analysis-label">Net Analizleri</div>
-<nav aria-label="Net analizleri" class="rk-nav rk-analysis-nav">
-<button class="rk-nav-button rk-analysis-button" type="button" onclick="rkNavigateToSection('tab-leaderboard','rk-live-analysis-target','Canlı Net Dağılımları')">
-<span class="rk-nav-icon">▥</span><span>Canlı Net Dağılımları</span><span class="rk-nav-arrow">→</span>
+<nav aria-label="Hesaplama araçları" class="rk-nav">
+<button class="rk-nav-button" data-tab="tab-simulator" onclick="rkNavigate('tab-simulator')" type="button">
+<span class="rk-nav-icon"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 19.5V14m5.3 5.5V9.7m5.4 9.8V5m5.3 14.5V11"/><path d="m3.5 10.8 5.4-4.1 5.2 2.1 6.4-5.3"/></svg></span><span class="rk-nav-text">2027 Senaryo Analizi</span>
 </button>
-<button class="rk-nav-button rk-analysis-button" type="button" onclick="rkNavigateToSection('tab-matches','rk-real-analysis-target','Gerçek Sonuç Analizi')">
-<span class="rk-nav-icon">▤</span><span>Gerçek Sonuç Analizi</span><span class="rk-nav-arrow">→</span>
+</nav>
+<nav aria-label="Eşleşen adaylar" class="rk-nav">
+<button class="rk-nav-button" data-tab="tab-matches" onclick="rkNavigate('tab-matches')" type="button">
+<span class="rk-nav-icon"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3.8 19.5v-1.8A4.7 4.7 0 0 1 8.5 13h1A4.7 4.7 0 0 1 14 16.2"/><circle cx="17.5" cy="15.5" r="3"/><path d="m20 18 2 2"/></svg></span><span class="rk-nav-text">Eşleşen Adaylar</span>
 </button>
-<button class="rk-nav-button rk-analysis-button" type="button" onclick="rkNavigateToSection('tab-overview','rk-marginal-p2','Kişisel Puan Analizi')">
-<span class="rk-nav-icon">✦</span><span>Kişisel Puan Analizi</span><span class="rk-nav-arrow">→</span>
+</nav>
+<nav aria-label="Canlı sıralama ve net dağılımları" class="rk-nav">
+<button class="rk-nav-button" data-tab="tab-leaderboard" onclick="rkNavigate('tab-leaderboard')" type="button">
+<span class="rk-nav-icon"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M8 21v-6H4v6m8 0V9H8v12m8 0V3h-4v18m8 0V12h-4v9"/></svg></span><span class="rk-nav-text">Canlı Sıralama</span>
 </button>
-<button class="rk-nav-button rk-analysis-button" type="button" onclick="rkNavigateToSection('tab-leaderboard','rk-historical-appointments','Tarihsel Atama Analizi')">
-<span class="rk-nav-icon">◫</span><span>Tarihsel Atama Analizi</span><span class="rk-nav-arrow">→</span>
+</nav>
+<nav aria-label="PDR adayı ve kontenjan görünümü" class="rk-nav">
+<button class="rk-nav-button" data-tab="tab-historical" type="button" onclick="rkNavigate('tab-historical')">
+<span class="rk-nav-icon"><svg aria-hidden="true" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></svg></span><span class="rk-nav-text">PDR Adayı vs Kontenjan</span>
+</button>
+</nav>
+<nav aria-label="PDR ÖABT ve ASDEP analizi" class="rk-nav">
+<button class="rk-nav-button" data-tab="tab-research" type="button" onclick="rkNavigate('tab-research')">
+<span class="rk-nav-icon"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 5.2A2.2 2.2 0 0 1 6.2 3H11v16H6.2A2.2 2.2 0 0 0 4 21.2z"/><path d="M20 5.2A2.2 2.2 0 0 0 17.8 3H13v16h4.8a2.2 2.2 0 0 1 2.2 2.2z"/></svg></span><span class="rk-nav-text">PDR ÖABT &amp; ASDEP</span>
 </button>
 </nav>
 
@@ -1560,11 +1819,18 @@ body.rk-focus-mode .rk-main { padding-bottom: 0 !important; }
 <main class="rk-main">
 <div class="rk-intro">
 <div>
-<div class="rk-eyebrow">PDRKAMPÜS · 2027 HAZIRLIK</div>
-<h1>Bugün de masada mısın?</h1>
-<p>Netlerini güncelle, tahmini sıralamanı gör ve çalışma rotanı tek ekrandan yönet.</p>
+<div class="rk-eyebrow">PDRKAMPÜS · KİŞİSEL ÇALIŞMA PANELİ</div>
+<h1>Genel durumun tek ekranda.</h1>
+<p>Netlerini gir, P2 tahminini ve olası sıralamanı gör; analizlere tek dokunuşla ulaş.</p>
 </div>
-<div class="rk-date-pill">SON GÜNCELLEME · ŞİMDİ</div>
+<div class="rk-hero-side">
+<div class="rk-date-pill">2027 TAHMİN PANELİ</div>
+<div class="rk-quick-actions" aria-label="Hızlı işlemler">
+<button type="button" onclick="document.querySelector('.rk-calc-panel')?.scrollIntoView({behavior:'smooth',block:'start'})"><span>＋</span> Net Gir</button>
+<button type="button" onclick="rkNavigate('tab-simulator')"><span>◒</span> Senaryo</button>
+<button type="button" onclick="rkNavigateToSection('tab-overview','rk-marginal-p2','Kişisel Puan Analizi')"><span>✦</span> Analiz</button>
+</div>
+</div>
 </div>
 <section class="rk-workspace"><div class="rk-calc-panel">
 <!-- MEB-AGS Kartı -->
@@ -1707,6 +1973,7 @@ body.rk-focus-mode .rk-main { padding-bottom: 0 !important; }
 <button class="w-full py-3.5 px-4 rounded-2xl font-black text-white bg-gradient-to-r from-emerald-600 via-teal-600 to-indigo-600 hover:from-emerald-500 hover:to-indigo-500 shadow-xl shadow-emerald-950/40 transition-all duration-200 active:scale-[0.99] text-xs sm:text-sm tracking-wide flex items-center justify-center gap-2" id="btn-publish-live" onclick="publishToLiveLeaderboard()">
 <span>🏆 Canlı Sıralamaya Kaydet &amp; Güncelle</span>
 </button>
+<div class="rk-stat-strip"><div class="rk-stat-card stat-p2"><span>2027 P2-10 Tahmini</span><strong id="rk-p2">--</strong></div><div class="rk-stat-card stat-rank"><span>2027 Tahmini Sıra</span><strong id="rk-rank">-- - --</strong></div><div class="rk-stat-card stat-oabt"><span>Toplam Girilen Net</span><strong id="rk-oabt">0.00</strong></div></div>
 </div><div class="rk-result-panel"><div class="bg-gradient-to-br from-indigo-950/90 via-slate-900 to-slate-950 border border-indigo-500/40 rounded-3xl p-4 sm:p-5 shadow-2xl relative overflow-hidden">
 <div class="flex flex-wrap justify-between items-start gap-2 mb-1">
 <span class="text-[11px] font-bold text-indigo-400 uppercase tracking-wider">Tahmini 2027 PDR Başarı Sırası</span>
@@ -1738,7 +2005,8 @@ body.rk-focus-mode .rk-main { padding-bottom: 0 !important; }
 </div>
 </div>
 </div></div></section>
-<div class="rk-stat-strip"><div class="rk-stat-card stat-p2"><span>2027 P2-10 Tahmini</span><strong id="rk-p2">--</strong></div><div class="rk-stat-card stat-rank"><span>2027 Tahmini Sıra</span><strong id="rk-rank">-- - --</strong></div><div class="rk-stat-card stat-oabt"><span>Toplam Girilen Net</span><strong id="rk-oabt">0.00</strong></div></div><section class="rk-content-stage"><div class="tab-content flex flex-col gap-4" id="tab-overview">
+<section class="rk-content-stage"><div class="tab-content flex flex-col gap-4" id="tab-overview">
+<header class="rk-section-head"><div><span>GENEL BAKIŞ</span><h2>Kişisel performans analizi</h2><p>Ders bazındaki durumunu, ortalamaya göre konumunu ve net başına olası katkıyı incele.</p></div><b>01</b></header>
 <div class="bg-slate-900/80 border border-slate-800/80 rounded-3xl p-4 shadow-xl">
 <div class="flex justify-between items-center mb-2 pb-1.5 border-b border-slate-800">
 <h4 class="text-xs font-bold text-slate-200 uppercase tracking-wider">🕸️ Başarı Profili Radar Grafiği</h4>
@@ -1821,6 +2089,7 @@ body.rk-focus-mode .rk-main { padding-bottom: 0 !important; }
   <div class="rk-marginal-foot"><span>ⓘ</span> Değerler, PDRkampüs'teki doğrulanmış gerçek sonuçlardan oluşturulan tahmini model üzerinden hesaplanır; ÖSYM'nin resmi “1 net = X puan” katsayısı değildir.</div>
 </div>
 </div><div class="tab-content flex flex-col gap-3" id="tab-leaderboard">
+<header class="rk-section-head"><div><span>CANLI VERİ</span><h2>Canlı sıralama ve net dağılımları</h2><p>Canlı aday havuzundaki sıralamayı ve güncel AGS–ÖABT net dağılımlarını birlikte incele.</p></div><b>04</b></header>
 <div id="rk-live-analysis-target" class="rk-live-analysis-group">
 <div class="bg-slate-900/90 border border-indigo-500/40 rounded-3xl p-4 shadow-xl flex flex-wrap items-center justify-between gap-3 text-xs">
 <div>
@@ -1866,7 +2135,9 @@ body.rk-focus-mode .rk-main { padding-bottom: 0 !important; }
   <div class="rk-oabt-dist-note" id="rk-dist-note">Aralıklar 5 netlik dilimler halinde gruplanır. Grafik yalnızca canlı lige kaydedilmiş ÖABT netlerini kullanır.</div>
 </div>
 </div>
-</div><div class="rk-historical-card" id="rk-historical-appointments">
+</div><div class="tab-content flex flex-col gap-4" id="tab-historical">
+<header class="rk-section-head"><div><span>TARİHSEL VERİ</span><h2>PDR adayı ve kontenjan görünümü</h2><p>Yıllara göre PDR aday sayısını, kontenjan değişimini ve toplam öğretmen atamalarındaki PDR payını incele.</p></div><b>05</b></header>
+<div class="rk-historical-card" id="rk-historical-appointments">
   <div class="rk-historical-head">
     <div>
       <div class="rk-historical-kicker">2016–2026 · PDR SINAV & ATAMA VERİSİ</div>
@@ -1914,7 +2185,9 @@ body.rk-focus-mode .rk-main { padding-bottom: 0 !important; }
   <div class="rk-historical-note"><strong>Önemli:</strong> “Sınava Giren PDR Adayı” sayıları senin verdiğin 2016–2026 kesin katılım tablosundan, PDR kontenjanları gönderdiğin yıllık Rehberlik atama görselinden, toplam öğretmen atama sayıları ise aynı görseldeki yıllık toplamlar üzerinden alınmıştır. “PDR’nin toplam atamadaki payı” = PDR kontenjanı ÷ toplam öğretmen ataması × 100. 2026 için toplam öğretmen ataması <strong>10.000</strong> olarak kullanılmıştır.</div>
   <div class="rk-historical-sources">Veri kaynağı: ÖSYM verileri ve yıllara ait öğretmen atama/ kontenjan verileri.</div>
 </div>
+</div>
 <div class="tab-content flex flex-col gap-4" id="tab-simulator">
+<header class="rk-section-head"><div><span>HESAPLAMA</span><h2>2027 senaryo analizi</h2><p>Sınav zorluğundaki olası değişimlerin P2 puanın ve sıralaman üzerindeki etkisini karşılaştır.</p></div><b>02</b></header>
 <div class="bg-slate-900/80 border border-indigo-500/30 rounded-3xl p-4 shadow-xl">
 <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-800">
 <h3 class="text-xs font-bold text-indigo-300 uppercase tracking-wider">🎛️ 2027 Sınav Zorluğu Simülatörü</h3>
@@ -1988,6 +2261,7 @@ body.rk-focus-mode .rk-main { padding-bottom: 0 !important; }
   </div>
 </div>
 </div><div class="tab-content flex flex-col gap-3" id="tab-matches">
+<header class="rk-section-head"><div><span>GERÇEK SONUÇLAR</span><h2>Eşleşen aday ve dağılımlar</h2><p>Profiline en yakın gerçek sonuçları ve doğrulanmış aday verilerindeki net dağılımını gör.</p></div><b>03</b></header>
 <div id="rk-real-analysis-target" class="bg-slate-900/80 border border-slate-800/80 rounded-3xl p-4 shadow-xl">
 <h3 class="text-xs font-bold text-slate-200 uppercase tracking-wider mb-1 flex items-center gap-1.5">
 <span>🎯 En Yakın 5 Gerçek Sonuç Belgesi</span>
@@ -2019,25 +2293,139 @@ body.rk-focus-mode .rk-main { padding-bottom: 0 !important; }
 </div>
 </div>
 </div>
+<div class="tab-content flex flex-col gap-4" id="tab-research">
+<header class="rk-section-head"><div><span>ARAŞTIRMA</span><h2>PDR ÖABT &amp; ASDEP analizi</h2><p>2026 ÖABT konu dağılımı ile PDR mezunlarını ilgilendiren ASDEP/Bakanlık alım kronolojisini aynı panelde incele.</p></div><b>06</b></header>
+
+<section class="rk-research-shell" id="rk-oabt-asdep-research" aria-labelledby="rk-research-title">
+  <div class="rk-research-hero">
+    <div>
+      <span class="rk-research-kicker">2026 ÖABT · ASDEP / BAKANLIK ALIMLARI</span>
+      <h3 id="rk-research-title">Soru dağılımı ve alım kronolojisi</h3>
+      <p>Paylaşılan konu-soru eşleştirmeleri ve doğrulanmış alım notları, mevcut değerler değiştirilmeden görselleştirilmiştir.</p>
+    </div>
+    <span class="rk-research-badge">GÜNCEL ARAŞTIRMA PANELİ</span>
+  </div>
+
+  <div class="rk-research-kpis">
+    <article><span>2026 ÖABT</span><strong>50</strong><small>toplam soru</small></article>
+    <article><span>Kesin dağılım</span><strong>50</strong><small>soru sayısı toplamı</small></article>
+    <article><span>En yoğun alan</span><strong>11</strong><small>Psikolojik Danışma</small></article>
+    <article class="is-alert"><span>2026 ASDEP</span><strong>0</strong><small>özel PDR kontenjanı</small></article>
+  </div>
+
+  <div class="rk-research-grid">
+    <article class="rk-research-card rk-oabt-chart-card">
+      <div class="rk-card-heading">
+        <div><span>KONU AĞIRLIĞI</span><h3>2026 PDR ÖABT soru dağılımı</h3></div>
+        <b>50 kesin soru</b>
+      </div>
+      <div class="rk-topic-bars" role="img" aria-label="2026 PDR ÖABT konu başlıklarına göre soru sayıları">
+        <div class="rk-topic-row"><span>Psikolojik Danışma Kuramları</span><i><em style="width:100%"></em></i><b>11</b></div>
+        <div class="rk-topic-row"><span>Kariyer Danışmanlığı</span><i><em style="width:54.5%"></em></i><b>6</b></div>
+        <div class="rk-topic-row"><span>Ruh Sağlığı / DSM-5</span><i><em style="width:45.5%"></em></i><b>5</b></div>
+        <div class="rk-topic-row"><span>Temel Psikolojik Süreçler</span><i><em style="width:45.5%"></em></i><b>5</b></div>
+        <div class="rk-topic-row"><span>Ölçme, Değerlendirme ve İstatistik</span><i><em style="width:45.5%"></em></i><b>5</b></div>
+        <div class="rk-topic-row"><span>Bireyi Tanıma Teknikleri</span><i><em style="width:36.4%"></em></i><b>4</b></div>
+        <div class="rk-topic-row"><span>Grupla Psikolojik Danışma</span><i><em style="width:27.3%"></em></i><b>3</b></div>
+        <div class="rk-topic-row"><span>Gelişimsel Rehberlik / Özel Eğitim</span><i><em style="width:27.3%"></em></i><b>3</b></div>
+        <div class="rk-topic-row"><span>İlişkiler ve İmâlı İletişim</span><i><em style="width:27.3%"></em></i><b>3</b></div>
+        <div class="rk-topic-row"><span>Sosyal Psikoloji</span><i><em style="width:18.2%"></em></i><b>2</b></div>
+        <div class="rk-topic-row"><span>PDR'de Meslek Etiği</span><i><em style="width:18.2%"></em></i><b>2</b></div>
+        <div class="rk-topic-row"><span>Araştırma Yöntemleri</span><i><em style="width:9.1%"></em></i><b>1</b></div>
+      </div>
+    </article>
+
+    <article class="rk-research-card rk-asdep-card">
+      <div class="rk-card-heading">
+        <div><span>2022–2026</span><h3>ASDEP / Bakanlık alımları</h3></div>
+        <b>Doğrulanmış kronoloji</b>
+      </div>
+      <div class="rk-asdep-bars" role="img" aria-label="Yıllara göre PDR mezunlarını kapsayan ASDEP alım sayıları">
+        <div><span>2022</span><i><em style="height:100%"></em></i><strong>≈230</strong><small>83,75</small></div>
+        <div><span>2024</span><i><em style="height:76%"></em></i><strong>175</strong><small>84,50</small></div>
+        <div class="is-zero"><span>2026</span><i><em style="height:3%"></em></i><strong>0</strong><small>özel kontenjan</small></div>
+      </div>
+      <div class="rk-asdep-timeline">
+        <div><b>2022</b><p>Yaklaşık 230 kişilik yerleştirme. Taban puan <strong>83,75</strong>; mülakat sisteminin uygulandığı dönem.</p></div>
+        <div><b>2024</b><p><strong>175 kişi</strong>, taban puan <strong>84,50</strong>. PDR mezunlarının KPSS P3 ile ASDEP'e yerleştiği son büyük toplu alım.</p></div>
+        <div class="is-current"><b>2026</b><p>680 kişilik mülakatsız merkezi alımda psikolog, sosyal çalışmacı ve çocuk gelişimcisi kadroları yer aldı; PDR/ASDEP için doğrudan özel kontenjan açılmadı.</p></div>
+      </div>
+    </article>
+  </div>
+
+  <article class="rk-research-card rk-topic-table-card">
+    <div class="rk-card-heading">
+      <div><span>SORU HARİTASI</span><h3>Konu dağılımı ve kapsam ayrıntıları</h3></div>
+      <b>12 ana başlık</b>
+    </div>
+    <div class="rk-topic-table-wrap custom-scrollbar">
+      <table class="rk-topic-table">
+        <thead><tr><th>Ana konu / ders</th><th>Kesin soru sayısı</th><th>Kapsam</th></tr></thead>
+        <tbody>
+          <tr><td>Psikolojik Danışma Kuramları ve Teknikleri</td><td><b>11</b></td><td>Ego savunma mekanizmaları, bilişsel çarpıtmalar; kişiselleştirme, açık davet, özetleme ve bağlama; varoluşçu, birey merkezli ve davranışçı ekoller.</td></tr>
+          <tr><td>Kariyer Danışmanlığı (Mesleki Rehberlik)</td><td><b>6</b></td><td>Mesleki değerler, Kariyer Tekeri Modeli; İşe Uyum, Sosyal Öğrenme, Roe ve Gottfredson kuramları.</td></tr>
+          <tr><td>Ruh Sağlığı ve Davranış Bozuklukları (DSM-5)</td><td><b>5</b></td><td>Şizoid kişilik, agorafobi, dissosiyatif amnezi; şizofreninin pozitif belirtileri ve disgrafi.</td></tr>
+          <tr><td>Temel Psikolojik Süreçler ve Gelişim-Öğrenme</td><td><b>5</b></td><td>Gestalt ekolü, sempatik sinir sistemi fizyolojisi; üst düzey koşullanma, ileriye ket vurma ve bireysel farklılıklar.</td></tr>
+          <tr><td>PDR'de Ölçme, Değerlendirme ve İstatistik</td><td><b>5</b></td><td>Ölçüt dayanaklı geçerlik, kararlılık ve madde ayırt ediciliği; mod, medyan, standart sapma ve bağımlı t-testi.</td></tr>
+          <tr><td>Bireyi Tanıma Teknikleri</td><td><b>4</b></td><td>Bibliyoterapi, problem tarama, akran değerlendirmesi ve sosyogram matrisi yorumlama.</td></tr>
+          <tr><td>Grupla Psikolojik Danışma</td><td><b>3</b></td><td>Evrensellik ilkesi, rehberlik grupları ve grupta direnç etmenleri.</td></tr>
+          <tr><td>Kapsamlı Gelişimsel Rehberlik ve Özel Eğitim</td><td><b>3</b></td><td>Özel yeteneklilerde zenginleştirme, kapsamlı program ilkeleri; danışma sürecinde sonlandırma ve izleme.</td></tr>
+          <tr><td>Kişiler Arası İlişkiler ve İmâlı İletişim</td><td><b>3</b></td><td>Çiftli mesajlar, saydamlık ilkesi ve şimdi-buradalık kullanımı.</td></tr>
+          <tr><td>Sosyal Psikoloji</td><td><b>2</b></td><td>Planlı Davranış Kuramı bileşenleri; normatif ve bilgisel sosyal etki ile azınlık etkisi.</td></tr>
+          <tr><td>PDR'de Meslek Etiği</td><td><b>2</b></td><td>Süpervizyon ve etik durumlar; sevk süreçlerinde yararlılık ilkesi.</td></tr>
+          <tr><td>Araştırma Yöntemleri</td><td><b>1</b></td><td>Bağımlı, bağımsız ve kontrol değişkenlerinin belirlenmesi.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </article>
+</section>
+</div>
 </section></main>
 <!-- 📱 MOBİL İÇİN YAPIŞKAN ALT BİLGİ PİLİ -->
 <!-- 🌟 FOOTER -->
 <footer class="rk-footer">
-  <div class="rk-footer-inner">
-    <div class="rk-footer-brand">
-      <strong>pdrkampus.com.tr</strong>
-      <span>© 2026–2027 · PDR Kampüs</span>
-    </div>
-    <nav class="rk-footer-links" aria-label="Yasal ve yardımcı bağlantılar">
-      <a href="#gizlilik-ilkeleri" data-legal="privacy">Gizlilik İlkeleri</a>
-      <a href="#kullanici-sozlesmesi" data-legal="terms">Kullanıcı Sözleşmesi</a>
-      <a href="#cerez-politikasi" data-legal="cookies">Çerez Politikası</a>
-      <a href="#yasal-uyari" data-legal="legal">Yasal Uyarı</a>
-      <a href="#iletisim" data-legal="contact">İletişim</a>
-    </nav>
-  </div>
+  <div class="rk-footer-shell">
+    <div class="rk-footer-main">
+      <section class="rk-footer-about" aria-labelledby="rk-footer-brand-title">
+        <a class="rk-footer-logo" id="rk-footer-brand-title" href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;" aria-label="PDRkampüs sayfa başına dön">
+          <span>PDR</span><b>kampüs</b>
+        </a>
+        <p>AGS PDR adayları için kişisel performans, senaryo ve sıralama analizlerini tek çalışma alanında bir araya getirir.</p>
+        <div class="rk-footer-season"><i aria-hidden="true"></i><span>2027 hazırlık dönemi</span></div>
+      </section>
 
-<div class="rk-footer-copyright">© 2026–2027 PDR Kampüs · Tüm hakları saklıdır.</div>
+      <nav class="rk-footer-column" aria-label="Panel bağlantıları">
+        <h2>Panel</h2>
+        <a href="#tab-overview" onclick="rkNavigate('tab-overview');return false;">Kişisel Performans</a>
+        <a href="#tab-simulator" onclick="rkNavigate('tab-simulator');return false;">2027 Senaryo Analizi</a>
+        <a href="#tab-matches" onclick="rkNavigate('tab-matches');return false;">Eşleşen Adaylar</a>
+      </nav>
+
+      <nav class="rk-footer-column" aria-label="Analiz bağlantıları">
+        <h2>Analizler</h2>
+        <a href="#tab-leaderboard" onclick="rkNavigate('tab-leaderboard');return false;">Canlı Sıralama</a>
+        <a href="#tab-historical" onclick="rkNavigate('tab-historical');return false;">PDR Adayı vs Kontenjan</a>
+        <a href="#tab-research" onclick="rkNavigate('tab-research');return false;">PDR ÖABT &amp; ASDEP</a>
+      </nav>
+
+      <nav class="rk-footer-column rk-footer-legal" aria-label="Yasal ve yardımcı bağlantılar">
+        <h2>Bilgi</h2>
+        <a href="#gizlilik-ilkeleri" data-legal="privacy">Gizlilik İlkeleri</a>
+        <a href="#kullanici-sozlesmesi" data-legal="terms">Kullanıcı Sözleşmesi</a>
+        <a href="#cerez-politikasi" data-legal="cookies">Çerez Politikası</a>
+        <a href="#yasal-uyari" data-legal="legal">Yasal Uyarı</a>
+        <a href="#iletisim" data-legal="contact">İletişim</a>
+      </nav>
+    </div>
+
+    <div class="rk-footer-bottom">
+      <p>© 2026–2027 PDR Kampüs · Tüm hakları saklıdır.</p>
+      <p class="rk-footer-disclaimer">Puan ve sıralama sonuçları tahmin niteliğindedir; resmî sonuç yerine geçmez.</p>
+      <button type="button" class="rk-footer-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Sayfanın başına dön">
+        <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 14 6-6 6 6"/></svg>
+      </button>
+    </div>
+  </div>
 </footer>
 
 <div id="rk-legal-modal" class="rk-legal-modal" aria-hidden="true">
@@ -3706,7 +4094,6 @@ const P2_VALID_RESULT_COUNT = P2_RANKING_DATA.length;
         <div class="rk-legal-text">
           <p>Görüş, hata bildirimi veya yasal talepleriniz için PDR Kampüs iletişim kanalını kullanabilirsiniz.</p>
           <p><strong>Web:</strong> pdrkampus.com.tr</p>
-          <p>İletişim e-posta adresi yayına alınmadan önce buraya eklenebilir.</p>
         </div>`
     }
   };
@@ -4262,6 +4649,20 @@ function rkBeginExam(){
   document.addEventListener('click',function(e){if(e.target.closest('[onclick*="rk-historical-appointments"]')) setTimeout(init,250);});
 })();
 </script>
+<script id="rk-v70-enforce-content-flow">
+(function(){
+  function enforceContentFlow(){
+    const stage=document.querySelector('.rk-content-stage');
+    if(!stage)return;
+    ['tab-overview','tab-simulator','tab-matches','tab-leaderboard','tab-historical','tab-research'].forEach(function(id){
+      const section=document.getElementById(id);
+      if(section)stage.appendChild(section);
+    });
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',enforceContentFlow);
+  else enforceContentFlow();
+})();
+</script>
 </body>
 </html>
 <style>
@@ -4471,5 +4872,302 @@ function rkBeginExam(){
 .rk-calc-panel > div:nth-child(2) .bg-slate-950{background:#f8f6f1!important}
 @media(max-width:680px){
  .rk-calc-panel > div:first-child, .rk-calc-panel > div:nth-child(2){border-radius:18px!important}
+}
+</style>
+
+<style id="pdrkampus-v67-final-layout-guard">
+/* Sonradan eklenmiş eski sürüm kurallarına karşı V67 yerleşimini korur. */
+@media(min-width:681px){
+  .rk-sidebar{
+    width:var(--rk-sidebar-rail)!important;
+    padding:22px 11px 16px!important;
+    overflow:hidden!important;
+  }
+  .rk-sidebar:hover,.rk-sidebar:focus-within{width:var(--rk-sidebar-open)!important}
+  .rk-brand-mark{display:grid!important}
+  .rk-topbar{
+    width:calc(100% - var(--rk-sidebar-rail))!important;
+    margin-left:var(--rk-sidebar-rail)!important;
+  }
+  .rk-main{
+    width:calc(100% - var(--rk-sidebar-rail))!important;
+    margin-left:var(--rk-sidebar-rail)!important;
+  }
+  .rk-main+footer,footer.rk-footer,footer.w-full.bg-slate-950{
+    width:calc(100% - var(--rk-sidebar-rail))!important;
+    margin-left:var(--rk-sidebar-rail)!important;
+  }
+}
+@media(max-width:680px){
+  .rk-sidebar{width:270px!important;padding:22px 14px 18px!important;overflow-y:auto!important}
+  .rk-brand-mark{display:grid!important}
+  .rk-topbar,.rk-main,.rk-main+footer,footer.rk-footer,footer.w-full.bg-slate-950{
+    width:100%!important;margin-left:0!important;
+  }
+}
+</style>
+
+<style id="pdrkampus-v68-final-header-guard">
+.rk-brand-name span,.rk-header-brand-kampus{color:#2f897b!important}
+@media(min-width:681px){
+  .rk-sidebar{z-index:2200!important}
+  .rk-topbar{
+    position:fixed!important;top:0!important;
+    left:var(--rk-sidebar-rail)!important;right:0!important;
+    width:auto!important;margin-left:0!important;z-index:2000!important;
+  }
+}
+@media(max-width:680px){
+  .rk-topbar{position:fixed!important;top:0!important;left:0!important;right:0!important;width:100%!important;margin:0!important}
+}
+</style>
+
+<style id="pdrkampus-v69-section-order">
+/* Net giriş alanı yerinde kalır; yalnızca analiz bölümleri verilen sıraya girer. */
+.rk-content-stage{display:flex!important;flex-direction:column!important}
+#tab-overview{order:1}
+#tab-simulator{order:2}
+#tab-matches{order:3}
+#tab-leaderboard{order:4}
+#tab-historical{order:5}
+#tab-research{order:6}
+.rk-brand-mark{display:none!important}
+@media(min-width:681px){.rk-sidebar{overflow-x:hidden!important;overflow-y:auto!important}}
+</style>
+
+<style id="pdrkampus-v70-result-placement">
+.rk-calc-panel>.rk-stat-strip{
+  width:100%!important;max-width:none!important;margin:0!important;padding:0!important;
+  border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;
+}
+@media(min-width:681px){.rk-calc-panel>.rk-stat-strip{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+</style>
+
+<style id="pdrkampus-v71-major-section-cards">
+/* Ana analizler artık birbirinden belirgin büyük bölüm kartlarıdır. */
+.rk-content-stage{gap:0!important}
+.rk-content-stage>.tab-content{
+  --rk-section-accent:#2f897b;
+  position:relative!important;
+  margin:0 0 34px!important;
+  padding:25px!important;
+  border:1px solid rgba(24,44,64,.12)!important;
+  border-radius:25px!important;
+  background:linear-gradient(145deg,#fffdf8 0%,#faf7ef 100%)!important;
+  box-shadow:0 16px 42px rgba(24,44,64,.075)!important;
+  overflow:visible!important;
+  isolation:isolate;
+}
+.rk-content-stage>.tab-content::after{
+  content:"";position:absolute;z-index:2;left:22px;right:22px;top:0;height:5px;
+  border-radius:0 0 999px 999px;background:var(--rk-section-accent);
+}
+.rk-content-stage>.tab-content:not(#tab-overview){margin-top:14px!important}
+.rk-content-stage>.tab-content:not(#tab-overview)::before{
+  content:"";position:absolute;left:50%;top:-31px;width:3px;height:18px;border-radius:999px;
+  background:#cfc8bc;box-shadow:0 0 0 5px #f5f1e8;transform:translateX(-50%);
+}
+#tab-overview{--rk-section-accent:#2f897b;background:linear-gradient(145deg,#fffdf8,#f1f8f5)!important}
+#tab-simulator{--rk-section-accent:#56618f;background:linear-gradient(145deg,#fffdf8,#f3f3f8)!important}
+#tab-matches{--rk-section-accent:#dc8065;background:linear-gradient(145deg,#fffdf8,#fff4ef)!important}
+#tab-leaderboard{--rk-section-accent:#bd8730;background:linear-gradient(145deg,#fffdf8,#fff8e9)!important}
+#tab-historical{--rk-section-accent:#9b6b2d;background:linear-gradient(145deg,#fffdf8,#fbf3e5)!important}
+#tab-research{--rk-section-accent:#397968;background:linear-gradient(145deg,#fffdf8,#edf7f3)!important}
+
+.rk-content-stage>.tab-content>.rk-section-head{
+  margin:0 0 5px!important;padding:3px 3px 18px!important;border-bottom:1px solid rgba(24,44,64,.11)!important;
+}
+.rk-content-stage>.tab-content>.rk-section-head>div>span{color:var(--rk-section-accent)!important}
+.rk-content-stage>.tab-content>.rk-section-head>b{
+  flex:0 0 auto;width:56px;height:56px;display:grid;place-items:center;
+  border-radius:17px;background:var(--rk-section-accent)!important;color:#fff!important;
+  font-size:23px!important;letter-spacing:-.05em!important;
+  box-shadow:0 9px 20px color-mix(in srgb,var(--rk-section-accent) 24%,transparent);
+}
+.rk-content-stage>.tab-content>div:not(.rk-section-head),
+.rk-content-stage>.tab-content>section:not(.rk-section-head){position:relative;z-index:1}
+
+/* Beşinci bölüm de diğer ana kartlarla aynı dış kabuğu kullanır. */
+#tab-historical>#rk-historical-appointments{
+  position:relative!important;margin:0!important;border:1px solid rgba(155,107,45,.20)!important;
+  border-radius:18px!important;box-shadow:0 8px 24px rgba(71,54,27,.055)!important;overflow:hidden!important;
+}
+#rk-historical-appointments::after{content:none!important;display:none!important}
+
+@media(max-width:680px){
+  .rk-content-stage>.tab-content{padding:16px!important;border-radius:20px!important;margin-bottom:25px!important}
+  .rk-content-stage>.tab-content::after{left:15px;right:15px;height:4px}
+  .rk-content-stage>.tab-content:not(#tab-overview){margin-top:9px!important}
+  .rk-content-stage>.tab-content:not(#tab-overview)::before{top:-22px;height:12px}
+  .rk-content-stage>.tab-content>.rk-section-head{gap:12px!important;padding-bottom:14px!important}
+  .rk-content-stage>.tab-content>.rk-section-head>b{width:44px;height:44px;border-radius:13px;font-size:18px!important}
+  #tab-historical>#rk-historical-appointments{border-radius:16px!important}
+}
+</style>
+
+<style id="pdrkampus-v72-minimal-collapsed-sidebar">
+/* Kapalı menü yalnızca sade ikon rayıdır; mevcut koyu palet ve açılma davranışı korunur. */
+:root{--rk-sidebar-rail:72px}
+.rk-nav-icon svg{
+  width:22px;height:22px;display:block;fill:none;stroke:currentColor;stroke-width:1.8;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+@media(min-width:681px){
+  .rk-sidebar{
+    width:var(--rk-sidebar-rail)!important;padding:18px 10px 16px!important;
+    overflow-x:hidden!important;overflow-y:auto!important;
+    transition:width .24s cubic-bezier(.2,.75,.25,1),box-shadow .24s ease!important;
+  }
+  .rk-sidebar:hover,.rk-sidebar:focus-within{
+    width:var(--rk-sidebar-open)!important;
+    box-shadow:18px 0 45px rgba(20,35,52,.18)!important;
+  }
+  .rk-brand{height:46px!important;padding:3px 10px 17px!important;white-space:nowrap!important}
+  .rk-brand-name{
+    opacity:0!important;transform:translateX(-6px)!important;
+    transition:opacity .15s ease,transform .2s ease!important;
+  }
+  .rk-sidebar:hover .rk-brand-name,.rk-sidebar:focus-within .rk-brand-name{
+    opacity:1!important;transform:none!important;
+  }
+  .rk-sidebar-label{
+    width:238px!important;height:0!important;min-height:0!important;margin:0!important;
+    padding:0 13px!important;opacity:0!important;overflow:hidden!important;white-space:nowrap!important;
+    transform:translateX(-4px)!important;
+    transition:height .18s ease,margin .18s ease,opacity .13s ease,transform .2s ease!important;
+  }
+  .rk-sidebar:hover .rk-sidebar-label,.rk-sidebar:focus-within .rk-sidebar-label{
+    height:22px!important;margin:8px 0 5px!important;opacity:1!important;transform:none!important;
+  }
+  .rk-nav{width:238px!important;gap:4px!important}
+  .rk-nav-button{
+    width:238px!important;height:48px!important;min-height:48px!important;padding:0!important;gap:9px!important;
+    border-radius:12px!important;overflow:hidden!important;white-space:nowrap!important;transform:none!important;
+    background:transparent!important;box-shadow:none!important;
+  }
+  .rk-nav-icon{
+    width:52px!important;min-width:52px!important;height:44px!important;display:grid!important;place-items:center!important;
+    border-radius:12px!important;font-size:0!important;
+    transition:color .18s ease,background .18s ease,box-shadow .18s ease,transform .18s ease!important;
+  }
+  .rk-nav-button:hover{color:#f7f3e9!important;background:transparent!important;transform:none!important}
+  .rk-nav-button:hover .rk-nav-icon,.rk-nav-button:focus-visible .rk-nav-icon{
+    color:#f7f3e9!important;background:#353b52!important;
+    box-shadow:0 0 0 1px rgba(244,201,93,.10),0 0 18px rgba(76,159,149,.24)!important;
+    transform:scale(1.03)!important;
+  }
+  .rk-nav-button.active{color:#f7f3e9!important;background:transparent!important;box-shadow:none!important}
+  .rk-nav-button.active .rk-nav-icon{
+    color:#f7f3e9!important;background:var(--rk-teal)!important;
+    box-shadow:inset 3px 0 var(--rk-yellow),0 7px 20px rgba(47,137,123,.27)!important;
+  }
+  .rk-nav-text{
+    opacity:0!important;transform:translateX(-5px)!important;
+    transition:opacity .13s ease .03s,transform .2s ease!important;
+  }
+  .rk-sidebar:hover .rk-nav-text,.rk-sidebar:focus-within .rk-nav-text{
+    opacity:1!important;transform:none!important;
+  }
+  .rk-topbar{left:var(--rk-sidebar-rail)!important}
+  .rk-main,.rk-main+footer,footer.rk-footer,footer.w-full.bg-slate-950{
+    width:calc(100% - var(--rk-sidebar-rail))!important;margin-left:var(--rk-sidebar-rail)!important;
+  }
+}
+@media(max-width:680px){
+  .rk-brand-name{opacity:1!important;transform:none!important}
+  .rk-sidebar-label{height:auto!important;opacity:1!important}
+  .rk-nav{width:100%!important}
+  .rk-nav-button{width:100%!important}
+  .rk-nav-icon{width:28px!important;min-width:28px!important}
+  .rk-nav-text{opacity:1!important}
+}
+</style>
+
+<style id="pdrkampus-v73-footer-redesign">
+/* Sitenin kapanış alanı: marka, hızlı erişim, yasal bilgiler ve tek alt bilgi satırı. */
+.rk-main + .rk-footer,
+.rk-footer{
+  display:block!important;min-height:0!important;margin-top:42px!important;padding:0!important;
+  background:#252b40!important;color:#d7d9df!important;border:0!important;border-top:4px solid #2f897b!important;
+  box-shadow:0 -12px 34px rgba(24,31,45,.08)!important;font-size:initial!important;letter-spacing:normal!important;
+}
+.rk-footer-shell{max-width:1360px;margin:0 auto;padding:0 34px}
+.rk-footer-main{
+  display:grid;grid-template-columns:minmax(280px,1.5fr) repeat(3,minmax(145px,.72fr));
+  gap:38px;padding:42px 0 34px;
+}
+.rk-footer-about{max-width:390px}
+.rk-footer .rk-footer-logo{
+  display:inline-flex;align-items:baseline;gap:0;margin:0 0 14px;
+  color:#f7f3e9!important;text-decoration:none!important;
+  font:800 27px/1 "Syne","DM Sans",sans-serif!important;letter-spacing:-.055em!important;
+}
+.rk-footer .rk-footer-logo b{color:#2f9a88;font:inherit}
+.rk-footer-about>p{max-width:365px;margin:0;color:#aeb3c1;font-size:11px;line-height:1.75}
+.rk-footer-season{
+  display:inline-flex;align-items:center;gap:8px;margin-top:17px;padding:7px 10px;
+  border:1px solid rgba(76,159,149,.24);border-radius:999px;background:rgba(76,159,149,.08);
+  color:#c3ddd7;font:700 9px "Space Mono",monospace;letter-spacing:.06em;text-transform:uppercase;
+}
+.rk-footer-season i{
+  width:6px;height:6px;border-radius:50%;background:#4c9f95;
+  box-shadow:0 0 0 4px rgba(76,159,149,.13),0 0 12px rgba(76,159,149,.48);
+}
+.rk-footer-column{display:flex;flex-direction:column;align-items:flex-start;gap:10px}
+.rk-footer-column h2{
+  margin:2px 0 7px;color:#f7f3e9;font:800 10px/1.2 "Space Mono",monospace;
+  letter-spacing:.12em;text-transform:uppercase;
+}
+.rk-footer-column a{
+  position:relative;display:inline-flex;align-items:center;color:#aeb3c1!important;
+  font-size:10.5px!important;font-weight:600!important;line-height:1.4;text-decoration:none!important;
+  transition:color .16s ease,transform .16s ease!important;
+}
+.rk-footer-column a::before{
+  content:"";width:0;height:1px;margin-right:0;background:#4c9f95;
+  transition:width .16s ease,margin-right .16s ease;
+}
+.rk-footer-column a:hover,.rk-footer-column a:focus-visible{color:#f7f3e9!important;transform:translateX(2px);outline:none}
+.rk-footer-column a:hover::before,.rk-footer-column a:focus-visible::before{width:10px;margin-right:6px}
+.rk-footer-bottom{
+  display:grid;grid-template-columns:auto minmax(260px,1fr) 38px;align-items:center;gap:24px;
+  min-height:67px;border-top:1px solid rgba(247,243,233,.10);
+}
+.rk-footer-bottom p{margin:0;color:#8f96a5;font-size:9.5px;line-height:1.55}
+.rk-footer-disclaimer{text-align:right}
+.rk-footer-top{
+  width:34px;height:34px;display:grid;place-items:center;border:1px solid rgba(247,243,233,.13);
+  border-radius:10px;background:rgba(255,255,255,.04);color:#d5d8df;cursor:pointer;
+  transition:background .18s ease,border-color .18s ease,color .18s ease,transform .18s ease;
+}
+.rk-footer-top svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.rk-footer-top:hover,.rk-footer-top:focus-visible{
+  color:#fff;background:rgba(76,159,149,.18);border-color:rgba(76,159,149,.48);transform:translateY(-2px);outline:none;
+}
+@media(min-width:681px){
+  .rk-main + .rk-footer,.rk-footer{
+    width:calc(100% - var(--rk-sidebar-rail))!important;margin-left:var(--rk-sidebar-rail)!important;
+  }
+}
+@media(max-width:920px) and (min-width:601px){
+  .rk-footer-main{grid-template-columns:repeat(3,minmax(0,1fr));gap:30px}
+  .rk-footer-about{grid-column:1/-1;max-width:540px}
+}
+@media(max-width:680px){
+  .rk-main + .rk-footer,.rk-footer{width:100%!important;margin-left:0!important;margin-top:28px!important}
+  .rk-footer-shell{padding:0 20px}
+  .rk-footer-main{grid-template-columns:1fr 1fr;gap:28px 24px;padding:32px 0 27px}
+  .rk-footer-about{grid-column:1/-1;max-width:none}
+  .rk-footer .rk-footer-logo{font-size:24px!important}
+  .rk-footer-legal{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:10px 20px}
+  .rk-footer-legal h2{grid-column:1/-1}
+  .rk-footer-bottom{grid-template-columns:1fr 36px;gap:12px;padding:16px 0}
+  .rk-footer-disclaimer{grid-column:1/-1;grid-row:2;text-align:left}
+  .rk-footer-top{grid-column:2;grid-row:1;justify-self:end}
+}
+@media(max-width:430px){
+  .rk-footer-main{grid-template-columns:1fr}
+  .rk-footer-about,.rk-footer-legal{grid-column:1}
+  .rk-footer-legal{grid-template-columns:1fr 1fr}
 }
 </style>
