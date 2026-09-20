@@ -2219,8 +2219,11 @@ body{
       auth: {
         persistSession: true,
         autoRefreshToken: true,
-        detectSessionInUrl: true,
-        flowType: 'implicit'
+        // OAuth dönüşünü aşağıdaki kod elle işleyecek. Böylece callback'in
+        // otomatik algılamada kaybolma/race-condition ihtimalini ortadan kaldırıyoruz.
+        detectSessionInUrl: false,
+        // Query-string tabanlı PKCE dönüşü, hash tabanlı implicit akıştan daha sağlamdır.
+        flowType: 'pkce'
       }
     };
 
@@ -2443,10 +2446,11 @@ body{
       buttons.forEach(button => { button.disabled = true; button.setAttribute('aria-busy', 'true'); });
       try {
         const client = await ensureSupabaseClient();
-        // OAuth dönüşünü mevcut yayınlanan sayfaya yap. Query/hash temizlenir,
-        // dosya yolu (ör. /index.html) korunur; böylece Supabase Redirect URL
-        // allow-list ile birebir eşleştirmek kolaylaşır.
-        const redirectUrl = `${window.location.origin}${window.location.pathname}`;
+        // OAuth dönüşünü domain köküne yap. Netlify/custom-domain tarafında index.html
+        // -> / gibi ek yönlendirmelerin callback parametrelerini kaybetmesini önler.
+        const redirectUrl = `${window.location.origin}/`;
+        localStorage.setItem('pdr_oauth_started_at', String(Date.now()));
+        localStorage.setItem('pdr_oauth_redirect_to', redirectUrl);
         const { error } = await client.auth.signInWithOAuth({
           provider: 'google',
           options: {
@@ -2473,6 +2477,60 @@ body{
       updateChatUI();
     }
 
+    async function handleSupabaseOAuthCallback(client) {
+      const url = new URL(window.location.href);
+      const queryError = url.searchParams.get('error_description') || url.searchParams.get('error');
+      const hashParams = new URLSearchParams((window.location.hash || '').replace(/^#/, ''));
+      const hashError = hashParams.get('error_description') || hashParams.get('error');
+      if (queryError || hashError) {
+        throw new Error(queryError || hashError);
+      }
+
+      // Yeni ve daha sağlam akış: PKCE -> ?code=...
+      const code = url.searchParams.get('code');
+      if (code) {
+        const { data, error } = await client.auth.exchangeCodeForSession(code);
+        if (error) throw new Error(`OAuth kodu oturuma çevrilemedi: ${error.message}`);
+        localStorage.removeItem('pdr_oauth_started_at');
+        localStorage.removeItem('pdr_oauth_redirect_to');
+        // Tek kullanımlık kodu URL'den kaldır.
+        url.searchParams.delete('code');
+        url.searchParams.delete('state');
+        window.history.replaceState({}, document.title, `${url.pathname}${url.search}${url.hash}`);
+        return data?.session || null;
+      }
+
+      // Eski sürümden / önbellekten implicit dönüş gelirse onu da destekle.
+      const accessToken = hashParams.get('access_token');
+      const refreshToken = hashParams.get('refresh_token');
+      if (accessToken && refreshToken) {
+        const { data, error } = await client.auth.setSession({
+          access_token: accessToken,
+          refresh_token: refreshToken
+        });
+        if (error) throw new Error(`OAuth tokenları kaydedilemedi: ${error.message}`);
+        localStorage.removeItem('pdr_oauth_started_at');
+        localStorage.removeItem('pdr_oauth_redirect_to');
+        window.history.replaceState({}, document.title, `${url.pathname}${url.search}`);
+        return data?.session || null;
+      }
+
+      // Google'a gönderildik ama callback'te ne code ne token varsa sorun artık HTML değildir:
+      // Supabase Redirect URL / Site URL / Google callback yapılandırması callback bilgisini düşürüyor.
+      const startedAt = Number(localStorage.getItem('pdr_oauth_started_at') || 0);
+      if (startedAt && Date.now() - startedAt < 10 * 60 * 1000) {
+        const expected = localStorage.getItem('pdr_oauth_redirect_to') || `${window.location.origin}/`;
+        localStorage.removeItem('pdr_oauth_started_at');
+        localStorage.removeItem('pdr_oauth_redirect_to');
+        throw new Error(
+          `Google'dan siteye dönüldü ancak Supabase callback kodu/tokenı URL'ye gelmedi. ` +
+          `Supabase Authentication > URL Configuration bölümünde Redirect URL olarak ${expected} adresini ekleyin ` +
+          `ve Google Cloud'da callback URI'nin https://kausxairsoyjqyvlrgsl.supabase.co/auth/v1/callback olduğundan emin olun.`
+        );
+      }
+      return null;
+    }
+
     async function checkAuthSession() {
       if (checkAuthSession.running) return checkAuthSession.running;
       checkAuthSession.running = (async () => {
@@ -2496,19 +2554,15 @@ body{
         }
 
         try {
-          // Supabase/Google callback bir hata ile döndüyse bunu sessizce yutma.
-          const callbackUrl = new URL(window.location.href);
-          const callbackError = callbackUrl.searchParams.get('error_description') ||
-                                callbackUrl.searchParams.get('error');
-          const hashParams = new URLSearchParams((window.location.hash || '').replace(/^#/, ''));
-          const hashError = hashParams.get('error_description') || hashParams.get('error');
-          if (callbackError || hashError) {
-            throw new Error(callbackError || hashError);
-          }
-          const sessionResult = await Promise.race([
-            supabaseClient.auth.getSession(),
-            new Promise((_, reject) => setTimeout(() => reject(new Error('Oturum kontrolü zaman aşımına uğradı.')), 8000))
-          ]);
+          // Callback'i önce elle işle. PKCE ?code=... veya eski implicit #access_token=...
+          // gelmişse burada gerçek Supabase oturumuna çevrilir.
+          const callbackSession = await handleSupabaseOAuthCallback(supabaseClient);
+          const sessionResult = callbackSession
+            ? { data: { session: callbackSession }, error: null }
+            : await Promise.race([
+                supabaseClient.auth.getSession(),
+                new Promise((_, reject) => setTimeout(() => reject(new Error('Oturum kontrolü zaman aşımına uğradı.')), 8000))
+              ]);
           if (sessionResult.error) throw sessionResult.error;
           currentUser = sessionResult.data?.session?.user || null;
           loginWithGoogle.running = false;
@@ -2552,6 +2606,11 @@ body{
           restoreLocalInputs();
           window.PDR_AUTH_READY = true;
           document.dispatchEvent(new CustomEvent('pdr:auth-changed', { detail: { user: currentUser, ready: true, error: err?.message || 'auth-error' } }));
+          // OAuth dönüş hatasını artık sessizce yutma. Kullanıcı gerçek nedeni görsün.
+          if (String(err?.message || '').toLowerCase().includes('oauth') ||
+              String(err?.message || '').includes("Google'dan siteye dönüldü")) {
+            setTimeout(() => alert('Google giriş hatası:\n\n' + (err?.message || 'Bilinmeyen OAuth hatası')), 50);
+          }
           return false;
         }
       })();
