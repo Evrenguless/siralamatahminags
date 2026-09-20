@@ -2215,29 +2215,8 @@ body{
     let latestServerResult = null;
     let calcDebounceTimer = null;
 
-    const SUPABASE_CLIENT_OPTIONS = {
-      auth: {
-        persistSession: true,
-        autoRefreshToken: true,
-        // OAuth dönüşünü aşağıdaki kod elle işleyecek. Böylece callback'in
-        // otomatik algılamada kaybolma/race-condition ihtimalini ortadan kaldırıyoruz.
-        detectSessionInUrl: false,
-        // Query-string tabanlı PKCE dönüşü, hash tabanlı implicit akıştan daha sağlamdır.
-        flowType: 'pkce'
-      }
-    };
-
-    function createPdrSupabaseClient() {
-      if (!window.supabase?.createClient) return null;
-      return window.supabase.createClient(
-        SUPABASE_CONFIG.URL,
-        SUPABASE_CONFIG.ANON_KEY,
-        SUPABASE_CLIENT_OPTIONS
-      );
-    }
-
     if (SUPABASE_CONFIG.URL && SUPABASE_CONFIG.ANON_KEY && window.supabase) {
-      supabaseClient = createPdrSupabaseClient();
+      supabaseClient = window.supabase.createClient(SUPABASE_CONFIG.URL, SUPABASE_CONFIG.ANON_KEY);
     }
 
     // ==========================================
@@ -2410,60 +2389,33 @@ body{
 
     // ==========================================
     // 🔐 GOOGLE AUTH & KULLANICI YÖNETİMİ
+    // Eski çalışan giriş akışına geri döndürüldü.
     // ==========================================
-    async function ensureSupabaseClient() {
-      if (supabaseClient) return supabaseClient;
-      if (window.supabase?.createClient) {
-        supabaseClient = createPdrSupabaseClient();
-        return supabaseClient;
-      }
-      if (!ensureSupabaseClient.loading) {
-        ensureSupabaseClient.loading = new Promise((resolve, reject) => {
-          const script = document.createElement('script');
-          script.src = 'https://unpkg.com/@supabase/supabase-js@2';
-          script.async = true;
-          script.dataset.pdrSupabaseFallback = 'true';
-          script.onload = resolve;
-          script.onerror = () => reject(new Error('Supabase giriş kütüphanesi yüklenemedi.'));
-          document.head.appendChild(script);
-        }).finally(() => { ensureSupabaseClient.loading = null; });
-      }
-      await ensureSupabaseClient.loading;
-      if (!window.supabase?.createClient) throw new Error('Supabase giriş kütüphanesi hazır değil.');
-      supabaseClient = createPdrSupabaseClient();
-      return supabaseClient;
-    }
-
     async function loginWithGoogle() {
-      if (loginWithGoogle.running) return;
-      if (window.location.protocol === 'file:') {
-        alert('Google ile giriş, indirilen HTML dosyasında değil yalnızca yayınlanmış web sitesinde çalışır.');
+      if (!supabaseClient) {
+        alert("Supabase bağlantısı henüz hazır değil. Sayfayı yenileyip tekrar deneyin.");
         return;
       }
 
-      const buttons = [document.getElementById('btn-login'), document.getElementById('rk-quiz-optional-login')].filter(Boolean);
-      loginWithGoogle.running = true;
-      buttons.forEach(button => { button.disabled = true; button.setAttribute('aria-busy', 'true'); });
+      if (window.location.protocol === 'file:') {
+        alert("Google ile giriş yalnızca yayınlanmış web sitesinde çalışır.");
+        return;
+      }
+
       try {
-        const client = await ensureSupabaseClient();
-        // OAuth dönüşünü domain köküne yap. Netlify/custom-domain tarafında index.html
-        // -> / gibi ek yönlendirmelerin callback parametrelerini kaybetmesini önler.
-        const redirectUrl = `${window.location.origin}/`;
-        localStorage.setItem('pdr_oauth_started_at', String(Date.now()));
-        localStorage.setItem('pdr_oauth_redirect_to', redirectUrl);
-        const { error } = await client.auth.signInWithOAuth({
+        // Eski çalışan sürümde kullanılan dönüş adresi.
+        // OAuth hash'i varsa temizler, mevcut Netlify sayfasına geri döner.
+        const redirectUrl = window.location.href.split('#')[0].split('?')[0];
+
+        const { error } = await supabaseClient.auth.signInWithOAuth({
           provider: 'google',
-          options: {
-            redirectTo: redirectUrl,
-            queryParams: { prompt: 'select_account' }
-          }
+          options: { redirectTo: redirectUrl }
         });
+
         if (error) throw error;
       } catch (err) {
-        console.error('Google girişi başlatılamadı:', err);
-        alert('Google girişi başlatılamadı: ' + (err?.message || 'Bilinmeyen bağlantı hatası'));
-        loginWithGoogle.running = false;
-        buttons.forEach(button => { button.disabled = false; button.removeAttribute('aria-busy'); });
+        console.error("Google girişi başlatılamadı:", err);
+        alert("Giriş başlatılamadı: " + (err?.message || "Bilinmeyen hata"));
       }
     }
 
@@ -2475,149 +2427,87 @@ body{
       updateAuthUI();
       fetchLiveLeaderboard();
       updateChatUI();
-    }
-
-    async function handleSupabaseOAuthCallback(client) {
-      const url = new URL(window.location.href);
-      const queryError = url.searchParams.get('error_description') || url.searchParams.get('error');
-      const hashParams = new URLSearchParams((window.location.hash || '').replace(/^#/, ''));
-      const hashError = hashParams.get('error_description') || hashParams.get('error');
-      if (queryError || hashError) {
-        throw new Error(queryError || hashError);
-      }
-
-      // Yeni ve daha sağlam akış: PKCE -> ?code=...
-      const code = url.searchParams.get('code');
-      if (code) {
-        const { data, error } = await client.auth.exchangeCodeForSession(code);
-        if (error) throw new Error(`OAuth kodu oturuma çevrilemedi: ${error.message}`);
-        localStorage.removeItem('pdr_oauth_started_at');
-        localStorage.removeItem('pdr_oauth_redirect_to');
-        // Tek kullanımlık kodu URL'den kaldır.
-        url.searchParams.delete('code');
-        url.searchParams.delete('state');
-        window.history.replaceState({}, document.title, `${url.pathname}${url.search}${url.hash}`);
-        return data?.session || null;
-      }
-
-      // Eski sürümden / önbellekten implicit dönüş gelirse onu da destekle.
-      const accessToken = hashParams.get('access_token');
-      const refreshToken = hashParams.get('refresh_token');
-      if (accessToken && refreshToken) {
-        const { data, error } = await client.auth.setSession({
-          access_token: accessToken,
-          refresh_token: refreshToken
-        });
-        if (error) throw new Error(`OAuth tokenları kaydedilemedi: ${error.message}`);
-        localStorage.removeItem('pdr_oauth_started_at');
-        localStorage.removeItem('pdr_oauth_redirect_to');
-        window.history.replaceState({}, document.title, `${url.pathname}${url.search}`);
-        return data?.session || null;
-      }
-
-      // Google'a gönderildik ama callback'te ne code ne token varsa sorun artık HTML değildir:
-      // Supabase Redirect URL / Site URL / Google callback yapılandırması callback bilgisini düşürüyor.
-      const startedAt = Number(localStorage.getItem('pdr_oauth_started_at') || 0);
-      if (startedAt && Date.now() - startedAt < 10 * 60 * 1000) {
-        const expected = localStorage.getItem('pdr_oauth_redirect_to') || `${window.location.origin}/`;
-        localStorage.removeItem('pdr_oauth_started_at');
-        localStorage.removeItem('pdr_oauth_redirect_to');
-        throw new Error(
-          `Google'dan siteye dönüldü ancak Supabase callback kodu/tokenı URL'ye gelmedi. ` +
-          `Supabase Authentication > URL Configuration bölümünde Redirect URL olarak ${expected} adresini ekleyin ` +
-          `ve Google Cloud'da callback URI'nin https://kausxairsoyjqyvlrgsl.supabase.co/auth/v1/callback olduğundan emin olun.`
-        );
-      }
-      return null;
+      window.PDR_AUTH_READY = true;
+      document.dispatchEvent(new CustomEvent('pdr:auth-changed', {
+        detail: { user: null, ready: true }
+      }));
     }
 
     async function checkAuthSession() {
-      if (checkAuthSession.running) return checkAuthSession.running;
-      checkAuthSession.running = (async () => {
-        // Google OAuth dönüşünde sayfa baştan yüklenir. Ana CDN henüz hazır değilse
-        // supabaseClient null kalabilir. Bu nedenle oturumu kontrol etmeden önce
-        // istemciyi MUTLAKA hazırla; gerekirse ensureSupabaseClient() yedek CDN'i yükler.
-        if (!supabaseClient) {
+      if (!supabaseClient) {
+        currentUser = null;
+        restoreLocalInputs();
+        window.PDR_AUTH_READY = true;
+        document.dispatchEvent(new CustomEvent('pdr:auth-changed', {
+          detail: { user: null, ready: true, error: 'sdk-unavailable' }
+        }));
+        return;
+      }
+
+      try {
+        // Supabase callback/hash işleme tamamlandıktan sonra mevcut oturumu oku.
+        const { data: { session }, error } = await supabaseClient.auth.getSession();
+        if (error) throw error;
+
+        currentUser = session?.user || null;
+        updateAuthUI();
+        updateChatUI();
+
+        window.PDR_AUTH_READY = true;
+        document.dispatchEvent(new CustomEvent('pdr:auth-changed', {
+          detail: { user: currentUser, ready: true }
+        }));
+
+        if (currentUser) {
           try {
-            await ensureSupabaseClient();
-          } catch (sdkError) {
-            console.error('Supabase istemcisi OAuth dönüşünde hazırlanamadı:', sdkError);
-            currentUser = null;
+            await loadUserCloudData();
+          } catch (cloudError) {
+            console.warn("Kullanıcı bulut verileri yüklenemedi:", cloudError);
+          }
+        } else {
+          restoreLocalInputs();
+        }
+
+        fetchLiveLeaderboard();
+        fetchChatMessages();
+        initChatRealtime();
+        renderCommunityQuestions();
+
+        if (!checkAuthSession.listenerRegistered) {
+          checkAuthSession.listenerRegistered = true;
+
+          supabaseClient.auth.onAuthStateChange(async (_event, session) => {
+            currentUser = session?.user || null;
             updateAuthUI();
-            restoreLocalInputs();
+            updateChatUI();
+
             window.PDR_AUTH_READY = true;
             document.dispatchEvent(new CustomEvent('pdr:auth-changed', {
-              detail: { user: currentUser, ready: true, error: sdkError?.message || 'sdk-unavailable' }
+              detail: { user: currentUser, ready: true }
             }));
-            return false;
-          }
-        }
 
-        try {
-          // Callback'i önce elle işle. PKCE ?code=... veya eski implicit #access_token=...
-          // gelmişse burada gerçek Supabase oturumuna çevrilir.
-          const callbackSession = await handleSupabaseOAuthCallback(supabaseClient);
-          const sessionResult = callbackSession
-            ? { data: { session: callbackSession }, error: null }
-            : await Promise.race([
-                supabaseClient.auth.getSession(),
-                new Promise((_, reject) => setTimeout(() => reject(new Error('Oturum kontrolü zaman aşımına uğradı.')), 8000))
-              ]);
-          if (sessionResult.error) throw sessionResult.error;
-          currentUser = sessionResult.data?.session?.user || null;
-          loginWithGoogle.running = false;
-          updateAuthUI();
-          updateChatUI();
-          window.PDR_AUTH_READY = true;
-          document.dispatchEvent(new CustomEvent('pdr:auth-changed', { detail: { user: currentUser, ready: true } }));
-
-          if (currentUser) {
-            loadUserCloudData().catch(error => console.warn('Kullanıcı verileri yüklenemedi:', error));
-          } else {
-            restoreLocalInputs();
-          }
-
-          fetchLiveLeaderboard();
-          fetchChatMessages();
-          initChatRealtime();
-          renderCommunityQuestions();
-
-          if (!checkAuthSession.listenerRegistered) {
-            checkAuthSession.listenerRegistered = true;
-            supabaseClient.auth.onAuthStateChange(async (_event, session) => {
-              currentUser = session?.user || null;
-              loginWithGoogle.running = false;
-              updateAuthUI();
-              updateChatUI();
-              window.PDR_AUTH_READY = true;
-              document.dispatchEvent(new CustomEvent('pdr:auth-changed', { detail: { user: currentUser, ready: true } }));
-              if (currentUser) {
-                try { await loadUserCloudData(); }
-                catch (error) { console.warn('Kullanıcı verileri yüklenemedi:', error); }
+            if (currentUser) {
+              try {
+                await loadUserCloudData();
+              } catch (cloudError) {
+                console.warn("Kullanıcı bulut verileri yüklenemedi:", cloudError);
               }
-              fetchLiveLeaderboard();
-            });
-          }
-          return true;
-        } catch (err) {
-          console.warn('Oturum kontrolü tamamlanamadı:', err);
-          currentUser = null;
-          updateAuthUI();
-          restoreLocalInputs();
-          window.PDR_AUTH_READY = true;
-          document.dispatchEvent(new CustomEvent('pdr:auth-changed', { detail: { user: currentUser, ready: true, error: err?.message || 'auth-error' } }));
-          // OAuth dönüş hatasını artık sessizce yutma. Kullanıcı gerçek nedeni görsün.
-          if (String(err?.message || '').toLowerCase().includes('oauth') ||
-              String(err?.message || '').includes("Google'dan siteye dönüldü")) {
-            setTimeout(() => alert('Google giriş hatası:\n\n' + (err?.message || 'Bilinmeyen OAuth hatası')), 50);
-          }
-          return false;
+            }
+
+            fetchLiveLeaderboard();
+          });
         }
-      })();
-      try {
-        return await checkAuthSession.running;
-      } finally {
-        checkAuthSession.running = null;
+      } catch (err) {
+        console.warn("Auth kontrolü yerel modda:", err);
+        currentUser = null;
+        updateAuthUI();
+        updateChatUI();
+        restoreLocalInputs();
+
+        window.PDR_AUTH_READY = true;
+        document.dispatchEvent(new CustomEvent('pdr:auth-changed', {
+          detail: { user: null, ready: true, error: err?.message || 'auth-error' }
+        }));
       }
     }
 
@@ -2628,17 +2518,15 @@ body{
       const name = document.getElementById('user-name');
 
       if (currentUser) {
-        btnLogin?.classList.add('hidden');
-        badge?.classList.remove('hidden');
-        if (avatar) avatar.src = currentUser.user_metadata?.avatar_url || 'https://via.placeholder.com/40';
-        if (name) name.innerText = currentUser.user_metadata?.full_name || currentUser.email?.split('@')[0] || 'Kullanıcı';
+        btnLogin.classList.add('hidden');
+        badge.classList.remove('hidden');
+        avatar.src = currentUser.user_metadata?.avatar_url || 'https://via.placeholder.com/40';
+        name.innerText = currentUser.user_metadata?.full_name || currentUser.email?.split('@')[0] || 'Kullanıcı';
       } else {
-        btnLogin?.classList.remove('hidden');
-        badge?.classList.add('hidden');
-        const liveRank = document.getElementById('live-platform-rank');
-        const stickyRank = document.getElementById('sticky-live-rank');
-        if (liveRank) liveRank.innerText = "Giriş Yapılmadı";
-        if (stickyRank) stickyRank.innerText = "Giriş Yok";
+        btnLogin.classList.remove('hidden');
+        badge.classList.add('hidden');
+        document.getElementById('live-platform-rank').innerText = "Giriş Yapılmadı";
+        document.getElementById('sticky-live-rank').innerText = "Giriş Yok";
       }
     }
 
@@ -3677,14 +3565,15 @@ body{
     }
 
     // SAYFA AÇILDIĞINDA OTURUM VE BİLEŞENLERİ BAŞLAT
+    // OAuth callback/hash işleme ve Supabase SDK tamamen hazır olduktan sonra başlat.
     async function startPdrApp() {
       await checkAuthSession();
       loadSiteDatasets();
     }
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', startPdrApp, { once: true });
-    } else {
+    if (document.readyState === 'complete') {
       startPdrApp();
+    } else {
+      window.addEventListener('load', startPdrApp, { once: true });
     }
   </script>
 <script>
