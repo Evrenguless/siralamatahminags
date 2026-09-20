@@ -2215,8 +2215,26 @@ body{
     let latestServerResult = null;
     let calcDebounceTimer = null;
 
+    const SUPABASE_CLIENT_OPTIONS = {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true,
+        flowType: 'implicit'
+      }
+    };
+
+    function createPdrSupabaseClient() {
+      if (!window.supabase?.createClient) return null;
+      return window.supabase.createClient(
+        SUPABASE_CONFIG.URL,
+        SUPABASE_CONFIG.ANON_KEY,
+        SUPABASE_CLIENT_OPTIONS
+      );
+    }
+
     if (SUPABASE_CONFIG.URL && SUPABASE_CONFIG.ANON_KEY && window.supabase) {
-      supabaseClient = window.supabase.createClient(SUPABASE_CONFIG.URL, SUPABASE_CONFIG.ANON_KEY);
+      supabaseClient = createPdrSupabaseClient();
     }
 
     // ==========================================
@@ -2393,7 +2411,7 @@ body{
     async function ensureSupabaseClient() {
       if (supabaseClient) return supabaseClient;
       if (window.supabase?.createClient) {
-        supabaseClient = window.supabase.createClient(SUPABASE_CONFIG.URL, SUPABASE_CONFIG.ANON_KEY);
+        supabaseClient = createPdrSupabaseClient();
         return supabaseClient;
       }
       if (!ensureSupabaseClient.loading) {
@@ -2409,7 +2427,7 @@ body{
       }
       await ensureSupabaseClient.loading;
       if (!window.supabase?.createClient) throw new Error('Supabase giriş kütüphanesi hazır değil.');
-      supabaseClient = window.supabase.createClient(SUPABASE_CONFIG.URL, SUPABASE_CONFIG.ANON_KEY);
+      supabaseClient = createPdrSupabaseClient();
       return supabaseClient;
     }
 
@@ -2425,10 +2443,16 @@ body{
       buttons.forEach(button => { button.disabled = true; button.setAttribute('aria-busy', 'true'); });
       try {
         const client = await ensureSupabaseClient();
-        const redirectUrl = new URL('./', window.location.href).href;
+        // OAuth dönüşünü mevcut yayınlanan sayfaya yap. Query/hash temizlenir,
+        // dosya yolu (ör. /index.html) korunur; böylece Supabase Redirect URL
+        // allow-list ile birebir eşleştirmek kolaylaşır.
+        const redirectUrl = `${window.location.origin}${window.location.pathname}`;
         const { error } = await client.auth.signInWithOAuth({
           provider: 'google',
-          options: { redirectTo: redirectUrl }
+          options: {
+            redirectTo: redirectUrl,
+            queryParams: { prompt: 'select_account' }
+          }
         });
         if (error) throw error;
       } catch (err) {
@@ -2468,6 +2492,7 @@ body{
           ]);
           if (sessionResult.error) throw sessionResult.error;
           currentUser = sessionResult.data?.session?.user || null;
+          loginWithGoogle.running = false;
           updateAuthUI();
           updateChatUI();
           window.PDR_AUTH_READY = true;
@@ -2488,6 +2513,7 @@ body{
             checkAuthSession.listenerRegistered = true;
             supabaseClient.auth.onAuthStateChange(async (_event, session) => {
               currentUser = session?.user || null;
+              loginWithGoogle.running = false;
               updateAuthUI();
               updateChatUI();
               window.PDR_AUTH_READY = true;
@@ -2524,15 +2550,17 @@ body{
       const name = document.getElementById('user-name');
 
       if (currentUser) {
-        btnLogin.classList.add('hidden');
-        badge.classList.remove('hidden');
-        avatar.src = currentUser.user_metadata?.avatar_url || 'https://via.placeholder.com/40';
-        name.innerText = currentUser.user_metadata?.full_name || currentUser.email?.split('@')[0] || 'Kullanıcı';
+        btnLogin?.classList.add('hidden');
+        badge?.classList.remove('hidden');
+        if (avatar) avatar.src = currentUser.user_metadata?.avatar_url || 'https://via.placeholder.com/40';
+        if (name) name.innerText = currentUser.user_metadata?.full_name || currentUser.email?.split('@')[0] || 'Kullanıcı';
       } else {
-        btnLogin.classList.remove('hidden');
-        badge.classList.add('hidden');
-        document.getElementById('live-platform-rank').innerText = "Giriş Yapılmadı";
-        document.getElementById('sticky-live-rank').innerText = "Giriş Yok";
+        btnLogin?.classList.remove('hidden');
+        badge?.classList.add('hidden');
+        const liveRank = document.getElementById('live-platform-rank');
+        const stickyRank = document.getElementById('sticky-live-rank');
+        if (liveRank) liveRank.innerText = "Giriş Yapılmadı";
+        if (stickyRank) stickyRank.innerText = "Giriş Yok";
       }
     }
 
