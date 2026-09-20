@@ -2476,16 +2476,35 @@ body{
     async function checkAuthSession() {
       if (checkAuthSession.running) return checkAuthSession.running;
       checkAuthSession.running = (async () => {
+        // Google OAuth dönüşünde sayfa baştan yüklenir. Ana CDN henüz hazır değilse
+        // supabaseClient null kalabilir. Bu nedenle oturumu kontrol etmeden önce
+        // istemciyi MUTLAKA hazırla; gerekirse ensureSupabaseClient() yedek CDN'i yükler.
         if (!supabaseClient) {
-          currentUser = null;
-          updateAuthUI();
-          restoreLocalInputs();
-          window.PDR_AUTH_READY = true;
-          document.dispatchEvent(new CustomEvent('pdr:auth-changed', { detail: { user: currentUser, ready: true, error: 'sdk-unavailable' } }));
-          return false;
+          try {
+            await ensureSupabaseClient();
+          } catch (sdkError) {
+            console.error('Supabase istemcisi OAuth dönüşünde hazırlanamadı:', sdkError);
+            currentUser = null;
+            updateAuthUI();
+            restoreLocalInputs();
+            window.PDR_AUTH_READY = true;
+            document.dispatchEvent(new CustomEvent('pdr:auth-changed', {
+              detail: { user: currentUser, ready: true, error: sdkError?.message || 'sdk-unavailable' }
+            }));
+            return false;
+          }
         }
 
         try {
+          // Supabase/Google callback bir hata ile döndüyse bunu sessizce yutma.
+          const callbackUrl = new URL(window.location.href);
+          const callbackError = callbackUrl.searchParams.get('error_description') ||
+                                callbackUrl.searchParams.get('error');
+          const hashParams = new URLSearchParams((window.location.hash || '').replace(/^#/, ''));
+          const hashError = hashParams.get('error_description') || hashParams.get('error');
+          if (callbackError || hashError) {
+            throw new Error(callbackError || hashError);
+          }
           const sessionResult = await Promise.race([
             supabaseClient.auth.getSession(),
             new Promise((_, reject) => setTimeout(() => reject(new Error('Oturum kontrolü zaman aşımına uğradı.')), 8000))
@@ -3599,8 +3618,8 @@ body{
     }
 
     // SAYFA AÇILDIĞINDA OTURUM VE BİLEŞENLERİ BAŞLAT
-    function startPdrApp() {
-      checkAuthSession();
+    async function startPdrApp() {
+      await checkAuthSession();
       loadSiteDatasets();
     }
     if (document.readyState === 'loading') {
